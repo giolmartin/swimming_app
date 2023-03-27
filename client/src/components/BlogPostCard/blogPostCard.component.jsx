@@ -16,21 +16,22 @@ const BlogPostCard = ({ post }) => {
 
   const handleClick = () => {
     selectPost(post);
-    navigate(`/blog/${post.id}`);
+    // navigate(`/blog/${post.id}`);
   };
   return (
     <div onClick={handleClick}>
+      <Card>
+        <CardImage src={post.imageUrl} alt={post.title} />
+        <CardContent>
+          <CardTitle>{post.title}</CardTitle>
+          <CardDateAuthor>
+            Written by {post.author} on {post.date}
+          </CardDateAuthor>
+          <CardExcerpt>{post.excerpt}</CardExcerpt>
+        </CardContent>
+      </Card>
       <Link to={`/blog/${post.id}`} style={{ textDecoration: 'none' }}>
-        <Card>
-          <CardImage src={post.imageUrl} alt={post.title} />
-          <CardContent>
-            <CardTitle>{post.title}</CardTitle>
-            <CardDateAuthor>
-              Written by {post.author} on {post.date}
-            </CardDateAuthor>
-            <CardExcerpt>{post.excerpt}</CardExcerpt>
-          </CardContent>
-        </Card>
+        Read More
       </Link>
     </div>
   );

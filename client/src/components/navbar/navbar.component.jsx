@@ -37,25 +37,25 @@ const Navbar = () => {
         <BlogMenuItem>
           Blog
           <DropdownMenu>
-            <DropdownLink onClick={toggleMenu} to='/blog'>
+            <DropdownLink onClick={toggleMenu} to='/blogs'>
               Latest
             </DropdownLink>
-            <DropdownLink onClick={toggleMenu} to='/blog/technique'>
+            <DropdownLink onClick={toggleMenu} to='/blogs/technique'>
               Technique
             </DropdownLink>
-            <DropdownLink onClick={toggleMenu} to='/blog/nutrition'>
+            <DropdownLink onClick={toggleMenu} to='/blogs/nutrition'>
               Nutrition
             </DropdownLink>
-            <DropdownLink onClick={toggleMenu} to='/blog/gear'>
+            <DropdownLink onClick={toggleMenu} to='/blogs/gear'>
               Gear
             </DropdownLink>
-            <DropdownLink onClick={toggleMenu} to='/blog/training'>
+            <DropdownLink onClick={toggleMenu} to='/blogs/training'>
               Training
             </DropdownLink>
           </DropdownMenu>
         </BlogMenuItem>
         <NavbarItem>
-          <NavbarLink onClick={toggleMenu} href='#workouts'>
+          <NavbarLink onClick={toggleMenu} to='workout'>
             APP
           </NavbarLink>
         </NavbarItem>
@@ -63,6 +63,11 @@ const Navbar = () => {
           <ScrollOnClick to='contact' smooth={true} duration={500} offset={-60}>
             Contact
           </ScrollOnClick>
+        </NavbarItem>
+        <NavbarItem onClick={toggleMenu}>
+          <NavbarLink onClick={toggleMenu} to='/auth/google'>
+            Log In
+          </NavbarLink>
         </NavbarItem>
       </NavbarMenu>
     </NavbarContainer>

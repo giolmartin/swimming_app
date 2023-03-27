@@ -1,4 +1,9 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import {
+  fetchBlogs,
+  fetchBlogById,
+  fetchBlogsByCategory,
+} from '../services/blog.requests';
 import { blogPostsMock } from '../data/blog.data';
 const BlogContext = createContext({
   posts: [],
@@ -17,25 +22,36 @@ export const BlogProvider = ({ children }) => {
   const [selectedPost, setSelectedPost] = useState(null);
   const [filteredPosts, setFilteredPosts] = useState(posts);
 
+  //------------DEV ONLY----------------
+  // useEffect(() => {
+  //   console.log('fetching posts');
+  //   setPosts(blogPostsMock);
+  // }, []);
+  // //------------------------------------
+  // For fetching data from the server
   useEffect(() => {
-    console.log('fetching posts');
-    setPosts(blogPostsMock);
+    const fetchData = async () => {
+      const data = await fetchBlogs(); // Use fetchBlogs function to get blog data
+      setPosts(data);
+    };
+
+    fetchData();
   }, []);
 
-  const selectPost = (post) => {
-    console.log(post);
+  const selectPost = async (id) => {
+    const post = await fetchBlogById(id);
     setSelectedPost(post);
   };
 
-  useEffect(() => {
-    setFilteredPosts(posts);
-  }, [posts]);
+  // useEffect(() => {
+  //   setFilteredPosts(posts);
+  // }, [posts]);
 
-  const filterPostsByCategory = (category) => {
+  const filterPostsByCategory = async (category) => {
     if (category === 'all') {
       setFilteredPosts(posts);
     } else {
-      const filtered = posts.filter((post) => post.category === category);
+      const filtered = await fetchBlogsByCategory(category);
       setFilteredPosts(filtered);
     }
   };

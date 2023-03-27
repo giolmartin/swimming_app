@@ -33,6 +33,14 @@ export const WesAndersonWaterColors = {
   },
 };
 
+export const WesAndersonExercises = {
+  primary: '#1E90FF', // A shade of blue representing sports, fitness, and swimming
+  secondary: '#FFA07A', // A shade of light coral for contrast
+  accent1: '#FFD700', // A shade of gold for accentuating elements
+  accent2: '#32CD32', // A shade of lime green for energy and freshness
+  background: '#F5F5F5', // A light background color for easy readability
+};
+
 export const GlobalStyle = createGlobalStyle`
     * {
         box-sizing: border-box;

@@ -13,18 +13,14 @@ import BlogPostCard from '../../components/BlogPostCard/blogPostCard.component';
 const BlogsPage = () => {
   const [activeFilter, setActiveFilter] = useState(null);
   const { filteredPosts, filterPostsByCategory } = useBlogContext();
-  const [latestBlogPosts, setLatestBlogPosts] = useState([]);
-
-  // useEffect(() => {
-  //   setLatestBlogPosts(latestBlogPosts);
-  // }, []);
-
-  // const handleFilterChange = (filter) => {
-  //   setActiveFilter(filter);
-  // };
+  
   const handleFilterClick = (category) => {
     filterPostsByCategory(category);
   };
+  
+  useEffect(() => {
+    filterPostsByCategory('all');
+  }, []);
 
   return (
     <BlogPageContainer>

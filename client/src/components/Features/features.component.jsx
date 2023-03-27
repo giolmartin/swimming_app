@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+
+import { useBlogContext } from '../../context/blog.context';
+
 import {
   BlogFeaturesSection,
   BlogFeatureCard,
@@ -11,8 +14,9 @@ import {
 import { InView } from 'react-intersection-observer';
 import { easeIn } from 'framer-motion';
 
-const Features = ({ blogPosts }) => {
+const Features = () => {
   const [visible, setVisible] = useState(false);
+  const { filteredPosts } = useBlogContext();
 
   const cardVariants = {
     hidden: { opacity: 0, y: 50 },
@@ -22,7 +26,7 @@ const Features = ({ blogPosts }) => {
   return (
     <InView as='div' onChange={(inView) => setVisible(inView)}>
       <BlogFeaturesSection>
-        {blogPosts.slice(0, 4).map((post, index) => (
+        {filteredPosts.slice(0, 4).map((post, index) => (
           <BlogFeatureCard
             key={post.id}
             initial='hidden'

@@ -15,8 +15,5 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "react-scroll": "^1.8.9"
-  }
+  "license": "ISC"
 }

@@ -16,17 +16,21 @@ import {
 
 const BlogPost = () => {
   const { id } = useParams();
-  const { posts, selectedPost, selectPost } = useBlogContext();
+  const {
+    // posts,
+    selectedPost,
+    // selectPost
+  } = useBlogContext();
 
-  useEffect(() => {
-    const selPost = async () => {
-      if (!selectedPost || selectedPost.id !== id) {
-        const post = await posts.find((post) => post.id === id);
-        console.log(post);
-        selectPost(post);
-      }
-    };
-  }, [id, posts, selectedPost, selectPost]);
+  // useEffect(() => {
+  //   const selPost = async () => {
+  //     if (!selectedPost || selectedPost.id !== id) {
+  //       const post = await posts.find((post) => post.id === id);
+  //       console.log(post);
+  //       selectPost(post);
+  //     }
+  //   };
+  // }, [id, posts, selectedPost, selectPost]);
 
   const { imageUrl, author, date } = selectedPost;
   const { title, introduction, sections, conclusion } = selectedPost.post;
@@ -43,8 +47,8 @@ const BlogPost = () => {
         Written by {author} on {date}
       </AuthorDate>
       <Introduction>{introduction}</Introduction>
-      {sections.map((section) => (
-        <Section key={section.sectionTitle}>
+      {selectedPost.sections.map((section, index) => (
+        <Section key={index}>
           <SectionTitle>{section.sectionTitle}</SectionTitle>
           <Content>{section.content}</Content>
         </Section>
