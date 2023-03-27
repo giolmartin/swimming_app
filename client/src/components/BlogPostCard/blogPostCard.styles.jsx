@@ -1,14 +1,16 @@
 import styled from 'styled-components';
+import { WesAndersonColors } from '../../global.styles';
 
 export const Card = styled.div`
   display: flex;
   flex-direction: column;
   background-color: #ffffff;
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   overflow: hidden;
   transition: transform 0.3s ease-in-out;
-
+  cursor: pointer;
+  
   &:hover {
     transform: translateY(-10px);
   }
@@ -30,9 +32,9 @@ export const CardTitle = styled.h3`
   margin-bottom: 0.5rem;
 `;
 
-export const CardDate = styled.p`
+export const CardDateAuthor = styled.p`
   font-size: 1rem;
-  color: #808080;
+  color: ${WesAndersonColors.accent};
   margin-bottom: 1rem;
 `;
 

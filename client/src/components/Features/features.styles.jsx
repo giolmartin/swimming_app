@@ -1,25 +1,34 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { WesAndersonColors } from '../../global.styles';
+import { WesAndersonColors, WesAndersonWaterColors } from '../../global.styles';
 
 export const BlogFeaturesSection = styled.section`
   display: grid;
-  grid-template-rows: repeat(4, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   width: 100%;
+  ${'' /* display: flex; */}
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 2rem 0;
   ${'' /* flex-wrap: wrap; */}
   ${'' /* justify-content: center; */}
 
-  background-color: ${WesAndersonColors.background};
+  background-color: ${WesAndersonColors.secondary.background};
 
-  @media (max-width: 1272px) {
-    grid-template-rows: repeat(2, 1fr);
+  @media (max-width: 1100px) {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   @media (max-width: 768px) {
-    flex-direction: column;
-    justify-content: center;
-    width: 90%;
+    grid-template-columns: repeat(1, 1fr);
   }
+`;
+export const BlogPostImage = styled.img`
+  width: 100%;
+  height: 50%;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 1rem;
 `;
 
 export const BlogFeaturesTitle = styled.h2`
@@ -35,18 +44,26 @@ export const BlogFeaturesGrid = styled.div`
 `;
 
 export const BlogFeatureCard = styled(motion.div)`
+  background-color: ${WesAndersonColors.secondary.formBackground};
+  color: ${WesAndersonColors.secondary.text};
   flex: 0 1 calc(25% - 2rem);
-  background-color: ${WesAndersonColors.formBackground};
   margin: 1rem;
   padding: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
-  color: ${WesAndersonColors.text};
+  text-align: center;
   ${'' /* transition: transform 0.2s; */}
 
   &:hover {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     transform: translateY(-5px);
+  }
+  @media (max-width: 1100px) {
+    flex: 0 1 calc(33.333% - 2rem);
+  }
+  @media (max-width: 768px) {
+    flex: 0 1 calc(50% - 2px);
+    min-width: 300px;
   }
 `;
 

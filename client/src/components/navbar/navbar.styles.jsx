@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Link as ScrollLink } from 'react-scroll';
 import styled from 'styled-components';
+import { WesAndersonWaterColors } from '../../global.styles';
 
 export const NavbarContainer = styled.nav`
   display: flex;
@@ -34,7 +35,9 @@ export const NavbarMenu = styled.ul`
     position: absolute;
     top: 100%;
     left: 0;
-    background-color: #1e90ff;
+    background-color: ${WesAndersonWaterColors.secondary.deepWater};
+    color: ${WesAndersonWaterColors.secondary.foam}
+
     padding: 2rem 0;
   }
 `;
@@ -46,6 +49,15 @@ export const NavbarItem = styled.li`
     margin: 1rem 0;
   }
 `;
+export const BlogMenuItem = styled(NavbarItem)`
+  position: relative;
+
+  &:hover {
+    color: ${WesAndersonWaterColors.secondary.deepWater};
+    background-color: ${WesAndersonWaterColors.secondary.poolside};
+    border-radius: 4px;
+  }
+`;
 
 export const NavbarLink = styled(Link)`
   display: flex;
@@ -55,7 +67,7 @@ export const NavbarLink = styled(Link)`
   padding: 0.5rem 1rem;
 
   &:hover {
-    color: #1e90ff;
+    color: ${WesAndersonWaterColors.secondary.deepWater};
     background-color: #fff;
     border-radius: 4px;
   }
@@ -73,22 +85,29 @@ export const MenuIcon = styled.div`
 // ...other styled components...
 
 export const DropdownMenu = styled.div`
-  display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
   position: absolute;
-  background-color: #1e90ff;
+  display: none;
   min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
+  background-color: ${WesAndersonWaterColors.secondary.deepWater};
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  border-radius: 4px;
+  z-index: 10;
+
+  ${BlogMenuItem}:hover & {
+    display: block;
+  }
 `;
 
-export const DropdownItem = styled(Link)`
-  color: white;
+export const DropdownLink = styled(Link)`
+  color: ${WesAndersonWaterColors.secondary.foam};
   padding: 12px 16px;
   text-decoration: none;
+  font-size: 1rem;
   display: block;
 
   &:hover {
-    background-color: #4caf50;
+    background-color: ${WesAndersonWaterColors.secondary.poolWater};
   }
 `;
 
@@ -99,4 +118,10 @@ export const ArrowIcon = styled.div`
 
 export const ScrollOnClick = styled(ScrollLink)`
   cursor: pointer;
+
+  &:hover {
+    color: ${WesAndersonWaterColors.secondary.deepWater};
+    background-color: #fff;
+    border-radius: 4px;
+  }
 `;

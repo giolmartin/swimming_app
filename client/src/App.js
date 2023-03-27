@@ -1,26 +1,31 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+import { GlobalStyle } from './global.styles';
+
 import Home from './pages/home.page';
 import Navbar from './components/Navbar/navbar.component';
-import { GlobalStyle } from './global.styles';
-// import BlogPostCard from './components/BlogPostCard/blogPostCard.component';
-import BlogPage from './pages/Blogs/blogs.page';
-const post = {
-  title: 'This is a title',
-  date: 'This is a date',
-  excerpt: 'This is an excerpt',
-  imageUrl: './images/landing.jpeg',
-};
+import BlogsPage from './pages/Blogs/blogs.page';
+import { BlogProvider } from './context/blog.context';
+import BlogPage from './pages/BlogPost/blogPost.page';
+import Footer from './components/Footer/footer.component';
+import { useBlogContext } from './context/blog.context';
+
 function App() {
+  // const { post } = useBlogContext();
   return (
-    <Router>
-      <GlobalStyle />
-      <Navbar />
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/blog' element={<BlogPage />} />
-      </Routes>
-    </Router>
+    <BlogProvider>
+      <Router>
+        <GlobalStyle />
+        <Navbar />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/blog' element={<BlogsPage />} />
+          <Route path='/blog/:id' element={<BlogPage />} />
+        </Routes>
+      </Router>
+      <Footer />
+    </BlogProvider>
   );
 }
 

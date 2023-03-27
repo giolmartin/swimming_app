@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import { WesAndersonColors } from '../../global.styles';
+import { WesAndersonColors, WesAndersonWaterColors } from '../../global.styles';
 
 const buttonAnimation = keyframes`
 0% {
@@ -13,18 +13,47 @@ const buttonAnimation = keyframes`
 }
 `;
 export const ContactContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4rem 2rem;
+  margin-top: 4rem;
+  color: ${WesAndersonColors.primary.text};
 
-  background-color: ${WesAndersonColors.background};
+  @media (max-width: 768px) {
+    flex-direction: column;
+    text-align: center;
+  }
+`;
+export const ImageContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.5;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
 `;
 
 export const InnerContainer = styled.div`
   display: flex;
-  padding: 1rem;
+  padding: 0.75rem;
   width: 70%;
   margin: 1rem auto;
+  zindex: 10;
+  border-radius: 10px;
+  background-color: ${WesAndersonColors.primary.formBackground};
+  box-shadow: 0px 2px 4px rgba(218, 165, 32, 0.7),
+    inset 4px -1px 6px 5px rgba(218, 165, 32, 0.2);
   @media (max-width: 768px) {
     flex-direction: column;
     width: 90%;
@@ -36,12 +65,12 @@ export const ContactTitle = styled.h2`
   margin-top: 2rem;
   margin-bottom: 0.5rem;
   text-align: center;
-  color: ${WesAndersonColors.text};
+  color: ${WesAndersonColors.primary.text};
 `;
 
 export const ContactFormContainer = styled.div`
   flex: 2;
-  background-color: ${WesAndersonColors.formBackground};
+  background-color: ${WesAndersonColors.primary.formBackground};
   padding: 2rem;
   font-family: 'Courier New', Courier, monospace;
   color: ${WesAndersonColors.text};
@@ -60,7 +89,7 @@ export const ContactImage = styled.img`
 
 export const ContactImageContainer = styled.div`
   flex: 1;
-  background-color: ${WesAndersonColors.background};
+  background-color: ${WesAndersonColors.primary.background};
 
   @media (max-width: 768px) {
     display: flex;
@@ -87,16 +116,16 @@ export const ContactFormInput = styled.input`
   width: 100%;
   padding: 0.5rem;
   border: none;
-  border-bottom: 1px solid ${WesAndersonColors.text};
+  border-bottom: 1px solid ${WesAndersonColors.primary.text};
   background-color: transparent;
-  color: ${WesAndersonColors.text};
+  color: ${WesAndersonColors.primary.text};
   font-family: inherit;
   transition: border-color 0.3s ease;
 
   &:focus {
     outline: none;
-    border-bottom-color: ${WesAndersonColors.accent};
-    box-shadow: 0 0 2px ${WesAndersonColors.accent};
+    border-bottom-color: ${WesAndersonColors.primary.accent};
+    box-shadow: 0 0 2px ${WesAndersonColors.primary.accent};
   }
 `;
 
@@ -104,17 +133,17 @@ export const ContactFormTextarea = styled.textarea`
   width: 100%;
   padding: 0.5rem;
   border: none;
-  border-bottom: 1px solid ${WesAndersonColors.text};
+  border-bottom: 1px solid ${WesAndersonColors.primary.text};
   background-color: transparent;
-  color: ${WesAndersonColors.text};
+  color: ${WesAndersonColors.primary.text};
   font-family: inherit;
   transition: border-color 0.3s ease;
   resize: vertical;
 
   &:focus {
     outline: none;
-    border-bottom-color: ${WesAndersonColors.accent};
-    box-shadow: 0 0 3px ${WesAndersonColors.accent};
+    border-bottom-color: ${WesAndersonColors.primary.accent};
+    box-shadow: 0 0 3px ${WesAndersonColors.primary.accent};
   }
 `;
 
@@ -124,18 +153,18 @@ export const ContactFormButtonContainer = styled.div`
 `;
 
 export const ContactFormButton = styled.button`
-  width: 25%;
+  width: auto;
   padding: 0.5rem 1rem;
-  border: 1px solid ${WesAndersonColors.text};
+  border: 1px solid ${WesAndersonColors.primary.text};
   background-color: transparent;
-  color: ${WesAndersonColors.text};
+  color: ${WesAndersonColors.primary.text};
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
 
   &:hover {
-    background-color: ${WesAndersonColors.text};
-    color: ${WesAndersonColors.formBackground};
+    background-color: ${WesAndersonColors.primary.text};
+    color: ${WesAndersonColors.primary.formBackground};
   }
 
   &:focus {

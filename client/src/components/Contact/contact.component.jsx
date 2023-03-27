@@ -14,6 +14,7 @@ import {
   ContactFormButtonContainer,
   InnerContainer,
   ContactTitle,
+  ImageContainer,
 } from './contact.styles';
 
 const Contact = () => {
@@ -24,7 +25,13 @@ const Contact = () => {
 
   return (
     <ContactContainer id='contact'>
-      <ContactTitle>Contact Us</ContactTitle>
+      <ImageContainer>
+        <img
+          src='./images/contact-background-2.png'
+          alt='Contact Illustration'
+        />
+      </ImageContainer>
+      <ContactTitle>Drop Us A Message</ContactTitle>
       <InnerContainer>
         <ContactFormContainer>
           <ContactForm onSubmit={handleSubmit}>
@@ -48,7 +55,7 @@ const Contact = () => {
           </ContactForm>
         </ContactFormContainer>
         <ContactImageContainer>
-          <ContactImage src='./images/contact-us.jpeg' alt='' />
+          <ContactImage src='./images/contact-us.png' alt='' />
         </ContactImageContainer>
       </InnerContainer>
     </ContactContainer>

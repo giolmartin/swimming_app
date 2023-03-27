@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { FaBars, FaTimes } from 'react-icons/fa';
+import { FiMenu, FiX } from 'react-icons/fi';
 import { AiOutlineDown, AiOutlineUp } from 'react-icons/ai';
 import {
   NavbarContainer,
@@ -10,49 +11,55 @@ import {
   NavbarLink,
   MenuIcon,
   ArrowIcon,
+  BlogMenuItem,
   DropdownMenu,
-  DropdownItem,
+  DropdownLink,
   ScrollOnClick,
 } from './navbar.styles';
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  const handleMenuClick = () => {
+  const toggleMenu = () => {
     setOpen(!open);
-  };
-  const handleDropdownClick = () => {
-    setDropdownOpen(!dropdownOpen);
   };
 
   return (
     <NavbarContainer>
       <NavbarLogo href='#'>Swim to Success</NavbarLogo>
-      <MenuIcon onClick={handleMenuClick}>
-        {open ? <FaTimes /> : <FaBars />}
-      </MenuIcon>
+      <MenuIcon onClick={toggleMenu}>{open ? <FiX /> : <FiMenu />}</MenuIcon>
       <NavbarMenu open={open}>
         <NavbarItem>
-          <NavbarLink to='/'>Home</NavbarLink>
-        </NavbarItem>
-        <NavbarItem>
-          <NavbarLink>
-            Blog
-            <ArrowIcon onClick={handleDropdownClick}>
-              {dropdownOpen ? <AiOutlineUp /> : <AiOutlineDown />}
-            </ArrowIcon>
+          <NavbarLink onClick={toggleMenu} to='/'>
+            Home
           </NavbarLink>
-          <DropdownMenu isOpen={dropdownOpen}>
-            <DropdownItem to='/blog'>Latest</DropdownItem>
-            <DropdownItem to='/blog'>Nutrition</DropdownItem>
-            <DropdownItem to='/blog'>Gear</DropdownItem>
+        </NavbarItem>
+        <BlogMenuItem>
+          Blog
+          <DropdownMenu>
+            <DropdownLink onClick={toggleMenu} to='/blog'>
+              Latest
+            </DropdownLink>
+            <DropdownLink onClick={toggleMenu} to='/blog/technique'>
+              Technique
+            </DropdownLink>
+            <DropdownLink onClick={toggleMenu} to='/blog/nutrition'>
+              Nutrition
+            </DropdownLink>
+            <DropdownLink onClick={toggleMenu} to='/blog/gear'>
+              Gear
+            </DropdownLink>
+            <DropdownLink onClick={toggleMenu} to='/blog/training'>
+              Training
+            </DropdownLink>
           </DropdownMenu>
-        </NavbarItem>
+        </BlogMenuItem>
         <NavbarItem>
-          <NavbarLink href='#workouts'>App Workout</NavbarLink>
+          <NavbarLink onClick={toggleMenu} href='#workouts'>
+            APP
+          </NavbarLink>
         </NavbarItem>
-        <NavbarItem>
+        <NavbarItem onClick={toggleMenu}>
           <ScrollOnClick to='contact' smooth={true} duration={500} offset={-60}>
             Contact
           </ScrollOnClick>

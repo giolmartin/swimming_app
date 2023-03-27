@@ -6,34 +6,34 @@ import {
   Content,
 } from './blogs.styles';
 import Filter from '../../components/Filter/filter.component';
-import { blogPostsMock } from '../../data/blog.data';
+import { useBlogContext } from '../../context/blog.context';
 
 import BlogPostCard from '../../components/BlogPostCard/blogPostCard.component';
-const BlogPage = () => {
+
+const BlogsPage = () => {
   const [activeFilter, setActiveFilter] = useState(null);
-  const [blogPosts, setBlogPosts] = useState([]);
+  const { filteredPosts, filterPostsByCategory } = useBlogContext();
+  const [latestBlogPosts, setLatestBlogPosts] = useState([]);
 
-  useEffect(() => {
-    setBlogPosts(blogPostsMock);
-    console.log(blogPosts);
-  }, []);
+  // useEffect(() => {
+  //   setLatestBlogPosts(latestBlogPosts);
+  // }, []);
 
-  const handleFilterChange = (filter) => {
-    setActiveFilter(filter);
+  // const handleFilterChange = (filter) => {
+  //   setActiveFilter(filter);
+  // };
+  const handleFilterClick = (category) => {
+    filterPostsByCategory(category);
   };
-
-  const filteredBlogPosts = blogPosts.filter((post) =>
-    activeFilter ? post.category === activeFilter : true
-  );
 
   return (
     <BlogPageContainer>
-      <Filter activeFilter={activeFilter} onFilterChange={handleFilterChange} />
+      <Filter activeFilter={activeFilter} onFilterChange={handleFilterClick} />
       <Content>
         <BlogTitle>Latest Blog Posts</BlogTitle>
 
         <BlogPostsContainer>
-          {filteredBlogPosts.map((post) => (
+          {filteredPosts.map((post) => (
             <BlogPostCard key={post.id} post={post} />
           ))}
         </BlogPostsContainer>
@@ -42,7 +42,4 @@ const BlogPage = () => {
   );
 };
 
-export default BlogPage;
-// {blogPosts.map((post) => (
-//   <BlogPostCard key={post.id} post={post} />
-// ))}
+export default BlogsPage;

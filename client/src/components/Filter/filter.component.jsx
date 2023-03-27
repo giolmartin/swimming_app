@@ -5,7 +5,7 @@ import {
   GiStairsGoal,
   GiStopwatch,
 } from 'react-icons/gi';
-import { TbSwimming } from 'react-icons/tb';
+import { TbSwimming, TbSalad } from 'react-icons/tb';
 import {
   FilterContainer,
   FilterItem,
@@ -25,6 +25,11 @@ const Filter = ({ activeFilter, onFilterChange }) => {
   return (
     <FilterContainer>
       {[
+        {
+          filter: 'all',
+          Icon: TbSalad,
+          label: 'All',
+        },
         {
           filter: 'technique',
           Icon: TbSwimming,
