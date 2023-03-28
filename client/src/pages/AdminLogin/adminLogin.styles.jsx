@@ -27,3 +27,9 @@ export const Button = styled.button`
   padding: 0.5rem;
   cursor: pointer;
 `;
+export const GoogleLoginButton = styled.button`
+  background-color: #4285f4;
+  color: white;
+  margin-top: 10px;
+  padding: 5px;
+`;

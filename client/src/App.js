@@ -7,14 +7,14 @@ import { BlogProvider } from './context/blog.context';
 import { WorkoutProvider } from './context/workout.context';
 import { UserProvider } from './context/user.context';
 
-import Home from './pages/home.page';
-import Navbar from './components/Navbar/navbar.component';
-import BlogsPage from './pages/Blogs/blogs.page';
-import BlogPage from './pages/BlogPost/blogPost.page';
-import WorkoutPage from './pages/Workout/workout.page';
+import NavbarLayout from './components/NavbarLayout/navbarLayout.component';
 import Footer from './components/Footer/footer.component';
-import AdminLogin from './pages/AdminLogin/adminLogin.page';
-import AdminDashboard from './pages/Dashboard/adminDashboard.page';
+
+import Home from './pages/home.page';
+
+import BlogRoutes from './routes/blog.router';
+import AdminRoutes from './routes/admin.router';
+import WorkoutRoutes from './routes/workout.router';
 
 function App() {
   return (
@@ -23,17 +23,16 @@ function App() {
         <WorkoutProvider>
           <Router>
             <GlobalStyle />
-            <Navbar />
-            <Routes>
-              <Route path='/' element={<Home />} />
-              <Route path='/admin-login' element={<AdminLogin />} />
-              <Route path='/admin-dashboard' element={<AdminDashboard />} />
-              <Route path='/blogs' element={<BlogsPage />} />
-              <Route path='/blogs/:id' element={<BlogPage />} />
-              <Route path='/workout' element={<WorkoutPage />} />
-            </Routes>
+            <NavbarLayout>
+              <Routes>
+                <Route path='/' element={<Home />} />
+                <Route path='/blogs/*' element={<BlogRoutes />} />
+                <Route path='/admin/*' element={<AdminRoutes />} />
+                <Route path='/workout' element={<WorkoutRoutes />} />
+              </Routes>
+            </NavbarLayout>
+            <Footer />
           </Router>
-          <Footer />
         </WorkoutProvider>
       </BlogProvider>
     </UserProvider>

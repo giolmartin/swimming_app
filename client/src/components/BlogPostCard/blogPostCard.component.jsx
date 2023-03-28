@@ -30,7 +30,7 @@ const BlogPostCard = ({ post }) => {
           <CardExcerpt>{post.excerpt}</CardExcerpt>
         </CardContent>
       </Card>
-      <Link to={`/blog/${post.id}`} style={{ textDecoration: 'none' }}>
+      <Link to={`/blogs/${post.id}`} style={{ textDecoration: 'none' }}>
         Read More
       </Link>
     </div>

@@ -54,8 +54,8 @@ app.get(
 app.get(
   '/auth/google/callback',
   passport.authenticate('google', {
-    failureRedirect: '/failure',
-    successRedirect: '/',
+    failureRedirect: '/admin-login', // Redirect to the admin login page on failure
+    successRedirect: '/admin-dashboard', // Redirect to the admin dashboard on success
     session: false, // do not save user data in session
   }),
   (req, res) => {
@@ -67,8 +67,16 @@ app.get(
 app.get('/auth/logout', (req, res) => {});
 
 // Fallback route for single-page applications
-app.get('/*', (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 
 module.exports = app;
+// {
+//     contentSecurityPolicy: {
+//       directives: {
+//         defaultSrc: ["'self'"],
+//         connectSrc: ["'self'", 'https://accounts.google.com'], // Add Google authentication URL here
+//       },
+//     },
+//   }

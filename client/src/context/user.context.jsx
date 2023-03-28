@@ -1,14 +1,14 @@
 import { createContext, useContext, useState } from 'react';
 
 const UserContext = createContext({
-  isLoggedIn: false,
-  setIsLoggedIn: () => {},
+  isAuthenticated: false,
+  setIsAuthenticated: () => {},
 });
 
 export const useUserContext = () => useContext(UserContext);
 
 export const UserProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const client = {
     name: 'admin',
@@ -16,13 +16,14 @@ export const UserProvider = ({ children }) => {
   };
 
   const setLogIn = (name, pas) => {
-    if (name === client.name && pas === client.password) setIsLoggedIn(true);
+    if (name === client.name && pas === client.password)
+      setIsAuthenticated(true);
   };
 
   const value = {
-    isLoggedIn,
+    isAuthenticated,
+    setIsAuthenticated,
     setLogIn,
-    setIsLoggedIn,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

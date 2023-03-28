@@ -1,22 +1,19 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserContext } from '../../context/user.context';
-import { AdminDashboardContainer } from './adminDashboard.styles';
+import AdminContent from '../../components/Admin/AdminContent/adminContent.component';
+import AdminNavbar from '../../components/Admin/AdminNavbar/adminNavbar.component';
 const AdminDashboard = () => {
-  const { isLoggedIn } = useUserContext();
+  const { isAuthenticated } = useUserContext();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isLoggedIn) {
-      navigate('/admin-login');
+    if (!isAuthenticated) {
+      navigate('/admin/login');
     }
-  }, [isLoggedIn, navigate]);
+  }, [isAuthenticated, navigate]);
 
-  return (
-    <AdminDashboardContainer>
-      <h1>Admin Dashboard</h1>
-    </AdminDashboardContainer>
-  );
+  return <AdminContent />;
 };
 
 export default AdminDashboard;

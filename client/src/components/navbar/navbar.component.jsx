@@ -59,15 +59,15 @@ const Navbar = () => {
             APP
           </NavbarLink>
         </NavbarItem>
+        <NavbarItem>
+          <NavbarLink onClick={toggleMenu} to='admin/login'>
+            ADMIN
+          </NavbarLink>
+        </NavbarItem>
         <NavbarItem onClick={toggleMenu}>
           <ScrollOnClick to='contact' smooth={true} duration={500} offset={-60}>
             Contact
           </ScrollOnClick>
-        </NavbarItem>
-        <NavbarItem onClick={toggleMenu}>
-          <NavbarLink onClick={toggleMenu} to='/auth/google'>
-            Log In
-          </NavbarLink>
         </NavbarItem>
       </NavbarMenu>
     </NavbarContainer>
