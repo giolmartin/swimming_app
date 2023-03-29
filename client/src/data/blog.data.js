@@ -8,7 +8,7 @@ export const blogPostsMock = [
     excerpt:
       'Learn the essential tips to improve your freestyle swimming technique...',
     post: {
-      title: 'Mastering the Freestyle Stroke',
+      postTitle: 'Mastering the Freestyle Stroke',
       introduction:
         "The freestyle stroke, also known as the front crawl, is the fastest and most efficient swimming stroke. It's a popular choice for swimmers of all skill levels, from beginners to competitive athletes. In this blog post, we'll cover the key elements of the freestyle stroke and provide tips on how to improve your technique for a smoother, more efficient swim.",
       sections: [
@@ -42,7 +42,7 @@ export const blogPostsMock = [
         "Mastering the freestyle stroke takes time, patience, and consistent practice. By focusing on the key elements of body position, arm movement, breathing technique, kick, and coordination, you'll be well on your way to a more efficient and enjoyable swimming experience. Remember to always practice with proper technique, and don't hesitate to seek guidance from a coach or instructor if needed. Happy swimming!",
     },
     imageUrl: './images/landing.jpeg',
-    category: 'technique',
+    category: ['technique', 'breaststroke'],
   },
   {
     id: 2,
@@ -50,7 +50,7 @@ export const blogPostsMock = [
     excerpt:
       'Discover key techniques to make your breaststroke more efficient and powerful...',
     imageUrl: './images/landing-wes.jpeg',
-    category: 'technique',
+    category: ['technique', 'breaststroke'],
   },
   {
     id: 3,
@@ -58,7 +58,7 @@ export const blogPostsMock = [
     excerpt:
       'Learn the essential tips to improve your freestyle swimming technique...',
     imageUrl: './images/landing.jpeg',
-    category: 'technique',
+    category: ['technique', 'breaststroke'],
   },
   {
     id: 4,
@@ -66,6 +66,7 @@ export const blogPostsMock = [
     excerpt:
       'Discover key techniques to make your breaststroke more efficient and powerful...',
     imageUrl: './images/landing.jpeg',
+    category: ['technique', 'breaststroke'],
   },
   {
     id: 5,

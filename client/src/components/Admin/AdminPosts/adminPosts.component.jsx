@@ -18,14 +18,13 @@ import {
   fetchPosts,
   fetchPostsByCategory,
 } from '../../../services/blog.requests';
+import { useBlogContext } from '../../../context/blog.context';
 import { blogPostsMock } from '../../../data/blog.data';
 
 const AdminPosts = () => {
-  const [posts, setPosts] = useState([]); // Replace with fetched posts
+  const { posts, setPosts, deletePost } = useBlogContext();
+  // const [posts, setPosts] = useState([]); // Replace with fetched posts
   const [selectedPost, setSelectedPost] = useState(null);
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [category, setCategory] = useState('');
   const navigate = useNavigate();
   console.log('Admin Posts mounted');
   // useEffect(() => {
@@ -39,12 +38,9 @@ const AdminPosts = () => {
   //   }
   //   };
   // }, []);
-  useEffect(() => {
-    setPosts(blogPostsMock);
-  }, []);
-  const handleCreatePost = () => {};
-
-  const handleUpdatePost = () => {};
+  // useEffect(() => {
+  //   setPosts(blogPostsMock);
+  // }, []);
 
   //TODO: Create the /admin/dashboard/posts/edit/${id} route
   const handleEditPost = async (id) => {
@@ -58,11 +54,18 @@ const AdminPosts = () => {
     // }
   };
 
-  const handleDeletePost = () => {};
+  //Deletes post from the database(TODO: Add confirmation dialog)
+  //TODO: Finish the function and create the request method
+  const handleDeletePost = (id) => {
+    deletePost(id);
+  };
 
   return (
     <AdminPostsContainer>
       <Title>Manage Posts</Title>
+      <Button onClick={() => navigate('/admin/dashboard/posts/edit/create')}>
+        Create Post
+      </Button>
       <PostList>
         {posts.map((post) => (
           <PostItem key={post.id}>

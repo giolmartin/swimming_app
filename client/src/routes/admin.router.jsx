@@ -6,6 +6,7 @@ import AdminCategories from '../components/Admin/AdminCategories/adminCategories
 import AdminUsers from '../components/Admin/AdminUsers/adminUsers.component';
 import AdminSettings from '../components/Admin/AdminSettings/adminSettings.component';
 import AdminLogin from '../pages/AdminLogin/adminLogin.page';
+import AdminPostEditor from '../components/Admin/EditPost/adminPostEditor.component';
 
 const AdminRoutes = () => {
   return (
@@ -14,6 +15,8 @@ const AdminRoutes = () => {
       <Route path='/dashboard' element={<PrivateRoute />}>
         <Route index element={<AdminDashboard />} />
         <Route path='posts' element={<AdminPosts />} />
+        <Route path='posts/edit/:id' element={<AdminPostEditor />} />
+        {/* <Route path='posts/edit/create' element={<AdminPostEditor />} /> */}
         <Route path='categories' element={<AdminCategories />} />
         <Route path='users' element={<AdminUsers />} />
         <Route path='settings' element={<AdminSettings />} />

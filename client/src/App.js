@@ -7,6 +7,7 @@ import { BlogProvider } from './context/blog.context';
 import { WorkoutProvider } from './context/workout.context';
 import { UserProvider } from './context/user.context';
 
+
 import NavbarLayout from './components/NavbarLayout/navbarLayout.component';
 import Footer from './components/Footer/footer.component';
 
@@ -21,18 +22,18 @@ function App() {
     <UserProvider>
       <BlogProvider>
         <WorkoutProvider>
-          <Router>
-            <GlobalStyle />
-            <NavbarLayout>
-              <Routes>
-                <Route path='/' element={<Home />} />
-                <Route path='/blogs/*' element={<BlogRoutes />} />
-                <Route path='/admin/*' element={<AdminRoutes />} />
-                <Route path='/workout' element={<WorkoutRoutes />} />
-              </Routes>
-            </NavbarLayout>
-            <Footer />
-          </Router>
+            <Router>
+              <GlobalStyle />
+              <NavbarLayout>
+                <Routes>
+                  <Route path='/' element={<Home />} />
+                  <Route path='/blogs/*' element={<BlogRoutes />} />
+                  <Route path='/admin/*' element={<AdminRoutes />} />
+                  <Route path='/workout' element={<WorkoutRoutes />} />
+                </Routes>
+              </NavbarLayout>
+              <Footer />
+            </Router>
         </WorkoutProvider>
       </BlogProvider>
     </UserProvider>

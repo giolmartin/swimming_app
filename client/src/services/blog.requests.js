@@ -2,7 +2,7 @@ import axios from 'axios';
 import { blogPostsMock } from '../data/blog.data';
 const BASE_URL = process.env.API_URL || 'v1';
 
-export const fetchPosts = async () => {
+export const httpsFetchPosts = async () => {
   try {
     // const response = await axios.get(`${BASE_URL}/blogs`);
     // return response.data;
@@ -15,7 +15,7 @@ export const fetchPosts = async () => {
   }
 };
 
-export const fetchPostById = async (id) => {
+export const httpsFetchPostById = async (id) => {
   try {
     // const response = await axios.get(`${BASE_URL}/blogs/${id}`);
     // return response.data;
@@ -29,7 +29,7 @@ export const fetchPostById = async (id) => {
   }
 };
 
-export const fetchPostsByCategory = async (category) => {
+export const httpsFetchPostsByCategory = async (category) => {
   try {
     const response = await axios.get(`${BASE_URL}/blogs`, {
       params: { category },
@@ -38,5 +38,36 @@ export const fetchPostsByCategory = async (category) => {
   } catch (error) {
     console.error(`Error fetching blogs in category ${category}:`, error);
     return [];
+  }
+};
+
+//CRUD Requests
+export const httpsCreatePost = async (post) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/blogs`, post);
+    return response.data;
+  } catch (error) {
+    console.error('Error creating post:', error);
+    return null;
+  }
+};
+
+export const httpsUpdatePost = async (id, post) => {
+  try {
+    const response = await axios.put(`${BASE_URL}/blogs/${id}`, post);
+    return response.data;
+  } catch (error) {
+    console.error('Error updating post:', error);
+    return null;
+  }
+};
+
+export const httpsDeletePost = async (id) => {
+  try {
+    const response = await axios.delete(`${BASE_URL}/blogs/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error deleting post:', error);
+    return null;
   }
 };
