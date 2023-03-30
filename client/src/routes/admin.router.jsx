@@ -16,7 +16,6 @@ const AdminRoutes = () => {
         <Route index element={<AdminDashboard />} />
         <Route path='posts' element={<AdminPosts />} />
         <Route path='posts/edit/:id' element={<AdminPostEditor />} />
-        {/* <Route path='posts/edit/create' element={<AdminPostEditor />} /> */}
         <Route path='categories' element={<AdminCategories />} />
         <Route path='users' element={<AdminUsers />} />
         <Route path='settings' element={<AdminSettings />} />

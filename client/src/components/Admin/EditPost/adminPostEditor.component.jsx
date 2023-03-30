@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { AiOutlineDelete } from 'react-icons/ai';
 
 import { useBlogContext } from '../../../context/blog.context';
 import { postPrototype } from '../../../data/prototypes.data';
@@ -12,20 +13,45 @@ import {
   TextArea,
   Button,
   Select,
+  CategoriesTagContainer,
 } from './adminPostEditor.styles';
-import { categories1 as categories } from '../../../data/categories.data';
+import ImageDropzone from '../../ImageDropzone/imageDropzone.component';
 
 const AdminPostEditor = () => {
   const { id } = useParams();
-  const { selectedPost, posts, updatePost, createPost, blankPost } =
-    useBlogContext();
+  const {
+    selectedPost,
+    posts,
+    updatePost,
+    createPost,
+    blankPost,
+    getCategories,
+    getTags,
+  } = useBlogContext();
   const navigate = useNavigate();
   const isEditMode = id !== 'create';
-  console.log(id);
-  console.log(isEditMode);
+
   //Current Post Json, might Change(FIXME: check json if it changes)
   const [postEdit, setPostEdit] = useState(postPrototype);
+  const [selectedImage, setSelectedImage] = useState(null);
 
+  //Categories and Tags ony for dev
+  //-------------FIXME: ------------------------------------------
+  //Once Api is up and running, remove this
+  const [categoriesList, setCategoriesList] = useState([]);
+
+  const [tagsList, setTagsList] = useState([]);
+
+  useEffect(() => {
+    const cat = getCategories();
+    setCategoriesList(cat);
+  }, [getCategories]);
+
+  useEffect(() => {
+    const tag = getTags();
+    setTagsList(tag);
+  }, [getTags]);
+  //--------------------------------------------------------------
   useEffect(() => {
     if (isEditMode) {
       setPostEdit(posts[0]);
@@ -34,6 +60,23 @@ const AdminPostEditor = () => {
     }
   }, [id, isEditMode, posts, blankPost, selectedPost]);
 
+  //-------------Dropzone-----------------------------------------
+  const handleImageUrl = (imageUrl, index) => {
+    const imageUrlRoot = `./image/${imageUrl}`;
+    setPostEdit((prevState) => {
+      const updatedSections = [...prevState.post.sections];
+      updatedSections[index].imageUrl = imageUrlRoot;
+      return {
+        ...prevState,
+        post: {
+          ...prevState.post,
+          sections: updatedSections,
+        },
+      };
+    });
+  };
+
+  //--------------------------Input Handlers----------------------------------
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     console.log(name, value);
@@ -87,10 +130,6 @@ const AdminPostEditor = () => {
   //Images, video urls, text.
   //Upload image or choose from library
   //Videos should be able to be embedded from youtube or vimeo
-  //Text should be able to be formatted with markdown
-
-
-
 
   const handleAddSection = () => {
     setPostEdit((prevState) => {
@@ -124,15 +163,63 @@ const AdminPostEditor = () => {
     });
   };
 
-  const handleCategoryChange = (e) => {
-    const selectedCategories = Array.from(
-      e.targetSelectedOptions,
-      (option) => option.value
-    );
-    setPostEdit({ ...postEdit, category: selectedCategories });
+  //TODO: Remove the section title if needed.
+  //Need to create hook to rerender if section title is removed
+  const handleRemoveSectionTitle = (index) => {
+    setPostEdit((prevState) => {
+      const updatedSections = [...prevState.post.sections];
+      updatedSections[index].sectionTitle = 'no title';
+      return {
+        ...prevState,
+        post: {
+          ...prevState.post,
+          sections: updatedSections,
+        },
+      };
+    });
   };
 
+  //Handle Content Type Change, image, video, text
+  const handleContentTypeChange = (e, index) => {
+    const { value } = e.target;
+    setPostEdit((prevState) => {
+      const updatedSections = [...prevState.post.sections];
+      updatedSections[index].contentType = value;
+      return {
+        ...prevState,
+        post: {
+          ...prevState.post,
+          sections: updatedSections,
+        },
+      };
+    });
+  };
 
+  const handleCategoryChange = (e) => {
+    const { name, value } = e.target;
+    if (name === 'category') {
+      const selectedOptions = Array.from(
+        e.target.selectedOptions,
+        (option) => option.value
+      );
+      setPostEdit({ ...postEdit, categories: selectedOptions });
+    } else {
+      setPostEdit({ ...postEdit, [name]: value });
+    }
+  };
+
+  const handleTagChange = (e) => {
+    const { name, value } = e.target;
+    if (name === 'tags') {
+      const selectedOptions = Array.from(
+        e.target.selectedOptions,
+        (option) => option.value
+      );
+      setPostEdit({ ...postEdit, tags: selectedOptions });
+    } else {
+      setPostEdit({ ...postEdit, [name]: value });
+    }
+  };
 
   console.log(postEdit);
   const { title, subtitle, author, date, excerpt, post } = postEdit;
@@ -218,27 +305,85 @@ const AdminPostEditor = () => {
         <Label htmlFor='sections'>Sections</Label>
         {post.sections.map((section, index) => (
           <FormGroup key={index}>
-            <Label htmlFor={`sectionTitle-${index}`}>Section Title</Label>
-            <Input
-              type='text'
-              name={`sectionTitle-${index}`}
-              id={`sectionTitle-${index}`}
-              value={section.sectionTitle}
-              onChange={(e) => {
-                handlePostChange(e, index);
-              }}
-            />
-            <Label htmlFor={`content-${index}`}>Content</Label>
-            <TextArea
-              type='text'
-              name={`content-${index}`}
-              id={`content-${index}`}
-              value={section.content}
-              maxlength='1000'
-              onChange={(e) => {
-                handlePostChange(e, index);
-              }}
-            />
+            {section.postTitle === 'no title' ? (
+              <>
+                <Label htmlFor={`sectionTitle-${index}`}>Section Title</Label>
+                <Input
+                  type='text'
+                  name={`sectionTitle-${index}`}
+                  id={`sectionTitle-${index}`}
+                  value={section.sectionTitle}
+                  onChange={(e) => {
+                    handlePostChange(e, index);
+                  }}
+                />
+                <Button
+                  type='button'
+                  onClick={() => handleRemoveSectionTitle(index)}
+                >
+                  remove
+                  {/* <AiOutlineDelete /> */}
+                </Button>
+              </>
+            ) : null}
+
+            {/* Sections contentType */}
+            {section.contentType === 'text' && (
+              <>
+                <TextArea
+                  type='text'
+                  name={`content-${index}`}
+                  id={`content-${index}`}
+                  value={section.content}
+                  maxLength='1000'
+                  onChange={(e) => handlePostChange(e, index)}
+                />
+              </>
+            )}
+            {section.contentType === 'image' && (
+              <>
+                <Label htmlFor={`imageUrl-${index}`}>Image Dropzone</Label>
+                <ImageDropzone
+                  setSelectedImage={setSelectedImage}
+                  index={index}
+                  handleImageUrl={handleImageUrl}
+                />
+                {selectedImage && (
+                  <img
+                    src={selectedImage}
+                    alt='Selected'
+                    style={{ width: '100%', height: 'auto', marginTop: '1rem' }}
+                  />
+                )}
+              </>
+            )}
+            {section.contentType === 'video' && (
+              <>
+                <Label htmlFor={`videoUrl-${index}`}>Video URL</Label>
+                <Input
+                  type='text'
+                  name={`videoUrl-${index}`}
+                  id={`videoUrl-${index}`}
+                  value={section.videoUrl}
+                  onChange={(e) => handlePostChange(e, index)}
+                />
+              </>
+            )}
+
+            {/* Content Type [text, images, or video] */}
+            <Label htmlFor={`contentType-${index}`}>Content Type</Label>
+            <Select
+              name={`contentType-${index}`}
+              id={`contentType-${index}`}
+              value={section.contentType}
+              onChange={(e) => handleContentTypeChange(e, index)}
+            >
+              <option value='text'>Text</option>
+              <option value='image'>Image</option>
+              <option value='video'>Video</option>
+            </Select>
+
+            {/* Button */}
             <Button type='button' onClick={() => handleRemoveSection(index)}>
               Delete Section
             </Button>
@@ -258,23 +403,46 @@ const AdminPostEditor = () => {
             }}
           />
         </FormGroup>
-        <FormGroup>
-          <Label htmlFor='category'>Categories</Label>
-          <Select
-            name='category'
-            id='category'
-            multiple
-            value={postEdit.category}
-            // onChange={handleCategoryChange}
-          >
-            {categories &&
-              categories.map((category) => (
-                <option key={category} value={category}>
-                  {category}
-                </option>
-              ))}
-          </Select>
-        </FormGroup>
+
+        {/* Categories */}
+        <CategoriesTagContainer>
+          <FormGroup>
+            <Label htmlFor='category'>Categories</Label>
+            <Select
+              name='category'
+              id='category'
+              value={postEdit.categories}
+              onChange={handleCategoryChange}
+              multiple
+            >
+              {categoriesList &&
+                categoriesList.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+            </Select>
+          </FormGroup>
+
+          {/* Tags */}
+          <FormGroup>
+            <Label htmlFor='tags'>Tags</Label>
+            <Select
+              name='tags'
+              id='tags'
+              value={postEdit.tags}
+              onChange={handleTagChange}
+              multiple
+            >
+              {tagsList &&
+                tagsList.map((tag) => (
+                  <option key={tag} value={tag}>
+                    {tag}
+                  </option>
+                ))}
+            </Select>
+          </FormGroup>
+        </CategoriesTagContainer>
         <Button type='submit'>
           {isEditMode ? 'Update Post' : 'Create Post'}
         </Button>

@@ -9,9 +9,10 @@ export const BlogPostContainer = styled.div`
   color: ${WesAndersonColors.text};
 `;
 export const Image = styled.img`
-  width: 100%;
-  height: auto;
-  margin-bottom: 2rem;
+  width: 25%;
+  height: 25%;
+
+  margin-bottom: 1rem;
 `;
 export const Title = styled.h1`
   font-size: 2rem;

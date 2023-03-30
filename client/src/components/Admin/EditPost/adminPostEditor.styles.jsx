@@ -53,10 +53,15 @@ export const TextArea = styled.textarea`
   min-height: 150px;
 `;
 export const Button = styled.button`
+  width: auto;
+  height: auto;
   font-size: 1rem;
   padding: 0.5rem 1rem;
   background-color: #007bff;
   color: #fff;
+  margin-bottom: 1rem;
+  margint-top: 1rem;
+
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -64,4 +69,10 @@ export const Button = styled.button`
   &:hover {
     background-color: #0056b3;
   }
+`;
+
+export const CategoriesTagContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
 `;

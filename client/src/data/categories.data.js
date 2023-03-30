@@ -1,7 +1,41 @@
-export const categories1 = [
+export const mockCategories = [
   'technique',
   'nutrition',
   'gear',
   'swim-workouts',
   'training',
 ];
+
+
+export  const mockTags = [
+    'Swimming Techniques',
+    'Swim Workouts',
+    'Swim Drills',
+    'Open Water Swimming',
+    'Swim Gear',
+    'Goggles',
+    'Swimwear',
+    'Swim Caps',
+    'Swimming Accessories',
+    'Swim Training Tools',
+    'Fitness',
+    'Strength Training',
+    'Cardiovascular Training',
+    'Flexibility',
+    'Injury Prevention',
+    'Recovery',
+    'Nutrition',
+    'Hydration',
+    'Sports Supplements',
+    'Meal Planning',
+    'Pre-Workout Meals',
+    'Post-Workout Meals',
+    'Healthy Snacks',
+    'Weight Loss',
+    'Weight Gain',
+    'Running',
+    'Cycling',
+    'Triathlon',
+    'Cross-Training',
+    'Outdoor Activities',
+  ];

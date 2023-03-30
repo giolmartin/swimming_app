@@ -44,7 +44,10 @@ export const httpsFetchPostsByCategory = async (category) => {
 //CRUD Requests
 export const httpsCreatePost = async (post) => {
   try {
-    const response = await axios.post(`${BASE_URL}/blogs`, post);
+    const response = await axios.post(
+      `${BASE_URL}/admin/dashboard/posts/edit/create`,
+      post
+    );
     return response.data;
   } catch (error) {
     console.error('Error creating post:', error);
@@ -54,7 +57,10 @@ export const httpsCreatePost = async (post) => {
 
 export const httpsUpdatePost = async (id, post) => {
   try {
-    const response = await axios.put(`${BASE_URL}/blogs/${id}`, post);
+    const response = await axios.put(
+      `${BASE_URL}/admin/dashboard/posts/edit/${id}`,
+      post
+    );
     return response.data;
   } catch (error) {
     console.error('Error updating post:', error);
@@ -64,10 +70,22 @@ export const httpsUpdatePost = async (id, post) => {
 
 export const httpsDeletePost = async (id) => {
   try {
-    const response = await axios.delete(`${BASE_URL}/blogs/${id}`);
+    const response = await axios.delete(
+      `${BASE_URL}/admin/dashboard/posts/${id}`
+    );
     return response.data;
   } catch (error) {
     console.error('Error deleting post:', error);
     return null;
+  }
+};
+
+export const httpsFetchCategories = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/admin/dashboard/posts/edit`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+    return [];
   }
 };

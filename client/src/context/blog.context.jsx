@@ -9,7 +9,7 @@ import {
 } from '../services/blog.requests';
 import { postPrototype } from '../data/prototypes.data';
 import { blogPostsMock } from '../data/blog.data';
-import { categories1 } from '../data/categories.data';
+import { mockCategories, mockTags } from '../data/categories.data';
 const BlogContext = createContext({
   posts: [],
 
@@ -21,6 +21,9 @@ const BlogContext = createContext({
 
   blankPost: postPrototype,
   setBlankPost: () => {},
+
+  categories: [],
+  tags: [],
 
   //Admin CRUD operations
   updatePost: () => {},
@@ -35,7 +38,8 @@ export const BlogProvider = ({ children }) => {
   const [selectedPost, setSelectedPost] = useState(null);
   const [filteredPosts, setFilteredPosts] = useState(posts);
   const [blankPost, setBlankPost] = useState(postPrototype);
-  const [categories, setCategories] = useState(categories1);
+  const [categories, setCategories] = useState(mockCategories);
+  const [tags, setTags] = useState(mockTags);
   //------------DEV ONLY----------------
   // useEffect(() => {
   //   console.log('fetching posts');
@@ -75,6 +79,22 @@ export const BlogProvider = ({ children }) => {
     }
   };
 
+  // TODO:Create the httpsFetchCategories function
+  //FIXME: Make sure categories are fetched from the server
+  const getCategories = () => {
+    // const categories = await httpsFetchCategories();
+    setCategories(mockCategories);
+    return categories;
+  };
+
+  // TODO: Create the httpsFetchTags function
+  //FIXME: Make sure tags are fetched from the server
+  const getTags = () => {
+    // const tags = await httpsFetchTags();
+    setTags(mockTags);
+    return tags;
+  };
+
   //ADMIN CRUD FUNCTIONS
   //Function to call the API with request call(TODO: Implement the  function once the API is ready)
   const updatePost = async (postId, updatedPost) => {
@@ -104,6 +124,8 @@ export const BlogProvider = ({ children }) => {
     updatePost,
     deletePost,
     createPost,
+    getCategories,
+    getTags,
   };
 
   return <BlogContext.Provider value={value}>{children}</BlogContext.Provider>;

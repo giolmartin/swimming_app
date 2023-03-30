@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useBlogContext } from '../../context/blog.context';
+import ReactMarkdown from 'react-markdown';
 
 import {
   BlogPostContainer,
@@ -16,7 +17,7 @@ import {
 
 const BlogPost = () => {
   const { id } = useParams();
-  const { posts, selectedPost, selectPost } = useBlogContext();
+  const { selectedPost, selectPost } = useBlogContext();
 
   // useEffect(() => {
   //   const selPost = async () => {
@@ -30,25 +31,40 @@ const BlogPost = () => {
 
   const { imageUrl, author, date } = selectedPost;
   const { title, introduction, sections, conclusion } = selectedPost.post;
-  console.log(imageUrl);
   // if (!selectedPost) {
   //   return <div>Loading...</div>;
   // }
-  console.log('Selected Post: ', selectedPost);
+
   return (
     <BlogPostContainer>
-      <Image src={imageUrl} alt={title} />
+      {/*  Root level -nice hack*/}
+      <Image src={`/${imageUrl}`} alt={title} />
       <Title>{title}</Title>
       <AuthorDate>
         Written by {author} on {date}
       </AuthorDate>
       <Introduction>{introduction}</Introduction>
-      {sections.map((section, index) => (
-        <Section key={index}>
-          <SectionTitle>{section.sectionTitle}</SectionTitle>
-          <Content>{section.content}</Content>
-        </Section>
-      ))}
+      {sections.map((section, index) => {
+        try {
+          if (section.contentType && section.contentType === 'text') {
+            return (
+              <Section key={index}>
+                <SectionTitle>{section.sectionTitle}</SectionTitle>
+                <ReactMarkdown>{section.content}</ReactMarkdown>
+              </Section>
+            );
+
+            //TODO: Add image and video sections
+          } else if (section.contentType === 'image') {
+            return <h2>Image</h2>;
+          } else if (section.contentType === 'video') {
+            return <h2>Video</h2>;
+          }
+        } catch {
+          return <h2>error in sections</h2>;
+        }
+      })}
+
       <Conclusion>{conclusion}</Conclusion>
     </BlogPostContainer>
   );

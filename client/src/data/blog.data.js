@@ -14,26 +14,41 @@ export const blogPostsMock = [
       sections: [
         {
           sectionTitle: 'Body Position',
+          contentType: 'text',
+          imageUrl: '',
+          videoUrl: '',
           content:
-            "To maintain an efficient freestyle stroke, it's essential to keep your body in a horizontal position, with your head in line with your spine. This streamlined position reduces drag and makes it easier to move through the water. Keep your legs straight and close together, with a slight bend in the knees, and engage your core muscles to maintain stability.",
+            "To maintain an efficient freestyle stroke, it's essential to keep your body in a **horizontal position**, with your head in line with your spine. This *streamlined position* reduces drag and makes it easier to move through the water. Keep your legs straight and close together, with a slight bend in the knees, and engage your core muscles to maintain stability.",
         },
         {
           sectionTitle: 'Arm Movement',
+          contentType: 'text',
+          imageUrl: '',
+          videoUrl: '',
           content:
             'The arm movement in the freestyle stroke consists of three phases: the catch, the pull, and the recovery. To perform the catch, extend your arm fully in front of you, fingertips pointing downward, and slightly bend your elbow. Next, pull your arm back towards your body, keeping your elbow high and your forearm vertical. Finally, during the recovery phase, lift your arm out of the water and bring it forward to start the next stroke.',
         },
         {
           sectionTitle: 'Breathing Technique',
+          contentType: 'text',
+          imageUrl: '',
+          videoUrl: '',
           content:
             'Proper breathing is crucial for an efficient freestyle stroke. Most swimmers prefer to breathe every two or three strokes, known as bilateral breathing. This helps to maintain balance and prevent fatigue. Turn your head to the side as your recovering arm exits the water, keeping one eye and one ear submerged. Inhale quickly, then exhale slowly through your nose and mouth as your face returns to the water.',
         },
         {
           sectionTitle: 'Kick',
+          contentType: 'text',
+          imageUrl: '',
+          videoUrl: '',
           content:
             'The freestyle kick is a flutter kick, performed by alternating up and down movements of the legs. The key to an effective flutter kick is to keep your legs mostly straight, with just a slight bend in the knees, and use your hips to generate power. Kick from the hips and keep your ankles relaxed and flexible, allowing your feet to move freely in the water.',
         },
         {
           sectionTitle: 'Timing and Coordination',
+          contentType: 'text',
+          imageUrl: '',
+          videoUrl: '',
           content:
             'A smooth freestyle stroke relies on the coordination of your arms, legs, and breathing. Your arm movement should be continuous and alternating, with one arm in the catch phase while the other is in the recovery phase. Your kick should also be consistent and well-timed, with six kicks for every complete arm cycle.',
         },
@@ -41,7 +56,7 @@ export const blogPostsMock = [
       conclusion:
         "Mastering the freestyle stroke takes time, patience, and consistent practice. By focusing on the key elements of body position, arm movement, breathing technique, kick, and coordination, you'll be well on your way to a more efficient and enjoyable swimming experience. Remember to always practice with proper technique, and don't hesitate to seek guidance from a coach or instructor if needed. Happy swimming!",
     },
-    imageUrl: './images/landing.jpeg',
+    imageUrl: './images/image2.png',
     category: ['technique', 'breaststroke'],
   },
   {

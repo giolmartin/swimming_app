@@ -11,11 +11,15 @@ export const postPrototype = {
     sections: [
       {
         sectionTitle: '',
+        contentType: '', //text or 'image', 'video'
         content: '',
+        imageUrl: '',
+        videoUrl: '',
       },
     ],
     conclusion: '',
   },
   imageUrl: '',
-  category: [''],
+  categories: [''],
+  tags: [''],
 };
