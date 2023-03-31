@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { AiOutlineDelete } from 'react-icons/ai';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import { useBlogContext } from '../../../context/blog.context';
 import { postPrototype } from '../../../data/prototypes.data';
-import { useParams, useNavigate } from 'react-router-dom';
+
+import ImageDropzone from '../../ImageDropzone/imageDropzone.component';
+import VideoPlayer from '../../VideoPlayer/videoPlayer.component';
+
+import { AiOutlineDelete } from 'react-icons/ai';
 import {
   EditPostContainer,
   EditPostTitle,
@@ -15,7 +19,7 @@ import {
   Select,
   CategoriesTagContainer,
 } from './adminPostEditor.styles';
-import ImageDropzone from '../../ImageDropzone/imageDropzone.component';
+
 
 const AdminPostEditor = () => {
   const { id } = useParams();
@@ -114,6 +118,8 @@ const AdminPostEditor = () => {
         updatedSections[index].sectionTitle = value;
       } else if (name.startsWith('content-')) {
         updatedSections[index].content = value;
+      } else if (name.startsWith('videoUrl')) {
+        updatedSections[index].videoUrl = value;
       }
       return {
         ...prevState,
@@ -380,6 +386,7 @@ const AdminPostEditor = () => {
                   value={section.videoUrl}
                   onChange={(e) => handlePostChange(e, index)}
                 />
+                {section.videoUrl && <VideoPlayer url={section.videoUrl} />}
               </>
             )}
 

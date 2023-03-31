@@ -63,7 +63,7 @@ export const BlogProvider = ({ children }) => {
   const selectPost = async (id) => {
     // const post = await httpsFetchPostById(id);
     // setSelectedPost(post);
-    setSelectedPost(posts[0]);
+    setSelectedPost(posts[1]);
   };
 
   // useEffect(() => {

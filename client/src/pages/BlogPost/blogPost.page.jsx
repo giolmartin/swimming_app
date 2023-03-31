@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useBlogContext } from '../../context/blog.context';
 import ReactMarkdown from 'react-markdown';
-
+import VideoPlayer from '../../components/VideoPlayer/videoPlayer.component';
 import {
   BlogPostContainer,
   Title,
@@ -13,6 +13,7 @@ import {
   Conclusion,
   Image,
   AuthorDate,
+  SectionImage,
 } from './blogPost.styles';
 
 const BlogPost = () => {
@@ -29,8 +30,8 @@ const BlogPost = () => {
   //   selPost();
   // }, [id, posts, selectedPost, selectPost]);
 
-  const { imageUrl, author, date } = selectedPost;
-  const { title, introduction, sections, conclusion } = selectedPost.post;
+  const { title, imageUrl, author, date } = selectedPost;
+  const { postTitle, introduction, sections, conclusion } = selectedPost.post;
   // if (!selectedPost) {
   //   return <div>Loading...</div>;
   // }
@@ -38,34 +39,49 @@ const BlogPost = () => {
   return (
     <BlogPostContainer>
       {/*  Root level -nice hack*/}
-      <Image src={`/${imageUrl}`} alt={title} />
-      <Title>{title}</Title>
+      <Image src={`/${imageUrl}`} alt={postTitle} />
+
+      <Title>
+        <ReactMarkdown>{postTitle}</ReactMarkdown>
+      </Title>
       <AuthorDate>
         Written by {author} on {date}
       </AuthorDate>
-      <Introduction>{introduction}</Introduction>
+      <Introduction>
+        <ReactMarkdown>{introduction}</ReactMarkdown>
+      </Introduction>
       {sections.map((section, index) => {
-        try {
-          if (section.contentType && section.contentType === 'text') {
-            return (
-              <Section key={index}>
-                <SectionTitle>{section.sectionTitle}</SectionTitle>
-                <ReactMarkdown>{section.content}</ReactMarkdown>
-              </Section>
-            );
-
-            //TODO: Add image and video sections
-          } else if (section.contentType === 'image') {
-            return <h2>Image</h2>;
-          } else if (section.contentType === 'video') {
-            return <h2>Video</h2>;
-          }
-        } catch {
-          return <h2>error in sections</h2>;
+        if (section.contentType === 'text') {
+          return (
+            <Section key={index}>
+              <SectionTitle>{section.sectionTitle}</SectionTitle>
+              <ReactMarkdown>{section.content}</ReactMarkdown>
+            </Section>
+          );
+        } else if (section.contentType === 'image') {
+          return (
+            <Section key={index}>
+              <SectionTitle>{section.sectionTitle}</SectionTitle>
+              <SectionImage
+                src={`/${section.imageUrl}`}
+                alt={section.sectionTitle}
+              />
+            </Section>
+          );
+        } else if (section.contentType === 'video') {
+          return (
+            <Section key={index}>
+              <SectionTitle>{section.sectionTitle}</SectionTitle>
+              <VideoPlayer url={section.videoUrl} />
+            </Section>
+          );
+        } else {
+          return null;
         }
       })}
-
-      <Conclusion>{conclusion}</Conclusion>
+      <Conclusion>
+        <ReactMarkdown>{conclusion}</ReactMarkdown>
+      </Conclusion>
     </BlogPostContainer>
   );
 };

@@ -61,11 +61,81 @@ export const blogPostsMock = [
   },
   {
     id: 2,
-    title: 'Breaststroke: 2',
+    title: 'How to Train: More Speed or Endurance',
+    subtitle:
+      'Finding the Perfect Balance Between Speed and Endurance Training',
+    author: 'John Doe',
+    date: '2023-03-24',
     excerpt:
-      'Discover key techniques to make your breaststroke more efficient and powerful...',
-    imageUrl: './images/landing-wes.jpeg',
-    category: ['technique', 'breaststroke'],
+      'Discover how to train effectively for speed and endurance, and find out the optimal balance between these two crucial aspects of fitness.',
+    post: {
+      postTitle: 'How to Train: More Speed or Endurance',
+      introduction:
+        'In the world of fitness, **speed** and **endurance** are two essential components for athletes and fitness enthusiasts alike. This article will provide you with insights and tips on how to train effectively for both **speed** and **endurance**, and how to find the perfect balance between the two.',
+      sections: [
+        {
+          sectionTitle:
+            'Understanding the Difference Between Speed and Endurance',
+          contentType: 'text',
+          content:
+            '**Speed** refers to the ability to move quickly, while **endurance** is the capacity to perform an activity for an extended period. Both are important, but depending on your goals and preferences, you may prioritize one over the other.',
+          imageUrl: '',
+          videoUrl: '',
+        },
+        {
+          sectionTitle: 'How to Train for Speed',
+          contentType: 'text',
+          content:
+            'To increase your **speed**, focus on high-intensity interval **training** (HIIT), explosive exercises, and plyometrics. This type of **training** will improve your fast-twitch muscle fibers and overall power.',
+          imageUrl: '',
+          videoUrl: '',
+        },
+        {
+          sectionTitle: 'How to Train for Endurance',
+          contentType: 'text',
+          content:
+            '**Endurance training** involves lower-intensity, longer-duration exercises, such as distance running or cycling. This type of **training** will improve your cardiovascular health, aerobic capacity, and slow-twitch muscle fibers.',
+          imageUrl: '',
+          videoUrl: '',
+        },
+        {
+          sectionTitle: 'How to Train for Endurance',
+          contentType: 'text',
+          content:
+            '**Endurance training** involves lower-intensity, longer-duration exercises, such as distance running or cycling. This type of **training** will improve your cardiovascular health, aerobic capacity, and slow-twitch muscle fibers.',
+          imageUrl: '',
+          videoUrl: '',
+        },
+        {
+          sectionTitle: 'How to Train for Endurance',
+          contentType: 'video',
+          content: '',
+          imageUrl: '',
+          videoUrl:
+            'https://www.youtube.com/watch?v=111GfTsw-UU&ab_channel=MikeJotautas-TheSwimSquad',
+        },
+        {
+          sectionTitle: '',
+          contentType: 'image',
+          content: '',
+          imageUrl: './images/image2.png',
+          videoUrl: '',
+        },
+        {
+          sectionTitle: 'Finding the Right Balance',
+          contentType: 'text',
+          content:
+            'The optimal **balance** between **speed** and **endurance training** depends on your individual goals and preferences. Experiment with different **training** methods and ratios to find the combination that works best for you.',
+          imageUrl: '',
+          videoUrl: '',
+        },
+      ],
+      conclusion:
+        "Ultimately, the key to achieving more **speed** or **endurance** is consistency and dedication. By understanding the differences between **speed** and **endurance**, training appropriately for each, and finding the right balance, you'll be on your way to reaching your fitness goals.",
+    },
+    imageUrl: './images/image2.png',
+    categories: ['Fitness', 'Training'],
+    tags: ['speed', 'endurance', 'training', 'balance'],
   },
   {
     id: 3,

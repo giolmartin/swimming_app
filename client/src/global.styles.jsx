@@ -16,6 +16,11 @@ export const WesAndersonColors = {
     text: '#5F5F5F', // gray
     accent: '#FFC107', // amber
   },
+  post: {
+    background: '#F1EFE7',
+    text: '#3E3E3E',
+    accent: '#D8A47F',
+  },
 };
 
 export const WesAndersonWaterColors = {
