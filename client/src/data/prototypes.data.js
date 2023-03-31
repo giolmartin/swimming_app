@@ -11,7 +11,7 @@ export const postPrototype = {
     sections: [
       {
         sectionTitle: '',
-        contentType: '', //text or 'image', 'video'
+        contentType: 'text', //text or 'image', 'video'
         content: '',
         imageUrl: '',
         videoUrl: '',

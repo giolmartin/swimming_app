@@ -30,6 +30,7 @@ const AdminPostEditor = () => {
   } = useBlogContext();
   const navigate = useNavigate();
   const isEditMode = id !== 'create';
+  const [view, setView] = useState([true]);
 
   //Current Post Json, might Change(FIXME: check json if it changes)
   const [postEdit, setPostEdit] = useState(postPrototype);
@@ -127,17 +128,21 @@ const AdminPostEditor = () => {
   };
 
   //TODO: Add section should be able to choose between the type of content to add
-  //Images, video urls, text.
+  // video urls.
   //Upload image or choose from library
   //Videos should be able to be embedded from youtube or vimeo
 
   const handleAddSection = () => {
     setPostEdit((prevState) => {
-      const updatedSections = [...prevState.post.sections];
-      updatedSections.push({
-        sectionTitle: '',
-        content: '',
-      });
+      const updatedSections = [
+        ...prevState.post.sections,
+        { sectionTitle: '', content: '', contentType: 'text' },
+      ];
+      // updatedSections.push({
+      //   sectionTitle: '',
+      //   content: '',
+      //   contentType: 'text',
+      // });
       return {
         ...prevState,
         post: {
@@ -146,6 +151,7 @@ const AdminPostEditor = () => {
         },
       };
     });
+    setView((prevView) => [...prevView, true]);
   };
 
   const handleRemoveSection = (index) => {
@@ -161,14 +167,21 @@ const AdminPostEditor = () => {
         },
       };
     });
+
+    //This line removes the section and its view state, it was causing a bug
+    setView((prevView) => prevView.filter((_, i) => i !== index));
   };
 
-  //TODO: Remove the section title if needed.
-  //Need to create hook to rerender if section title is removed
   const handleRemoveSectionTitle = (index) => {
+    setView((prevView) => {
+      const updatedView = [...prevView];
+      prevView[index] = false;
+      return updatedView;
+    });
+
     setPostEdit((prevState) => {
       const updatedSections = [...prevState.post.sections];
-      updatedSections[index].sectionTitle = 'no title';
+      updatedSections[index].sectionTitle = '';
       return {
         ...prevState,
         post: {
@@ -305,7 +318,7 @@ const AdminPostEditor = () => {
         <Label htmlFor='sections'>Sections</Label>
         {post.sections.map((section, index) => (
           <FormGroup key={index}>
-            {section.postTitle === 'no title' ? (
+            {view[index] ? (
               <>
                 <Label htmlFor={`sectionTitle-${index}`}>Section Title</Label>
                 <Input
@@ -321,8 +334,8 @@ const AdminPostEditor = () => {
                   type='button'
                   onClick={() => handleRemoveSectionTitle(index)}
                 >
-                  remove
-                  {/* <AiOutlineDelete /> */}
+                  Remove
+                  <AiOutlineDelete />
                 </Button>
               </>
             ) : null}
