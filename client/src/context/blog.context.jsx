@@ -35,7 +35,7 @@ export const useBlogContext = () => useContext(BlogContext);
 
 export const BlogProvider = ({ children }) => {
   const [posts, setPosts] = useState([]);
-  const [selectedPost, setSelectedPost] = useState(null);
+  const [selectedPost, setSelectedPost] = useState({});
   const [filteredPosts, setFilteredPosts] = useState(posts);
   const [blankPost, setBlankPost] = useState(postPrototype);
   const [categories, setCategories] = useState(mockCategories);
@@ -63,12 +63,13 @@ export const BlogProvider = ({ children }) => {
   const selectPost = async (id) => {
     // const post = await httpsFetchPostById(id);
     // setSelectedPost(post);
-    setSelectedPost(posts[1]);
+
+    return selectedPost;
   };
 
-  // useEffect(() => {
-  //   setSelectedPost(posts[0]);
-  // }, [posts]);
+  useEffect(() => {
+    setSelectedPost(posts[1]);
+  }, [posts]);
 
   const filterPostsByCategory = async (category) => {
     if (category === 'all') {
