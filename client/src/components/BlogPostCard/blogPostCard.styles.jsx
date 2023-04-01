@@ -8,11 +8,13 @@ export const Card = styled.div`
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   overflow: hidden;
+  height: 450px;
   transition: transform 0.3s ease-in-out;
   cursor: pointer;
-  
+
   &:hover {
     transform: translateY(-10px);
+    box-shadow: 0 8px 12px rgba(255, 193, 7, 0.5);
   }
 `;
 
@@ -24,6 +26,8 @@ export const CardImage = styled.img`
 
 export const CardContent = styled.div`
   padding: 1.5rem;
+  height: calc(100% - 200px);
+  overflow-y: auto;
 `;
 
 export const CardTitle = styled.h3`

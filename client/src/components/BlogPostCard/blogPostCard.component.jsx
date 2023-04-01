@@ -9,6 +9,7 @@ import {
   CardDateAuthor,
   CardExcerpt,
 } from './blogPostCard.styles';
+import { LinkButton } from '../../global.styles';
 
 const BlogPostCard = ({ post }) => {
   const { selectPost } = useBlogContext();
@@ -16,7 +17,7 @@ const BlogPostCard = ({ post }) => {
 
   const handleClick = () => {
     selectPost(post);
-    // navigate(`/blog/${post.id}`);
+    navigate(`/blogs/${post.id}`);
   };
   return (
     <div onClick={handleClick}>
@@ -29,10 +30,8 @@ const BlogPostCard = ({ post }) => {
           </CardDateAuthor>
           <CardExcerpt>{post.excerpt}</CardExcerpt>
         </CardContent>
+        <LinkButton to={`/blogs/${post.id}`}>Read More</LinkButton>
       </Card>
-      <Link to={`/blogs/${post.id}`} style={{ textDecoration: 'none' }}>
-        Read More
-      </Link>
     </div>
   );
 };

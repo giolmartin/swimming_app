@@ -57,7 +57,8 @@ export const blogPostsMock = [
         "Mastering the freestyle stroke takes time, patience, and consistent practice. By focusing on the key elements of body position, arm movement, breathing technique, kick, and coordination, you'll be well on your way to a more efficient and enjoyable swimming experience. Remember to always practice with proper technique, and don't hesitate to seek guidance from a coach or instructor if needed. Happy swimming!",
     },
     imageUrl: './images/image2.png',
-    category: ['technique', 'breaststroke'],
+    category: ['Technique'],
+    tags: ['Freestyle', 'Swimming'],
   },
   {
     id: 2,
@@ -134,7 +135,7 @@ export const blogPostsMock = [
         "Ultimately, the key to achieving more **speed** or **endurance** is consistency and dedication. By understanding the differences between **speed** and **endurance**, training appropriately for each, and finding the right balance, you'll be on your way to reaching your fitness goals.",
     },
     imageUrl: './images/image2.png',
-    categories: ['Fitness', 'Training'],
+    categories: ['fitness', 'training'],
     tags: ['speed', 'endurance', 'training', 'balance'],
   },
   {

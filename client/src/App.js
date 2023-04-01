@@ -7,9 +7,9 @@ import { BlogProvider } from './context/blog.context';
 import { WorkoutProvider } from './context/workout.context';
 import { UserProvider } from './context/user.context';
 
-
 import NavbarLayout from './components/NavbarLayout/navbarLayout.component';
 import Footer from './components/Footer/footer.component';
+import ScrollToTop from './components/ScrollToTop/scrillToTop.component';
 
 import Home from './pages/home.page';
 
@@ -23,6 +23,7 @@ function App() {
       <BlogProvider>
         <WorkoutProvider>
           <Router>
+            <ScrollToTop />
             <GlobalStyle />
             <NavbarLayout>
               <Routes>

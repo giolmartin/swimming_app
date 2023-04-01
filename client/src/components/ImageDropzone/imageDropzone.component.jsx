@@ -1,16 +1,21 @@
 import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 
-const ImageDropzone = ({ setSelectedImage, handleImageUrl, index }) => {
+const ImageDropzone = ({
+  setSelectedImage,
+  handleImageUrl,
+  index,
+  handleImageRoute,
+}) => {
   const onDrop = useCallback((acceptedFiles) => {
     const file = acceptedFiles[0];
     const reader = new FileReader();
 
     console.log('File: ', file.name);
     handleImageUrl(file.name, index);
+    handleImageRoute && handleImageRoute(file.name, index);
 
     reader.onload = (event) => {
-      //   console.log('Target: ', event.target.result);
       setSelectedImage(event.target.result);
     };
     reader.readAsDataURL(file);

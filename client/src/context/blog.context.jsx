@@ -67,6 +67,13 @@ export const BlogProvider = ({ children }) => {
     return selectedPost;
   };
 
+  const getPosts = () => {
+    // const posts = await httpsFetchPosts();
+    // setPosts(posts);
+    // console.log(posts);
+    return posts;
+  };
+
   useEffect(() => {
     setSelectedPost(posts[1]);
   }, [posts]);
@@ -127,6 +134,7 @@ export const BlogProvider = ({ children }) => {
     createPost,
     getCategories,
     getTags,
+    getPosts,
   };
 
   return <BlogContext.Provider value={value}>{children}</BlogContext.Provider>;

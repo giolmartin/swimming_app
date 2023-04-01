@@ -12,6 +12,7 @@ import {
   TextArea,
   Button,
   Select,
+  Image,
 } from '../adminPostEditor.styles';
 
 const Sections = ({
@@ -75,20 +76,18 @@ const Sections = ({
                 handleImageUrl={handleImageUrl}
               />
               {selectedImages[index] && section.imageUrl === '' ? (
-                <img
+                <Image
                   src={`/${selectedImages[index]}`}
                   alt='Selected'
                   style={{
-                    width: '100%',
-                    height: 'auto',
                     marginTop: '1rem',
                   }}
                 />
               ) : section.imageUrl !== '' ? (
-                <img
+                <Image
                   src={`/${section.imageUrl}`}
                   alt='Selected'
-                  style={{ width: '100%', height: 'auto', marginTop: '1rem' }}
+                  style={{ marginTop: '1rem' }}
                 />
               ) : null}
             </>

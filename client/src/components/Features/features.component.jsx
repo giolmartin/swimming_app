@@ -1,48 +1,27 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+
+import LazyLoadedCard from '../LazyLoadedCard/lazyLoadedCard.component';
 
 import { useBlogContext } from '../../context/blog.context';
 
 import {
   BlogFeaturesSection,
-  BlogFeatureCard,
-  BlogFeatureTitle,
-  BlogFeatureDescription,
-  BlogPostImage,
+  BlogFeaturesContainer,
+  BlogFeaturesTitle,
 } from './features.styles';
 
-import { InView } from 'react-intersection-observer';
-import { easeIn } from 'framer-motion';
-
 const Features = () => {
-  const [visible, setVisible] = useState(false);
   const { filteredPosts } = useBlogContext();
 
-  const cardVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0 },
-  };
-
   return (
-    <InView as='div' onChange={(inView) => setVisible(inView)}>
+    <BlogFeaturesContainer>
+      <BlogFeaturesTitle>Featured Posts</BlogFeaturesTitle>
       <BlogFeaturesSection>
-        {filteredPosts.slice(0, 4).map((post, index) => (
-          <BlogFeatureCard
-            key={post.id}
-            initial='hidden'
-            animate={visible ? 'visible' : 'hidden'}
-            variants={cardVariants}
-            transition={{ duration: 0.5, ease: easeIn, delay: index * 0.2 }}
-          >
-            <Link to={`/blog/${post.id}`} style={{ textDecoration: 'none' }}>
-              <BlogPostImage src={post.imageUrl} alt={post.title} />
-              <BlogFeatureTitle>{post.title}</BlogFeatureTitle>
-              <BlogFeatureDescription>{post.excerpt}</BlogFeatureDescription>
-            </Link>
-          </BlogFeatureCard>
+        {filteredPosts.slice(0, 6).map((post, index) => (
+          <LazyLoadedCard key={post.id} post={post} />
         ))}
       </BlogFeaturesSection>
-    </InView>
+    </BlogFeaturesContainer>
   );
 };
 

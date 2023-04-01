@@ -1,34 +1,65 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { FaTwitter, FaFacebookF, FaInstagram } from 'react-icons/fa';
 
-import { FooterContainer } from './footer.styles';
+import {
+  FooterContainer,
+  LeftFooter,
+  FooterLink,
+  RightFooter,
+  ReadOurBlog,
+  ContactUs,
+  SocialMedia,
+  SocialIcon,
+  Logo,
+  LogoText,
+  LogoContainer,
+  FootersLinksContainer,
+  BlogAndContact,
+  MiddleFooter,
+} from './footer.styles';
+
 const Footer = () => {
   return (
     <FooterContainer>
-      <div>
-        <h3>Quick Links</h3>
-        <ul>
-          <li>Home</li>
-          <li>App</li>
-          <li>Training</li>
-        </ul>
-      </div>
-      <div>
-        <h3>Blog</h3>
-        <ul>
-          <li>Technique</li>
-          <li>Nutrition</li>
-          <li>Gear</li>
-          <li>Swim Workouts</li>
-          <li>Training</li>
-        </ul>
-      </div>
-      <div>
-        <h3>Contact Us</h3>
-        <ul>
-          <li>Email: info@swimmingblog.com</li>
-          <li>Phone: +1 (123) 456-7890</li>
-        </ul>
-      </div>
+      <LeftFooter>
+        <LogoContainer>
+          <Logo src='./images/contact-us.png' alt='Swimming Blog Logo' />
+          <LogoText>Share our love for swimming</LogoText>
+        </LogoContainer>
+      </LeftFooter>
+      <MiddleFooter>
+        <FootersLinksContainer>
+          <Link to='/' style={{ textDecoration: 'none' }}>
+            <FooterLink>Home</FooterLink>
+          </Link>
+          <Link to='/app' style={{ textDecoration: 'none' }}>
+            <FooterLink>App</FooterLink>
+          </Link>
+          <Link to='/training' style={{ textDecoration: 'none' }}>
+            <FooterLink>Training</FooterLink>
+          </Link>
+        </FootersLinksContainer>
+      </MiddleFooter>
+      <RightFooter>
+        <BlogAndContact>
+          <Link to='/blogs' style={{ textDecoration: 'none' }}>
+            <ReadOurBlog>Read Our Blog</ReadOurBlog>
+          </Link>
+          <ContactUs>Contact Us</ContactUs>
+        </BlogAndContact>
+        <SocialMedia>
+          <SocialIcon href='https://twitter.com' target='_blank'>
+            <FaTwitter />
+          </SocialIcon>
+          <SocialIcon href='https://facebook.com' target='_blank'>
+            <FaFacebookF />
+          </SocialIcon>
+          <SocialIcon href='https://instagram.com' target='_blank'>
+            <FaInstagram />
+          </SocialIcon>
+        </SocialMedia>
+      </RightFooter>
     </FooterContainer>
   );
 };

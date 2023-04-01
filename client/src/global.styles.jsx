@@ -23,6 +23,23 @@ export const WesAndersonColors = {
   },
 };
 
+export const WesAndersonDark = {
+  primary: {
+    background: '#2C2B2B', // dark gray
+    formBackground: '#454444', // grayish-black
+    text: '#EDEDED', // light gray
+    accent1: '#B68C5D', // dark gold
+    accent2: '#DAA520', // goldenrod
+    linkColor: '#517369', // dark teal
+  },
+  secondary: {
+    background: '#3C3B3B', // dark gray
+    formBackground: '#595757', // grayish-black
+    text: '#F7F7F7', // white
+    accent: '#A67F56', // dark amber
+  },
+};
+
 export const WesAndersonWaterColors = {
   primary: {
     deepWater: '#0B3D91', // deep blue
@@ -60,5 +77,31 @@ export const GlobalStyle = createGlobalStyle`
 
   a:hover {
     color: ${WesAndersonColors.secondary.accent};
+  }
+`;
+
+export const LinkButton = styled(Link)`
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: ${WesAndersonColors.primary.accent};
+  color: #fff;
+  text-decoration: none;
+  text-align: center;
+  border-radius: 4px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  margin-top: 1rem;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+
+  &:hover {
+    background-color: ${WesAndersonColors.secondary.accent};
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  &:active {
+    transform: translateY(1px);
   }
 `;

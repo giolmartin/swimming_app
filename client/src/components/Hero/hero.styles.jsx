@@ -1,11 +1,10 @@
-import React from 'react';
 import styled from 'styled-components';
 
 export const HeroSection = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 80vh;
+  height: 95vh;
   color: black;
   overflow: hidden;
 

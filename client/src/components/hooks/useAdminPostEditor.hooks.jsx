@@ -21,6 +21,7 @@ export const useAdminPostEditor = () => {
   const [postEdit, setPostEdit] = useState(postPrototype);
   const [selectedImages, setSelectedImages] = useState([]);
   const { post } = postEdit;
+  const [headerImageUrl, setHeaderImageUrl] = useState('');
 
   //Categories and Tags ony for dev
   //-------------FIXME: ------------------------------------------
@@ -210,13 +211,22 @@ export const useAdminPostEditor = () => {
       };
     });
   };
-  const { title, subtitle, author, date, excerpt } = postEdit;
+  const handleHeaderImageChange = (url) => {
+    const imageUrlRoot = `./images/${url}`;
+    setPostEdit((prevPostEdit) => ({
+      ...prevPostEdit,
+      imageUrl: imageUrlRoot,
+    }));
+  };
+  const { title, subtitle, author, date, excerpt, imageUrl, categories, tags } =
+    postEdit;
   return {
     title,
     subtitle,
     author,
     date,
     excerpt,
+    imageUrl,
     post,
     view,
     selectedImages,
@@ -224,8 +234,11 @@ export const useAdminPostEditor = () => {
     postEdit,
     setPostEdit,
     categoriesList,
+    categories,
     tagsList,
+    tags,
     isEditMode,
+    headerImageUrl,
     handlePostChange,
     handleRemoveSectionTitle,
     handleImageUrl,
@@ -236,5 +249,6 @@ export const useAdminPostEditor = () => {
     handleFormSubmit,
     handleCategoryChange,
     handleTagChange,
+    handleHeaderImageChange,
   };
 };

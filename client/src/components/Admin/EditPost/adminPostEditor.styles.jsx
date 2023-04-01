@@ -6,7 +6,11 @@ export const EditPostContainer = styled.div`
   padding: 2rem;
   max-width: 800px;
   margin: 0 auto;
+  font-family: 'Playfair Display', serif;
+  color: #3a3633;
+  background-color: #f3dbb3;
 `;
+
 export const Select = styled.select`
   display: block;
   width: 100%;
@@ -23,9 +27,11 @@ export const Select = styled.select`
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
   }
 `;
+
 export const EditPostTitle = styled.h1`
   font-size: 2rem;
   margin-bottom: 1rem;
+  color: #3a3633;
 `;
 
 export const FormGroup = styled.div`
@@ -37,6 +43,7 @@ export const FormGroup = styled.div`
 export const Label = styled.label`
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
+  color: #a34b1d;
 `;
 
 export const Input = styled.input`
@@ -52,22 +59,22 @@ export const TextArea = styled.textarea`
   resize: vertical;
   min-height: 150px;
 `;
+
 export const Button = styled.button`
   width: auto;
   height: auto;
   font-size: 1rem;
   padding: 0.5rem 1rem;
-  background-color: #007bff;
+  background-color: #d07f6f;
   color: #fff;
   margin-bottom: 1rem;
-  margint-top: 1rem;
-
+  margin-top: 1rem;
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
 
   &:hover {
-    background-color: #0056b3;
+    background-color: #a34b1d;
   }
 `;
 
@@ -76,3 +83,16 @@ export const CategoriesTagContainer = styled.div`
   flex-wrap: wrap;
   margin-bottom: 1rem;
 `;
+
+export const HeaderImageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+`;
+
+export const Image = styled.img`
+  width: 100%;
+  height: auto,
+  margin-top: 1rem;
+`;
+
