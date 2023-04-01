@@ -19,31 +19,25 @@ export const useAdminPostEditor = () => {
   const [view, setView] = useState([true]);
   const [today, setToday] = useState(new Date().toDateString().slice(4));
   const [postEdit, setPostEdit] = useState(postPrototype);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImages, setSelectedImages] = useState([]);
   const { post } = postEdit;
+
   //Categories and Tags ony for dev
   //-------------FIXME: ------------------------------------------
   //Once Api is up and running, remove this
   const [categoriesList, setCategoriesList] = useState([]);
 
   const [tagsList, setTagsList] = useState([]);
-
-  useEffect(() => {
-    const cat = getCategories();
-    setCategoriesList(cat);
-  }, [getCategories]);
-
-  useEffect(() => {
-    const tag = getTags();
-    setTagsList(tag);
-  }, [getTags]);
-  //--------------------------------------------------------------
   useEffect(() => {
     if (isEditMode) {
       setPostEdit(selectedPost);
     } else {
       setPostEdit(postEdit);
     }
+    const cat = getCategories();
+    setCategoriesList(cat);
+    const tag = getTags();
+    setTagsList(tag);
   }, [id]);
 
   useEffect(() => {
@@ -64,6 +58,7 @@ export const useAdminPostEditor = () => {
     }
     navigate('/admin/dashboard/posts');
   };
+
   const handleCategoryChange = (e) => {
     const { name, value } = e.target;
     if (name === 'category') {
@@ -90,20 +85,6 @@ export const useAdminPostEditor = () => {
     }
   };
 
-  const handleImageUrl = (imageUrl, index) => {
-    const imageUrlRoot = `./image/${imageUrl}`;
-    setPostEdit((prevState) => {
-      const updatedSections = [...prevState.post.sections];
-      updatedSections[index].imageUrl = imageUrlRoot;
-      return {
-        ...prevState,
-        post: {
-          ...prevState.post,
-          sections: updatedSections,
-        },
-      };
-    });
-  };
   const handlePostChange = (e, index) => {
     e.persist();
     const { name, value } = e.target;
@@ -145,13 +126,7 @@ export const useAdminPostEditor = () => {
         ...prevState.post.sections,
         { sectionTitle: '', content: '', contentType: 'text' },
       ];
-      // updatedSections.push({
-      //   sectionTitle: '',
-      //   content: '',
-      //   contentType: 'text',
-      // });
 
-      console.log('Updated sections:', updatedSections);
       return {
         ...prevState,
         post: {
@@ -216,6 +191,25 @@ export const useAdminPostEditor = () => {
       };
     });
   };
+  const handleImageUrl = (imageUrl, index) => {
+    const imageUrlRoot = `./images/${imageUrl}`;
+    setSelectedImages((prevImage) => {
+      const updatedSelectedImages = [...prevImage];
+      updatedSelectedImages[index] = imageUrlRoot;
+      return updatedSelectedImages;
+    });
+    setPostEdit((prevState) => {
+      const updatedSections = [...prevState.post.sections];
+      updatedSections[index].imageUrl = imageUrlRoot;
+      return {
+        ...prevState,
+        post: {
+          ...prevState.post,
+          sections: updatedSections,
+        },
+      };
+    });
+  };
   const { title, subtitle, author, date, excerpt } = postEdit;
   return {
     title,
@@ -225,9 +219,10 @@ export const useAdminPostEditor = () => {
     excerpt,
     post,
     view,
-    selectedImage,
-    setSelectedImage,
+    selectedImages,
+    setSelectedImages,
     postEdit,
+    setPostEdit,
     categoriesList,
     tagsList,
     isEditMode,
