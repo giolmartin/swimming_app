@@ -6,10 +6,13 @@ import {
   httpsCreatePost,
   httpsUpdatePost,
   httpsDeletePost,
+  httpsFetchCategories,
+  httpsFetchTags,
+  httpsFetchPopularPosts,
+  httpsFetchRecentPosts,
 } from '../services/blog.requests';
 import { postPrototype } from '../data/prototypes.data';
-import { blogPostsMock } from '../data/blog.data';
-import { mockCategories, mockTags } from '../data/categories.data';
+
 const BlogContext = createContext({
   posts: [],
 
@@ -34,26 +37,28 @@ const BlogContext = createContext({
 export const useBlogContext = () => useContext(BlogContext);
 
 export const BlogProvider = ({ children }) => {
+  const [tags, setTags] = useState([]);
   const [posts, setPosts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [recentPosts, setRecentPosts] = useState([]);
   const [selectedPost, setSelectedPost] = useState({});
+  const [popularPosts, setPopularPosts] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState(posts);
   const [blankPost, setBlankPost] = useState(postPrototype);
-  const [categories, setCategories] = useState(mockCategories);
-  const [tags, setTags] = useState(mockTags);
-  //------------DEV ONLY----------------
-  // useEffect(() => {
-  //   console.log('fetching posts');
-  //   setPosts(blogPostsMock);
-  //   // setSelectedPost(blogPostsMock[0]);
-  //   console.log(selectedPost);
-  // }, []);
-  // console.log(posts);
-  // //------------------------------------
+
   // For fetching data from the server
   useEffect(() => {
     const fetchData = async () => {
-      const data = await httpsFetchPosts(); // Use fetchBlogs function to get blog data
-      console.log(data);
+      const data = await httpsFetchPosts();
+      const categories = await httpsFetchCategories();
+      const tags = await httpsFetchTags();
+      const popularPosts = await httpsFetchPopularPosts();
+      const recentPosts = await httpsFetchRecentPosts();
+      // const
+      setCategories(categories);
+      setTags(tags);
+      setPopularPosts(popularPosts);
+      // setRecentPosts(recentPosts);
       setPosts(data);
     };
 
@@ -61,22 +66,17 @@ export const BlogProvider = ({ children }) => {
   }, []);
 
   const selectPost = async (id) => {
-    // const post = await httpsFetchPostById(id);
-    // setSelectedPost(post);
-
-    return selectedPost;
+    console.log('Selected Post: ', id);
+    const post = await httpsFetchPostById(id);
+    setSelectedPost(post);
+    console.log(selectedPost);
   };
 
-  const getPosts = () => {
-    // const posts = await httpsFetchPosts();
-    // setPosts(posts);
-    // console.log(posts);
+  const getPosts = async () => {
+    const posts = await httpsFetchPosts();
+    setPosts(posts);
     return posts;
   };
-
-  useEffect(() => {
-    setSelectedPost(posts[1]);
-  }, [posts]);
 
   const filterPostsByCategory = async (category) => {
     if (category === 'all') {
@@ -87,20 +87,30 @@ export const BlogProvider = ({ children }) => {
     }
   };
 
-  // TODO:Create the httpsFetchCategories function
-  //FIXME: Make sure categories are fetched from the server
-  const getCategories = () => {
-    // const categories = await httpsFetchCategories();
-    setCategories(mockCategories);
-    return categories;
+  const getCategories = async () => {
+    const fetchCategories = await httpsFetchCategories();
+    setCategories(fetchCategories);
+    return fetchCategories;
   };
 
-  // TODO: Create the httpsFetchTags function
-  //FIXME: Make sure tags are fetched from the server
-  const getTags = () => {
-    // const tags = await httpsFetchTags();
-    setTags(mockTags);
-    return tags;
+  const getTags = async () => {
+    const fetchedTags = await httpsFetchTags();
+    setTags(fetchedTags);
+    return fetchedTags;
+  };
+  const getPopularPosts = async () => {
+    const popularPosts = await httpsFetchPopularPosts();
+    return popularPosts;
+  };
+
+  const getRecentPosts = async () => {
+    const recentPosts = await httpsFetchRecentPosts();
+    return recentPosts;
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
   };
 
   //ADMIN CRUD FUNCTIONS
@@ -134,7 +144,11 @@ export const BlogProvider = ({ children }) => {
     createPost,
     getCategories,
     getTags,
+
+    getPopularPosts,
+    getRecentPosts,
     getPosts,
+    formatDate,
   };
 
   return <BlogContext.Provider value={value}>{children}</BlogContext.Provider>;

@@ -33,15 +33,35 @@ passport.use(new Strategy(AUTH_OPTIONS, verifyCallback));
 //Initialize express
 const app = express();
 
-// Middleware
-app.use(helmet()); // Security headers
+// Middlewares
+
+// Security headers
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+      'script-src': [
+        "'self'",
+        'https://www.youtube.com',
+        'https://s.ytimg.com',
+      ],
+      'frame-src': ["'self'", 'https://www.youtube.com'],
+    },
+  })
+); 
 app.use(passport.initialize()); // Passport initialization
 app.use(cors({ origin: 'http://localhost:3000' })); // Enable CORS for a specific origin
 app.use(express.json()); // Parse JSON request bodies
 app.use(express.static(path.join(__dirname, '..', 'public'))); // Serve static files
+app.use('/v1', api); // API routes
 
-//API routes
-// app.use('/v1', api);
+// Error handling middleware
+app.use((error, req, res, next) => {
+  res.status(error.status || 500);
+  res.json({ error: { message: error.message } });
+  next();
+});
+
 
 // Google OAuth routes
 app.get(
@@ -54,8 +74,8 @@ app.get(
 app.get(
   '/auth/google/callback',
   passport.authenticate('google', {
-    failureRedirect: '/admin-login', // Redirect to the admin login page on failure
-    successRedirect: '/admin-dashboard', // Redirect to the admin dashboard on success
+    failureRedirect: '/admin/login', // Redirect to the admin login page on failure
+    successRedirect: '/admin/dashboard', // Redirect to the admin dashboard on success
     session: false, // do not save user data in session
   }),
   (req, res) => {
@@ -63,8 +83,10 @@ app.get(
   }
 );
 
-// Logout route (TODO: implement logout)
-app.get('/auth/logout', (req, res) => {});
+app.get('/auth/logout', (req, res) => {
+  req.logout();
+  res.redirect('/admin/login');
+});
 
 // Fallback route for single-page applications
 app.get('*', (req, res) => {
@@ -72,11 +94,3 @@ app.get('*', (req, res) => {
 });
 
 module.exports = app;
-// {
-//     contentSecurityPolicy: {
-//       directives: {
-//         defaultSrc: ["'self'"],
-//         connectSrc: ["'self'", 'https://accounts.google.com'], // Add Google authentication URL here
-//       },
-//     },
-//   }

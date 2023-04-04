@@ -1,11 +1,9 @@
 const fs = require('fs');
 const https = require('https');
-// const dotenv = require('dotenv');
-
-// //Load environment variables
-// dotenv.config();
 
 const app = require('./app');
+const { loadPostData } = require('./models/blogs.model');
+const { mongoConnect } = require('./services/mongo');
 const PORT = process.env.PORT || 8000;
 
 //Development certificate for localhost
@@ -21,6 +19,8 @@ const credentials = { key: privateKey, cert: certificate };
 const httpsServer = https.createServer(credentials, app);
 async function startServer() {
   try {
+    await mongoConnect();
+    await loadPostData();
     httpsServer.listen(PORT, () => {
       console.log(`Server listening on port ${PORT}`);
     });

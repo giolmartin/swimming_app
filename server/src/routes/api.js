@@ -1,5 +1,9 @@
-// const express = require('express');
+const express = require('express');
 
-// const api = express.Router();
+const blogsRouter = require('./blogs/blogs.router');
 
-// modules.export = api;
+const api = express.Router();
+
+api.use('/blogs', blogsRouter);
+
+module.exports = api;

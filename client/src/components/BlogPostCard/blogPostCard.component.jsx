@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useBlogContext } from '../../context/blog.context';
 import {
   Card,
@@ -12,27 +12,24 @@ import {
 import { LinkButton } from '../../global.styles';
 
 const BlogPostCard = ({ post }) => {
-  const { selectPost } = useBlogContext();
-  const navigate = useNavigate();
+  const { formatDate } = useBlogContext();
 
-  const handleClick = () => {
-    selectPost(post);
-    navigate(`/blogs/${post.id}`);
-  };
+  const date = formatDate(post.createdAt);
+
   return (
-    <div onClick={handleClick}>
+    <Link to={`/blogs/post/${post._id}`} style={{ textDecoration: 'none' }}>
       <Card>
         <CardImage src={post.imageUrl} alt={post.title} />
         <CardContent>
           <CardTitle>{post.title}</CardTitle>
           <CardDateAuthor>
-            Written by {post.author} on {post.date}
+            Written by {post.author} on {date}
           </CardDateAuthor>
           <CardExcerpt>{post.excerpt}</CardExcerpt>
         </CardContent>
-        <LinkButton to={`/blogs/${post.id}`}>Read More</LinkButton>
+        <LinkButton as='div'>Read More</LinkButton>
       </Card>
-    </div>
+    </Link>
   );
 };
 
