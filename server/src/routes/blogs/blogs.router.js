@@ -35,4 +35,5 @@ blogsRouter.get('/post/:id', httpsFetchPostById);
 // Categories and Tags
 blogsRouter.get('/tags', httpsFetchTags);
 blogsRouter.get('/categories', httpsFetchCategories);
+
 module.exports = blogsRouter;

@@ -60,6 +60,15 @@ const blogSchema = new mongoose.Schema(
   }
 );
 
+//Add text index to the blogSchema
+blogSchema.index({
+  title: 'text',
+  subtitle: 'text',
+  author: 'text',
+  categories: 'text',
+  tags: 'text',
+});
+
 const blogsDB = mongoose.model('Blog', blogSchema);
 
 module.exports = blogsDB;

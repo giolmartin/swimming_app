@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import LazyLoadedCard from '../LazyLoadedCard/lazyLoadedCard.component';
 
@@ -11,13 +11,13 @@ import {
 } from './features.styles';
 
 const Features = () => {
-  const { filteredPosts } = useBlogContext();
+  const { popularPosts } = useBlogContext();
 
   return (
     <BlogFeaturesContainer>
       <BlogFeaturesTitle>Featured Posts</BlogFeaturesTitle>
       <BlogFeaturesSection>
-        {filteredPosts.slice(0, 6).map((post, index) => (
+        {popularPosts.map((post, index) => (
           <LazyLoadedCard key={post.id} post={post} />
         ))}
       </BlogFeaturesSection>

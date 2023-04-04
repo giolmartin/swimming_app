@@ -21,6 +21,13 @@ export const WesAndersonColors = {
     text: '#3E3E3E',
     accent: '#D8A47F',
   },
+  comments: {
+    container: '#F3DF6C',
+    background1: '#F6A8A6',
+    background2: '#52796F',
+    contrast: '#354EAC',
+    accent: '#F28C38',
+  },
 };
 
 export const WesAndersonDark = {

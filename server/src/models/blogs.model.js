@@ -15,6 +15,7 @@ async function loadPostData() {
   const firstPost = await findPost(first);
   if (firstPost) {
     console.log('Posts already loaded');
+
     return;
   } else {
     await addMockPosts();
@@ -59,8 +60,7 @@ async function postExistsById(postId) {
 
 async function getPostById(id) {
   const postById = await blogsDB.findById(id);
-  console.log('Server, ', id);
-  console.log('Server, ', postById);
+
   return postById;
 }
 
@@ -69,15 +69,10 @@ async function getPostsByCategory(category) {
   return postsCategory;
 }
 
+// Search using MongoDB's text index
 async function searchPosts(keywords) {
-  const searchResults = await blogsDb.find({
-    $or: [
-      { title: { $regex: keywords, $options: 'i' } },
-      { subtitle: { $regex: keywords, $options: 'i' } },
-      { author: { $regex: keywords, $options: 'i' } },
-      { categories: { $regex: keywords, $options: 'i' } },
-      { tags: { $regex: keywords, $options: 'i' } },
-    ],
+  const searchResults = await blogsDB.find({
+    $text: { $search: keywords },
   });
   return searchResults;
 }
@@ -87,7 +82,7 @@ async function incrementPostViews(postId) {
 }
 
 async function getPopularPosts() {
-  const popularPosts = await blogsDB.find().sort({ views: -1 }).limit(5);
+  const popularPosts = await blogsDB.find().sort({ views: -1 }).limit(6);
   return popularPosts;
 }
 async function getRecentPosts() {
@@ -102,6 +97,9 @@ async function getCommentByPostId(postId) {
 
 async function addCommentToPost(postId, author, content) {
   try {
+    console.log('Post ID: ', postId);
+    console.log('Author: ', author);
+    console.log('Content: ', content);
     const newComment = new commentsDB({
       author,
       content,

@@ -16,6 +16,7 @@ import Home from './pages/home.page';
 import BlogRoutes from './routes/blog.router';
 import AdminRoutes from './routes/admin.router';
 import WorkoutRoutes from './routes/workout.router';
+import NotFound from './pages/NotFound/notFound.page';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
                 <Route path='/blogs/*' element={<BlogRoutes />} />
                 <Route path='/admin/*' element={<AdminRoutes />} />
                 <Route path='/workout' element={<WorkoutRoutes />} />
+                <Route path='*' element={<NotFound />} />
               </Routes>
             </NavbarLayout>
             <Footer />

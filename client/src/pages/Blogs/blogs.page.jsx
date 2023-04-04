@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import {
   BlogPageContainer,
   BlogTitle,
@@ -12,16 +13,18 @@ import BlogPostCard from '../../components/BlogPostCard/blogPostCard.component';
 
 const BlogsPage = () => {
   const [activeFilter, setActiveFilter] = useState(null);
-  const { posts, filterPostsByCategory } = useBlogContext();
+  const { posts, searchResults, filterPostsByCategory } = useBlogContext();
 
   const handleFilterClick = (category) => {
     setActiveFilter(category);
-    filterPostsByCategory(category);
   };
 
-  useEffect(() => {
-    filterPostsByCategory('all');
-  }, []);
+  const filteredPosts = () => {
+    if (!activeFilter) return searchResults.length > 0 ? searchResults : posts;
+    return (searchResults.length > 0 ? searchResults : posts).filter(
+      (post) => post.category === activeFilter
+    );
+  };
 
   return (
     <BlogPageContainer>
@@ -30,9 +33,13 @@ const BlogsPage = () => {
         <BlogTitle>Latest Blog Posts</BlogTitle>
 
         <BlogPostsContainer>
-          {posts.map((post) => (
+          {filteredPosts().map((post) => (
             <BlogPostCard key={post.id} post={post} />
           ))}
+
+          {/* {(searchResults.length > 0 ? searchResults : posts).map((post) => (
+            <BlogPostCard key={post.id} post={post} />
+          ))} */}
         </BlogPostsContainer>
       </Content>
     </BlogPageContainer>

@@ -6,6 +6,11 @@ import {
   httpsCreatePost,
   httpsUpdatePost,
   httpsDeletePost,
+  httpsFetchCommentsByPostId,
+  httpsAddComment,
+  httpsEditComment,
+  httpsDeleteComment,
+  httpsSearchPosts,
   httpsFetchCategories,
   httpsFetchTags,
   httpsFetchPopularPosts,
@@ -15,12 +20,16 @@ import { postPrototype } from '../data/prototypes.data';
 
 const BlogContext = createContext({
   posts: [],
+  popularPosts: [],
 
-  selectedPost: null,
+  selectedPost: {},
   selectPost: () => {},
 
   filteredPosts: [],
   filterPostsByCategory: () => {},
+
+  searchResults: [],
+  updateSearchResults: () => {},
 
   blankPost: postPrototype,
   setBlankPost: () => {},
@@ -37,13 +46,20 @@ const BlogContext = createContext({
 export const useBlogContext = () => useContext(BlogContext);
 
 export const BlogProvider = ({ children }) => {
-  const [tags, setTags] = useState([]);
   const [posts, setPosts] = useState([]);
+
+  const [tags, setTags] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [recentPosts, setRecentPosts] = useState([]);
+  // const [recentPosts, setRecentPosts] = useState([]);
   const [selectedPost, setSelectedPost] = useState({});
+
+  //Limited to 6 on the API blogs Model.
   const [popularPosts, setPopularPosts] = useState([]);
+
+  const [searchResults, setSearchResults] = useState([]);
+
   const [filteredPosts, setFilteredPosts] = useState(posts);
+
   const [blankPost, setBlankPost] = useState(postPrototype);
 
   // For fetching data from the server
@@ -53,8 +69,7 @@ export const BlogProvider = ({ children }) => {
       const categories = await httpsFetchCategories();
       const tags = await httpsFetchTags();
       const popularPosts = await httpsFetchPopularPosts();
-      const recentPosts = await httpsFetchRecentPosts();
-      // const
+      // const recentPosts = await httpsFetchRecentPosts(); // may not be needed since posts are already sorted by date
       setCategories(categories);
       setTags(tags);
       setPopularPosts(popularPosts);
@@ -66,10 +81,9 @@ export const BlogProvider = ({ children }) => {
   }, []);
 
   const selectPost = async (id) => {
-    console.log('Selected Post: ', id);
     const post = await httpsFetchPostById(id);
     setSelectedPost(post);
-    console.log(selectedPost);
+    return post;
   };
 
   const getPosts = async () => {
@@ -81,10 +95,22 @@ export const BlogProvider = ({ children }) => {
   const filterPostsByCategory = async (category) => {
     if (category === 'all') {
       setFilteredPosts(posts);
+      return posts;
     } else {
       const filtered = await httpsFetchPostsByCategory(category);
       setFilteredPosts(filtered);
+      return filtered;
     }
+  };
+
+  const getSearchResults = async (keywords) => {
+    const search = await httpsSearchPosts(keywords);
+    setSearchResults(search);
+    return search;
+  };
+
+  const updateSearchResults = (results) => {
+    setSearchResults(results);
   };
 
   const getCategories = async () => {
@@ -103,14 +129,35 @@ export const BlogProvider = ({ children }) => {
     return popularPosts;
   };
 
-  const getRecentPosts = async () => {
-    const recentPosts = await httpsFetchRecentPosts();
-    return recentPosts;
-  };
+  // const getRecentPosts = async () => {
+  //   const recentPosts = await httpsFetchRecentPosts();
+  //   return recentPosts;
+  // };
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+    return `${date.toDateString()}`;
+  };
+
+  //COMMENTS FUNCTIONS
+  const getCommentsByPostId = async (postId) => {
+    const comments = await httpsFetchCommentsByPostId(postId);
+    return comments;
+  };
+
+  const addComment = async (postId, comment) => {
+    const newComment = await httpsAddComment(postId, comment);
+    return newComment;
+  };
+
+  const updateComment = async (comment) => {
+    const updatedComment = await httpsEditComment(comment);
+    return updatedComment;
+  };
+
+  const deleteComment = async (commentId) => {
+    await httpsDeleteComment(commentId);
+    console.log(`Deleted Comment: ${commentId}`);
   };
 
   //ADMIN CRUD FUNCTIONS
@@ -134,21 +181,38 @@ export const BlogProvider = ({ children }) => {
   const value = {
     posts,
     setPosts,
+    getPosts,
+
+    popularPosts,
+    getPopularPosts,
+    // getRecentPosts,
+
     selectedPost,
     selectPost,
+    blankPost,
+
     filteredPosts,
     filterPostsByCategory,
-    blankPost,
+
+    getCommentsByPostId,
+    addComment,
+    updateComment,
+    deleteComment,
+
+    getCategories,
+    getTags,
+    tags,
+    categories,
+
+    getSearchResults,
+    searchResults,
+    updateSearchResults,
+
+    formatDate,
+
     updatePost,
     deletePost,
     createPost,
-    getCategories,
-    getTags,
-
-    getPopularPosts,
-    getRecentPosts,
-    getPosts,
-    formatDate,
   };
 
   return <BlogContext.Provider value={value}>{children}</BlogContext.Provider>;

@@ -1,5 +1,5 @@
 import axios from 'axios';
-const BASE_URL = process.env.API_URL || 'v1';
+const BASE_URL = process.env.API_URL || 'https://localhost:8000/v1';
 
 //TODO: Testing required
 //Blog requests
@@ -16,6 +16,7 @@ export const httpsFetchPosts = async () => {
 export const httpsFetchPostById = async (id) => {
   try {
     const response = await axios.get(`${BASE_URL}/blogs/post/${id}`);
+    console.log(`Response  ${response.data}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching blogs:', error);
@@ -86,12 +87,14 @@ export const httpsFetchRecentPosts = async () => {
   }
 };
 
-//FOR FUTURE IMPLEMENTATION(TODO: Add to the front end and the admin dashboard)
+//Comment requests
 export const httpsFetchCommentsByPostId = async (postId) => {
   try {
+    console.log(`Fetching comments for post with id: ${postId}`);
     const response = await axios.get(
       `${BASE_URL}/blogs/post/${postId}/comments`
     );
+    console.log(`Response  ${response.data}`);
     return response.data;
   } catch (error) {
     console.error(`Error fetching comments for post ${postId}:`, error);

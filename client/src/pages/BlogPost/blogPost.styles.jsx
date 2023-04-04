@@ -2,6 +2,11 @@ import styled from 'styled-components';
 import { WesAndersonColors } from '../../global.styles';
 
 export const BlogPostContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
   max-width: 800px;
   margin: 0 auto;
   padding: 2rem;
@@ -64,4 +69,13 @@ export const Conclusion = styled.p`
   font-size: 1.25rem;
   margin-top: 2rem;
   text-align: justify;
+`;
+
+
+
+export const CommentTitle = styled.h2`
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-family: 'Playfair Display', serif;
 `;

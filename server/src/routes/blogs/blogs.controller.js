@@ -22,10 +22,7 @@ async function httpsFetchPosts(req, res) {
 }
 
 async function httpsFetchPostById(req, res) {
-  console.log('Controller: Fetching Post');
-  
   try {
-    console.log('Controller: Fetching Post');
     const postId = req.params.id;
     const post = await getPostById(postId);
     await incrementPostViews(postId);

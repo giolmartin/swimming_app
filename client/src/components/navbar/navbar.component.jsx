@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-import { FaBars, FaTimes } from 'react-icons/fa';
 import { FiMenu, FiX } from 'react-icons/fi';
-import { AiOutlineDown, AiOutlineUp } from 'react-icons/ai';
+import SearchBar from '../SearchBar/searchBar.component';
+
 import {
   NavbarContainer,
   NavbarLogo,
@@ -68,6 +68,9 @@ const Navbar = () => {
           <ScrollOnClick to='contact' smooth={true} duration={500} offset={-60}>
             Contact
           </ScrollOnClick>
+        </NavbarItem>
+        <NavbarItem>
+          <SearchBar />
         </NavbarItem>
       </NavbarMenu>
     </NavbarContainer>

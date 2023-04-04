@@ -26,7 +26,7 @@ const LazyLoadedCard = ({ post }) => {
       initial='hidden'
       animate={inView ? 'visible' : 'hidden'}
       variants={cardVariants}
-      transition={{ duration: 0.5, ease: 'easeIn' }}
+      transition={{ duration: 0.5, ease: easeIn }}
     >
       <BlogPostCard post={post} />
     </motion.div>
