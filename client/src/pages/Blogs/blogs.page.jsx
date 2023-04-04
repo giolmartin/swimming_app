@@ -13,17 +13,19 @@ import BlogPostCard from '../../components/BlogPostCard/blogPostCard.component';
 
 const BlogsPage = () => {
   const [activeFilter, setActiveFilter] = useState(null);
-  const { posts, searchResults, filterPostsByCategory } = useBlogContext();
+  const { posts, searchResults, filteredPosts, filterPostsByCategory } =
+    useBlogContext();
 
   const handleFilterClick = (category) => {
     setActiveFilter(category);
+    filterPostsByCategory(category);
+    console.log('Filtering by category:', category);
   };
 
-  const filteredPosts = () => {
+  const filterPosts = () => {
     if (!activeFilter) return searchResults.length > 0 ? searchResults : posts;
-    return (searchResults.length > 0 ? searchResults : posts).filter(
-      (post) => post.category === activeFilter
-    );
+    console.log('Filtering by category:', activeFilter);
+    return filteredPosts;
   };
 
   return (
@@ -33,7 +35,7 @@ const BlogsPage = () => {
         <BlogTitle>Latest Blog Posts</BlogTitle>
 
         <BlogPostsContainer>
-          {filteredPosts().map((post) => (
+          {filterPosts().map((post) => (
             <BlogPostCard key={post.id} post={post} />
           ))}
 

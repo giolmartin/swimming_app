@@ -14,6 +14,7 @@ import {
 } from './filter.style';
 
 const Filter = ({ activeFilter, onFilterChange }) => {
+  console.log('activeFilter', activeFilter);
   const handleFilterClick = (filter) => {
     if (activeFilter === filter) {
       onFilterChange(null);
@@ -42,12 +43,6 @@ const Filter = ({ activeFilter, onFilterChange }) => {
       ].map(({ filter, Icon, label }) => (
         <FilterItem
           key={filter}
-          onMouseEnter={() =>
-            (document.querySelector(`#${filter}`).style.visibility = 'visible')
-          }
-          onMouseLeave={() =>
-            (document.querySelector(`#${filter}`).style.visibility = 'hidden')
-          }
           onClick={() => handleFilterClick(filter)}
         >
           <FilterIcon>

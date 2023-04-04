@@ -5,6 +5,11 @@ const mockCategories = [
   'training',
   'fitness',
   'swimming',
+  'open-water',
+  'masters-swimming',
+  'competitions',
+  'swim-safety',
+  'swim-lessons',
 ];
 
 const mockTags = [
@@ -29,19 +34,28 @@ const mockTags = [
   'sports supplements',
   'meal planning',
   'pre-workout meals',
-  'post-eorkout meals',
-  'healthy dnacks',
+  'post-workout meals',
+  'healthy snacks',
   'weight loss',
   'weight gain',
   'running',
   'cycling',
   'triathlon',
   'cross-training',
-  'outdoor sctivities',
+  'outdoor activities',
   'speed',
   'endurance',
   'training',
   'balance',
+  'masters swimming',
+  'swim meets',
+  'swim clubs',
+  'swim safety',
+  'drowning prevention',
+  'lifeguarding',
+  'swim lessons',
+  'learn to swim',
+  'swim coaching',
 ];
 
 module.exports = {

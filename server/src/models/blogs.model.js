@@ -65,7 +65,9 @@ async function getPostById(id) {
 }
 
 async function getPostsByCategory(category) {
-  const postsCategory = await blogsDB.find({ category: category });
+  console.log(`getPostsByCategory: ${category}`);
+  const postsCategory = await blogsDB.find({ categories: { $in: [category] } });
+  console.log(`postsCategory: ${postsCategory}`);
   return postsCategory;
 }
 

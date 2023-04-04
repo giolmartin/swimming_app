@@ -34,7 +34,9 @@ async function httpsFetchPostById(req, res) {
 
 async function httpsFetchPostsByCategory(req, res) {
   const category = req.params.category;
+  console.log(`httpsFetchPostsByCategory: ${category}`);
   const posts = await getPostsByCategory(category);
+  console.log(posts);
   return res.status(200).json(posts);
 }
 

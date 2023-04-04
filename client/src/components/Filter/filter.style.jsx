@@ -48,6 +48,7 @@ export const FilterText = styled.span`
   left: 100%;
   top: 50%;
   transform: translateY(-50%);
+  color: black;
   white-space: nowrap;
   background-color: #fff;
   padding: 0.25rem 0.5rem;
