@@ -103,7 +103,7 @@ export const BlogProvider = ({ children }) => {
     return posts;
   };
 
-  const filterPostsByCategory = async (category) => {
+  const filterPostsByCategory = async (category = 'all') => {
     if (category === 'all') {
       setFilteredPosts(posts);
       return posts;

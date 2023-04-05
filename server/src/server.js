@@ -2,7 +2,7 @@ const fs = require('fs');
 const https = require('https');
 
 const app = require('./app');
-const { loadPostData } = require('./models/blogs.model');
+const { loadPostData } = require('./models/blog/blogs.model');
 const { mongoConnect } = require('./services/mongo.service');
 const PORT = process.env.PORT || 8000;
 

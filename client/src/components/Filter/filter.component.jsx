@@ -16,11 +16,11 @@ import {
 const Filter = ({ activeFilter, onFilterChange }) => {
   console.log('activeFilter', activeFilter);
   const handleFilterClick = (filter) => {
-    if (activeFilter === filter) {
-      onFilterChange(null);
-    } else {
-      onFilterChange(filter);
-    }
+    // if (activeFilter === filter) {
+    //   onFilterChange(null);
+    // } else {
+    onFilterChange(filter);
+    // }
   };
 
   return (
@@ -41,10 +41,7 @@ const Filter = ({ activeFilter, onFilterChange }) => {
         { filter: 'swim-workouts', Icon: GiStairsGoal, label: 'Swim Workouts' },
         { filter: 'training', Icon: GiStopwatch, label: 'Training' },
       ].map(({ filter, Icon, label }) => (
-        <FilterItem
-          key={filter}
-          onClick={() => handleFilterClick(filter)}
-        >
+        <FilterItem key={filter} onClick={() => handleFilterClick(filter)}>
           <FilterIcon>
             <Icon size='1.5em' />
           </FilterIcon>

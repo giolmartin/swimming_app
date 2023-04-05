@@ -1,4 +1,4 @@
-const mockCategories = [
+const MOCK_CATEGORIES = [
   'technique',
   'nutrition',
   'gear',
@@ -12,7 +12,7 @@ const mockCategories = [
   'swim-lessons',
 ];
 
-const mockTags = [
+const MOCK_TAGS = [
   'swimming techniques',
   'swim workouts',
   'swim drills',
@@ -59,6 +59,6 @@ const mockTags = [
 ];
 
 module.exports = {
-  mockCategories,
-  mockTags,
+  MOCK_CATEGORIES,
+  MOCK_TAGS,
 };

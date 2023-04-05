@@ -31,25 +31,33 @@ const BlogsPage = () => {
   };
 
   const filterPosts = () => {
-    if (!activeFilter) return searchResults.length > 0 ? searchResults : posts;
+    if (activeFilter === 'all')
+      return searchResults.length > 0 ? searchResults : posts;
     console.log('Filtering by category:', activeFilter);
     return filteredPosts;
   };
 
   useEffect(() => {
-    filterPosts();
+    if (activeFilter === null) {
+      setActiveFilter('all');
+      filterPosts();
+    } else {
+      filterPosts();
+    }
   }, [currentPage, totalPages, activeFilter]);
-  
+
   return (
     <BlogPageContainer>
       <Filter activeFilter={activeFilter} onFilterChange={handleFilterClick} />
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
       <Content>
         <BlogTitle>Latest Blog Posts</BlogTitle>
+        <Pagination
+          style={{ marginBottom: '2rem' }}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+          activeFilter={activeFilter}
+        />
 
         <BlogPostsContainer>
           {filterPosts().map((post) => (

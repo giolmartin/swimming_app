@@ -14,7 +14,7 @@ const {
   updateComment,
   deleteComment,
   incrementPostViews,
-} = require('../../models/blogs.model');
+} = require('../../models/blog/blogs.model');
 
 const { getPagination } = require('../../services/query.service');
 
@@ -34,10 +34,13 @@ async function httpsFetchPosts(req, res) {
   }
 }
 
+//TODO: Add pagination
+//TODO: Add conditional to not increment views if user is admin
 async function httpsFetchPostById(req, res) {
   try {
     const postId = req.params.id;
     const post = await getPostById(postId);
+
     await incrementPostViews(postId);
     return res.status(200).json(post);
   } catch (error) {
