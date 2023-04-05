@@ -6,15 +6,23 @@ import {
   BlogPostsContainer,
   Content,
 } from './blogs.styles';
-import Filter from '../../components/Filter/filter.component';
 import { useBlogContext } from '../../context/blog.context';
 
+import Filter from '../../components/Filter/filter.component';
+import Pagination from '../../components/Pagination/pagination.component';
 import BlogPostCard from '../../components/BlogPostCard/blogPostCard.component';
 
 const BlogsPage = () => {
   const [activeFilter, setActiveFilter] = useState(null);
-  const { posts, searchResults, filteredPosts, filterPostsByCategory } =
-    useBlogContext();
+  const {
+    posts,
+    searchResults,
+    filteredPosts,
+    filterPostsByCategory,
+    currentPage,
+    totalPages,
+    handlePageChange,
+  } = useBlogContext();
 
   const handleFilterClick = (category) => {
     setActiveFilter(category);
@@ -28,9 +36,18 @@ const BlogsPage = () => {
     return filteredPosts;
   };
 
+  useEffect(() => {
+    filterPosts();
+  }, [currentPage, totalPages, activeFilter]);
+  
   return (
     <BlogPageContainer>
       <Filter activeFilter={activeFilter} onFilterChange={handleFilterClick} />
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
       <Content>
         <BlogTitle>Latest Blog Posts</BlogTitle>
 
@@ -38,10 +55,6 @@ const BlogsPage = () => {
           {filterPosts().map((post) => (
             <BlogPostCard key={post.id} post={post} />
           ))}
-
-          {/* {(searchResults.length > 0 ? searchResults : posts).map((post) => (
-            <BlogPostCard key={post.id} post={post} />
-          ))} */}
         </BlogPostsContainer>
       </Content>
     </BlogPageContainer>

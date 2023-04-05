@@ -16,9 +16,22 @@ const {
   incrementPostViews,
 } = require('../../models/blogs.model');
 
+const { getPagination } = require('../../services/query.service');
+
 async function httpsFetchPosts(req, res) {
-  const posts = await getAllPosts();
-  return res.status(200).json(posts);
+  const { skip, limit } = getPagination(req.query);
+  console.log(`httpsFetchPosts: ${skip}, ${limit}`);
+  try {
+    const { posts, totalPosts } = await getAllPosts(skip, limit);
+    console.log(`Posts : ${posts.length},  limit: ${limit}`);
+    return res.status(200).json({
+      currentPage: limit === 0 ? 1 : Math.ceil(skip / limit) + 1,
+      totalPages: limit === 0 ? 1 : Math.ceil(totalPosts / limit),
+      data: posts,
+    });
+  } catch (err) {
+    return res.status(500).json({ message: 'Error Fetching Posts' });
+  }
 }
 
 async function httpsFetchPostById(req, res) {

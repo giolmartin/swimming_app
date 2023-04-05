@@ -4,9 +4,14 @@ const blogsDB = require('./blogs.mongo');
 const commentsDB = require('./comments.mongo');
 const MOCK_POSTS = require('../mockData/posts.data');
 
-async function getAllPosts() {
-  const posts = await blogsDB.find({}).sort({ createdAt: -1 });
-  return posts;
+async function getAllPosts(skip, limit) {
+  const posts = await blogsDB
+    .find({}, { __v: 0 })
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit);
+  const totalPosts = await blogsDB.countDocuments();
+  return { posts, totalPosts };
 }
 
 const first = { title: 'Mastering the Freestyle Technique' };

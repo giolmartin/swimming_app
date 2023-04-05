@@ -3,7 +3,7 @@ const https = require('https');
 
 const app = require('./app');
 const { loadPostData } = require('./models/blogs.model');
-const { mongoConnect } = require('./services/mongo');
+const { mongoConnect } = require('./services/mongo.service');
 const PORT = process.env.PORT || 8000;
 
 //Development certificate for localhost

@@ -3,9 +3,13 @@ const BASE_URL = process.env.API_URL || 'https://localhost:8000/v1';
 
 //TODO: Testing required
 //Blog requests
-export const httpsFetchPosts = async () => {
+export const httpsFetchPosts = async (page = 1, limit = 4) => {
   try {
-    const response = await axios.get(`${BASE_URL}/blogs`);
+    const response = await axios.get(`${BASE_URL}/blogs`, {
+      params: { page, limit },
+    });
+    console.log('Response from httpsFetchPosts:');
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error('Error fetching blogs:', error);
@@ -16,7 +20,6 @@ export const httpsFetchPosts = async () => {
 export const httpsFetchPostById = async (id) => {
   try {
     const response = await axios.get(`${BASE_URL}/blogs/post/${id}`);
-    console.log(`Response  ${response.data}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching blogs:', error);

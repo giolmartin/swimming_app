@@ -50,31 +50,37 @@ export const BlogProvider = ({ children }) => {
 
   const [tags, setTags] = useState([]);
   const [categories, setCategories] = useState([]);
-  // const [recentPosts, setRecentPosts] = useState([]);
   const [selectedPost, setSelectedPost] = useState({});
 
-  //Limited to 6 on the API blogs Model.
+  //Limited to 6 on the API blogs Model, used on the Features section of the homepage
   const [popularPosts, setPopularPosts] = useState([]);
 
   const [searchResults, setSearchResults] = useState([]);
 
   const [filteredPosts, setFilteredPosts] = useState(posts);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
   const [blankPost, setBlankPost] = useState(postPrototype);
 
   // For fetching data from the server
   useEffect(() => {
     const fetchData = async () => {
-      const data = await httpsFetchPosts();
+      const { data, currentPage, totalPages } = await httpsFetchPosts();
       const categories = await httpsFetchCategories();
       const tags = await httpsFetchTags();
       const popularPosts = await httpsFetchPopularPosts();
-      // const recentPosts = await httpsFetchRecentPosts(); // may not be needed since posts are already sorted by date
       setCategories(categories);
       setTags(tags);
+      // console.log(`Tags: ${tags}`);
+      // console.log(`Categories: ${categories}`);
       setPopularPosts(popularPosts);
-      // setRecentPosts(recentPosts);
       setPosts(data);
+      setCurrentPage(currentPage);
+      setTotalPages(totalPages);
+      console.log(`Current page: ${currentPage}`);
+      console.log(`Total pages: ${totalPages}`);
     };
 
     fetchData();
@@ -86,9 +92,14 @@ export const BlogProvider = ({ children }) => {
     return post;
   };
 
-  const getPosts = async () => {
-    const posts = await httpsFetchPosts();
-    setPosts(posts);
+  const getPosts = async (page = 1, limit = 4) => {
+    const { data, currentPage, totalPages } = await httpsFetchPosts(
+      page,
+      limit
+    );
+    setPosts(data);
+    setCurrentPage(currentPage);
+    setTotalPages(totalPages);
     return posts;
   };
 
@@ -129,10 +140,12 @@ export const BlogProvider = ({ children }) => {
     return popularPosts;
   };
 
-  // const getRecentPosts = async () => {
-  //   const recentPosts = await httpsFetchRecentPosts();
-  //   return recentPosts;
-  // };
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      getPosts(newPage);
+      setCurrentPage(newPage);
+    }
+  };
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -193,6 +206,10 @@ export const BlogProvider = ({ children }) => {
 
     filteredPosts,
     filterPostsByCategory,
+
+    currentPage,
+    totalPages,
+    handlePageChange,
 
     getCommentsByPostId,
     addComment,
