@@ -7,6 +7,9 @@ const Categories = ({
   handleCategoryChange,
   categories,
 }) => {
+
+  
+
   return (
     <FormGroup>
       <Label htmlFor='category'>Categories</Label>
@@ -22,11 +25,12 @@ const Categories = ({
         {categoriesList &&
           categoriesList.map((category) => (
             <option
-              key={category}
-              value={category}
-              selected={categories.includes(category)}
+              key={category._id}
+              value={category._id}
+              selected={categories.includes(category._id)}
             >
-              {category.charAt(0).toUpperCase() + category.slice(1)}
+              {category.category.charAt(0).toUpperCase() +
+                category.category.slice(1)}
             </option>
           ))}
       </Select>

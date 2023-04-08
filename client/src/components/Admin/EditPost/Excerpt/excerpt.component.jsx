@@ -6,7 +6,7 @@ const Excerpt = ({ excerpt, handleInputChange }) => {
   return (
     <>
       <FormGroup>
-        <Label htmlFor='date'>Date</Label>
+        <Label htmlFor='date'>Excerpt</Label>
         <Input
           type='text'
           name='excerpt'

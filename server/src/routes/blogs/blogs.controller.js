@@ -35,7 +35,8 @@ async function httpsFetchPosts(req, res) {
 }
 
 //TODO: Add pagination
-//TODO: Add conditional to not increment views if user is admin
+//TODO: Add conditional to not increment views if Admin is the user
+
 async function httpsFetchPostById(req, res) {
   try {
     const postId = req.params.id;

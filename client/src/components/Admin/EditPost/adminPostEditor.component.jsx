@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { useAdminPostEditor } from '../../hooks/useAdminPostEditor.hooks';
-
 import Sections from './Sections/sections.component';
 import Categories from './Categories/categories.component';
 import Tags from './Tags/tags.component';
@@ -30,7 +29,10 @@ const AdminPostEditor = () => {
     date,
     excerpt,
     imageUrl,
-    post,
+    sections,
+    postTitle,
+    introduction,
+    conclusion,
     view,
     selectedImages,
     setSelectedImages,
@@ -53,7 +55,7 @@ const AdminPostEditor = () => {
     handleHeaderImageChange,
   } = useAdminPostEditor();
 
-  console.log(postEdit);
+  // console.log(`AdminPostEditor: `, sections);
 
   return (
     <EditPostContainer>
@@ -69,16 +71,13 @@ const AdminPostEditor = () => {
         <Author author={author} handleInputChange={handleInputChange} />
         <Date date={date} handleInputChange={handleInputChange} />
         <Excerpt excerpt={excerpt} handleInputChange={handleInputChange} />
-        <PostTitle
-          postTitle={post.postTitle}
-          handlePostChange={handlePostChange}
-        />
+        <PostTitle postTitle={postTitle} handlePostChange={handlePostChange} />
         <Introduction
-          introduction={post.introduction}
+          introduction={introduction}
           handlePostChange={handlePostChange}
         />
         <Sections
-          post={post}
+          sections={sections}
           view={view}
           handleImageUrl={handleImageUrl}
           selectedImages={selectedImages}
@@ -90,7 +89,7 @@ const AdminPostEditor = () => {
           handleRemoveSectionTitle={handleRemoveSectionTitle}
         />
         <Conclusion
-          conclusion={post.conclusion}
+          conclusion={conclusion}
           handlePostChange={handlePostChange}
         />
         <CategoriesTagContainer>

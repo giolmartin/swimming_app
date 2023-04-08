@@ -42,8 +42,18 @@ const blogSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    categories: [String],
-    tags: [String],
+    categories: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category',
+      },
+    ],
+    tags: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Tag',
+      },
+    ],
     views: {
       type: Number,
       default: 0,

@@ -1,21 +1,23 @@
+const mongoose = require('mongoose');
+
 const categorySchema = new mongoose.Schema({
-  name: {
+  category: {
     type: String,
     required: true,
   },
 });
 
 const tagSchema = new mongoose.Schema({
-  name: {
+  tag: {
     type: String,
     required: true,
   },
 });
 
-const categoryDB = mongoose.model('Category', categorySchema);
-const tagDB = mongoose.model('Tag', tagSchema);
+const categoriesDB = mongoose.model('Category', categorySchema);
+const tagsDB = mongoose.model('Tag', tagSchema);
 
 module.exports = {
-  categoryDB,
-  tagDB,
+  categoriesDB,
+  tagsDB,
 };

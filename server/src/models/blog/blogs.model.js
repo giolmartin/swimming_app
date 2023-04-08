@@ -1,5 +1,6 @@
 const blogsDB = require('./blogs.mongo');
 const commentsDB = require('./comments.mongo');
+const { categoriesDB, tagsDB } = require('./categoriesAndTags.mongo');
 const MOCK_POSTS = require('../../mockData/posts.data');
 const {
   MOCK_CATEGORIES,
@@ -25,53 +26,97 @@ async function loadPostData() {
 
     return;
   } else {
+    await loadCategoriesAndTags();
+    console.log('Categories and Tags loaded');
+
     await addMockPosts();
+    console.log('Posts loaded');
   }
 }
 
 //TODO: Load to the DB
-async function loadCategoriesAndTags() {}
-
-async function addMockPosts() {
-  const mockPosts = MOCK_POSTS.map((post) => {
+async function loadCategoriesAndTags() {
+  const mockCategories = MOCK_CATEGORIES.map((category) => {
     return {
-      ...post,
-      comments: [],
+      category: category,
     };
   });
+  const mockTags = MOCK_TAGS.map((tag) => {
+    return {
+      tag: tag,
+    };
+  });
+  await categoriesDB.insertMany(mockCategories);
+  await tagsDB.insertMany(mockTags);
+}
+
+async function findCategoryIds(categoryNames) {
+  const categories = await Promise.all(
+    categoryNames.map((categoryName) =>
+      categoriesDB.findOne({ category: categoryName }).select('_id')
+    )
+  );
+
+  return categories
+    .filter((category) => category !== null)
+    .map((category) => category._id);
+}
+
+async function findTagIds(tagNames) {
+  const tags = await Promise.all(
+    tagNames.map((tagName) => tagsDB.findOne({ tag: tagName }).select('_id'))
+  );
+
+  return tags.filter((tag) => tag !== null).map((tag) => tag._id);
+}
+
+async function addMockPosts() {
+  const mockPosts = [];
+
+  for (const post of MOCK_POSTS) {
+    const categoryIds = await findCategoryIds(post.categories);
+    const tagIds = await findTagIds(post.tags);
+
+    mockPosts.push({
+      ...post,
+      comments: [],
+      categories: categoryIds,
+      tags: tagIds,
+    });
+  }
+
   await blogsDB.insertMany(mockPosts);
 }
 
 async function getCategories() {
-  const categories = await blogsDB.aggregate([
-    { $unwind: '$categories' },
-    { $group: { _id: '$categories' } },
-    { $sort: { _id: 1 } },
-  ]);
-  return categories.map((c) => c._id);
+  const categories = await categoriesDB.find({}, { __v: 0 });
+  return categories;
 }
 
 async function getTags() {
-  const tags = await blogsDB.aggregate([
-    { $unwind: '$tags' },
-    { $group: { _id: '$tags' } },
-    { $sort: { _id: 1 } },
-  ]);
-  return tags.map((t) => t._id);
+  const tags = await tagsDB.find({}, { __v: 0 });
+  return tags;
 }
 
 async function findPost(filter) {
   return await blogsDB.findOne(filter);
 }
 
-async function postExistsById(postId) {
-  return await findPost({ _id: postId });
-}
+// async function postExistsById(postId) {
+//   return await findPost({ _id: postId });
+// }
 
 async function getPostById(id) {
-  const postById = await blogsDB.findById(id);
-
-  return postById;
+  try {
+    const postById = await blogsDB.findById(id);
+    if (postById) {
+      return postById;
+    } else {
+      throw new Error('Post not found');
+    }
+  } catch (error) {
+    return { message: error.message };
+  }
 }
 
 async function getPostsByCategory(category) {
@@ -157,8 +202,8 @@ async function deleteComment(commentId) {
 module.exports = {
   getAllPosts,
   loadPostData,
-  findPost,
-  postExistsById,
+  // findPost,
+  // postExistsById,
   getPostById,
   getPostsByCategory,
   searchPosts,

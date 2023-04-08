@@ -1,25 +1,24 @@
 export const postPrototype = {
-  id: null,
   title: '',
   subtitle: '',
   author: '',
   date: '',
   excerpt: '',
-  post: {
-    postTitle: '',
-    introduction: '',
-    sections: [
-      {
-        sectionTitle: '',
-        contentType: 'text', //text or 'image', 'video'
-        content: '',
-        imageUrl: '',
-        videoUrl: '',
-      },
-    ],
-    conclusion: '',
-  },
+  postTitle: '',
+  introduction: '',
+  sections: [
+    {
+      sectionTitle: '',
+      contentType: 'text', // 'text', 'image', or 'video'
+      content: '',
+      imageUrl: '',
+      videoUrl: '',
+    },
+  ],
+  conclusion: '',
   imageUrl: '',
   categories: [''],
   tags: [''],
+  views: 0,
+  comments: [],
 };

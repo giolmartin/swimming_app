@@ -19,6 +19,12 @@ const {
   httpsCreatePost,
   httpsUpdatePost,
   httpsDeletePost,
+  httpsCreateTag,
+  httpsCreateCategory,
+  httpsUpdateTag,
+  httpsUpdateCategory,
+  httpsDeleteTag,
+  httpsDeleteCategory,
 } = require('./admin.controller');
 
 const adminRouter = express.Router();
@@ -26,12 +32,11 @@ const adminRouter = express.Router();
 // Posts
 adminRouter.get('/posts', httpsFetchPosts);
 adminRouter.get('/posts/search', httpsSearchPosts);
-adminRouter.get('/posts/recent', httpsFetchRecentPosts);
 adminRouter.get('/posts/popular', httpsFetchPopularPosts);
 adminRouter.get('/posts/category/:category', httpsFetchPostsByCategory);
 
 //CRUD Posts
-adminRouter.post('/posts', httpsCreatePost);
+adminRouter.post('/newpost', httpsCreatePost);
 adminRouter.put('/posts/:id', httpsUpdatePost);
 adminRouter.delete('/posts/:id', httpsDeletePost);
 
@@ -44,8 +49,16 @@ adminRouter.delete('/posts/comments/:commentId', httpsDeleteComment);
 //Fetch Post by ID
 adminRouter.get('/posts/post/:id', httpsFetchPostById);
 
-// Categories and Tags
-adminRouter.get('/posts/tags', httpsFetchTags);
-adminRouter.get('/posts/categories', httpsFetchCategories);
+//This exist on the blogs.controller.js already
+// adminRouter.get('/posts/tags', httpsFetchTags);
+// adminRouter.get('/posts/categories', httpsFetchCategories);
+
+// Categories and Tags CRUD
+adminRouter.post('/tags', httpsCreateTag);
+adminRouter.post('/categories', httpsCreateCategory);
+adminRouter.put('/tags/:id', httpsUpdateTag);
+adminRouter.put('/categories/:id', httpsUpdateCategory);
+adminRouter.delete('/tags/:id', httpsDeleteTag);
+adminRouter.delete('/categories/:id', httpsDeleteCategory);
 
 module.exports = adminRouter;

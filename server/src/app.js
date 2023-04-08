@@ -1,6 +1,7 @@
 const cors = require('cors');
 const path = require('path');
 const helmet = require('helmet');
+const cloudinary = require('cloudinary').v2;
 const express = require('express');
 const passport = require('passport');
 const { Strategy } = require('passport-google-oauth20');
@@ -11,6 +12,11 @@ require('dotenv').config({ path: path.join(__dirname, '.', '.env') });
 //Load api Routes
 const api = require('./routes/api');
 
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+})
 const config = {
   CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
   CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,

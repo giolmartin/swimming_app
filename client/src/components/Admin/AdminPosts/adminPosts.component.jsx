@@ -13,45 +13,34 @@ import {
   PostTitle,
   Title,
 } from './adminPosts.styles';
-import {
-  fetchPostById,
-  fetchPosts,
-  fetchPostsByCategory,
-} from '../../../services/blog.requests';
-import { useBlogContext } from '../../../context/blog.context';
-import { blogPostsMock } from '../../../data/blog.data';
+
+import { useAdminContext } from '../../../context/admin.context';
 
 const AdminPosts = () => {
-  const { posts, setPosts, deletePost } = useBlogContext();
-  // const [posts, setPosts] = useState([]); // Replace with fetched posts
-  const [selectedPost, setSelectedPost] = useState(null);
+  const { posts, getPosts, deletePost, selectPost, selectedPost } =
+    useAdminContext();
+  // const [posts, setPosts] = useState([]);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(50);
   const navigate = useNavigate();
   console.log('Admin Posts mounted');
-  // useEffect(() => {
-  //   // Fetch posts
-  //   const fetchPosts = async () => {
-  //   try {
-  //     const posts = await fetchBlogs();
-  //     setPosts(posts);
-  //   } catch (error) {
-  //     console.error('Error during fetching posts:', error);
-  //   }
-  //   };
-  // }, []);
-  // useEffect(() => {
-  //   setPosts(blogPostsMock);
-  // }, []);
+
+
+  useEffect(() => {
+    if (selectedPost && selectedPost._id) {
+      navigate(`/admin/dashboard/posts/edit/${selectedPost._id}`);
+    }
+  }, [selectedPost]);
 
   //TODO: Create the /admin/dashboard/posts/edit/${id} route
   const handleEditPost = async (id) => {
-    setSelectedPost(posts.find((post) => post.id === id));
-    navigate(`/admin/dashboard/posts/edit/${id}`);
-    // try {
-    //   const post = await fetchPostById(id);
-    //   setSelectedPost(post);
-    // } catch (error) {
-    //   console.error('Error during fetching post:', error);
-    // }
+    try {
+      if (id) {
+        await selectPost(id);
+      }
+    } catch (error) {
+      console.error('Error during fetching post:', error);
+    }
   };
 
   //Deletes post from the database(TODO: Add confirmation dialog)
@@ -68,7 +57,7 @@ const AdminPosts = () => {
       </Button>
       <PostList>
         {posts.map((post) => (
-          <PostItem key={post.id}>
+          <PostItem key={post._id}>
             <PostDetails>
               <div>
                 <PostTitle>{post.title}</PostTitle>
@@ -79,8 +68,8 @@ const AdminPosts = () => {
               </PostAuthorAndDate>
             </PostDetails>
             <ButtonsContainer>
-              <Button onClick={() => handleEditPost(post.id)}>Edit</Button>
-              <Button onClick={() => handleDeletePost(post.id)}>Delete</Button>
+              <Button onClick={() => handleEditPost(post._id)}>Edit</Button>
+              <Button onClick={() => handleDeletePost(post._id)}>Delete</Button>
             </ButtonsContainer>
           </PostItem>
         ))}

@@ -3,13 +3,12 @@ const BASE_URL = process.env.API_URL || 'https://localhost:8000/v1';
 
 //TODO: Testing required
 //Blog requests
-export const httpsFetchPosts = async (page = 1, limit = 4) => {
+export const httpsFetchPosts = async (page = 1, limit = 8) => {
   try {
     const response = await axios.get(`${BASE_URL}/blogs`, {
       params: { page, limit },
     });
-    console.log('Response from httpsFetchPosts:');
-    console.log(response.data);
+    // console.log('Received response:', response.data);
     return response.data;
   } catch (error) {
     console.error('Error fetching blogs:', error);
@@ -93,11 +92,9 @@ export const httpsFetchRecentPosts = async () => {
 //Comment requests
 export const httpsFetchCommentsByPostId = async (postId) => {
   try {
-    console.log(`Fetching comments for post with id: ${postId}`);
     const response = await axios.get(
       `${BASE_URL}/blogs/post/${postId}/comments`
     );
-    console.log(`Response  ${response.data}`);
     return response.data;
   } catch (error) {
     console.error(`Error fetching comments for post ${postId}:`, error);
@@ -139,45 +136,6 @@ export const httpsDeleteComment = async (commentId) => {
     return response.data;
   } catch (error) {
     console.error(`Error deleting comment ${commentId}:`, error);
-    return null;
-  }
-};
-
-//ADMIN CRUD Requests (TODO: Add to the backend and the admin dashboard)
-export const httpsCreatePost = async (post) => {
-  try {
-    const response = await axios.post(
-      `${BASE_URL}/admin/dashboard/posts/edit/create`,
-      post
-    );
-    return response.data;
-  } catch (error) {
-    console.error('Error creating post:', error);
-    return null;
-  }
-};
-
-export const httpsUpdatePost = async (id, post) => {
-  try {
-    const response = await axios.put(
-      `${BASE_URL}/admin/dashboard/posts/edit/${id}`,
-      post
-    );
-    return response.data;
-  } catch (error) {
-    console.error('Error updating post:', error);
-    return null;
-  }
-};
-
-export const httpsDeletePost = async (id) => {
-  try {
-    const response = await axios.delete(
-      `${BASE_URL}/admin/dashboard/posts/${id}`
-    );
-    return response.data;
-  } catch (error) {
-    console.error('Error deleting post:', error);
     return null;
   }
 };

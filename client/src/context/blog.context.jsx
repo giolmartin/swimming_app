@@ -3,9 +3,6 @@ import {
   httpsFetchPostById,
   httpsFetchPostsByCategory,
   httpsFetchPosts,
-  httpsCreatePost,
-  httpsUpdatePost,
-  httpsDeletePost,
   httpsFetchCommentsByPostId,
   httpsAddComment,
   httpsEditComment,
@@ -14,12 +11,12 @@ import {
   httpsFetchCategories,
   httpsFetchTags,
   httpsFetchPopularPosts,
-  httpsFetchRecentPosts,
 } from '../services/blog.requests';
-import { postPrototype } from '../data/prototypes.data';
 
 const BlogContext = createContext({
   posts: [],
+  tags: [],
+  categories: [],
   popularPosts: [],
 
   selectedPost: {},
@@ -30,17 +27,6 @@ const BlogContext = createContext({
 
   searchResults: [],
   updateSearchResults: () => {},
-
-  blankPost: postPrototype,
-  setBlankPost: () => {},
-
-  categories: [],
-  tags: [],
-
-  //Admin CRUD operations
-  updatePost: () => {},
-  deletePost: () => {},
-  createPost: () => {},
 });
 
 export const useBlogContext = () => useContext(BlogContext);
@@ -62,8 +48,6 @@ export const BlogProvider = ({ children }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  const [blankPost, setBlankPost] = useState(postPrototype);
-
   // For fetching data from the server
   useEffect(() => {
     const fetchData = async () => {
@@ -79,8 +63,8 @@ export const BlogProvider = ({ children }) => {
       setPosts(data);
       setCurrentPage(currentPage);
       setTotalPages(totalPages);
-      console.log(`Current page: ${currentPage}`);
-      console.log(`Total pages: ${totalPages}`);
+      // console.log(`Current page: ${currentPage}`);
+      // console.log(`Total pages: ${totalPages}`);
     };
 
     fetchData();
@@ -173,23 +157,7 @@ export const BlogProvider = ({ children }) => {
     console.log(`Deleted Comment: ${commentId}`);
   };
 
-  //ADMIN CRUD FUNCTIONS
-  //Function to call the API with request call(TODO: Implement the  function once the API is ready)
-  const updatePost = async (postId, updatedPost) => {
-    //httpsUpdatePost(postId, updatedPost);
-    console.log('Post Updated: ', postId, updatedPost);
-  };
 
-  // TODO: Implement the  function once the API is ready
-  const deletePost = async (postId) => {
-    //httpsDeletePost(postId);
-    console.log('Post Deleted: ', postId);
-  };
-  // TODO: Implement the  function once the API is ready
-  const createPost = async (newPost) => {
-    //httpsCreatePost(newPost);
-    console.log('Post Created: ', newPost);
-  };
 
   const value = {
     posts,
@@ -198,11 +166,9 @@ export const BlogProvider = ({ children }) => {
 
     popularPosts,
     getPopularPosts,
-    // getRecentPosts,
 
     selectedPost,
     selectPost,
-    blankPost,
 
     filteredPosts,
     filterPostsByCategory,
@@ -226,10 +192,6 @@ export const BlogProvider = ({ children }) => {
     updateSearchResults,
 
     formatDate,
-
-    updatePost,
-    deletePost,
-    createPost,
   };
 
   return <BlogContext.Provider value={value}>{children}</BlogContext.Provider>;
