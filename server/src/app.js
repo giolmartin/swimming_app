@@ -12,11 +12,6 @@ require('dotenv').config({ path: path.join(__dirname, '.', '.env') });
 //Load api Routes
 const api = require('./routes/api');
 
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-})
 const config = {
   CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
   CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
@@ -51,10 +46,17 @@ app.use(
         'https://www.youtube.com',
         'https://s.ytimg.com',
       ],
+      'img-src': [
+        "'self'",
+        'data:',
+        'https://www.youtube.com',
+        'https://www.cloudinary.com',
+        'https://res.cloudinary.com',
+      ],
       'frame-src': ["'self'", 'https://www.youtube.com'],
     },
   })
-); 
+);
 app.use(passport.initialize()); // Passport initialization
 app.use(cors({ origin: 'http://localhost:3000' })); // Enable CORS for a specific origin
 app.use(express.json()); // Parse JSON request bodies
@@ -67,7 +69,6 @@ app.use((error, req, res, next) => {
   res.json({ error: { message: error.message } });
   next();
 });
-
 
 // Google OAuth routes
 app.get(

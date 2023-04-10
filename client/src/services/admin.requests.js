@@ -2,10 +2,32 @@ import axios from 'axios';
 const BASE_URL = process.env.API_URL || 'https://localhost:8000/v1';
 
 //ADMIN CRUD Requests
+
+export const httpsUploadImage = async (image) => {
+  try {
+    const formData = new FormData();
+    formData.append('image', image);
+
+    const response = await axios.post(`${BASE_URL}/admin/upload`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    if (response.status === 200) {
+      console.log('Image uploaded successfully:', response.data);
+      return response.data;
+    } else {
+      console.error('Error uploading image:', response.data);
+      return null;
+    }
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    return null;
+  }
+};
+
 export const httpsCreatePost = async (newpost) => {
   try {
     console.log('Creating post:', newpost);
-    const response = await axios.post(`${BASE_URL}/admin/newpost`, newpost);
+    const response = await axios.post(`${BASE_URL}/admin/posts`, newpost);
     console.log(`httpsCreatePost: ${response.data}`);
     return response.data;
   } catch (error) {

@@ -1,4 +1,9 @@
 const express = require('express');
+const multer = require('multer');
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary'); //Store into Cloudinary directly
+
+require('dotenv').config();
 
 const {
   createPost,
@@ -12,6 +17,45 @@ const {
   deleteCategory,
 } = require('../../models/admin/admin.model');
 
+//------------------Cloudinary------------------//
+//FIXME: HAVENT FINISHED YET
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'blog',
+    format: async (req, file) => 'png', // supports promises as well and converts to png
+    public_id: (req, file) => file.originalname, // The file on cloudinary would have the same name as the original file name
+  },
+});
+
+const upload = multer({ storage: storage });
+
+async function httpsUploadImage(req, res) {
+  try {
+    upload.single('image')(req, res, async function (err) {
+      if (err) {
+        console.log(err);
+        return res
+          .status(500)
+          .json({ error: { message: 'Image upload failed' } });
+      }
+      console.log('Received image: ', req.file);
+      const imageUrl = req.file.path;
+      console.log('Image URL: ', imageUrl);
+      return res.status(200).json({ imageUrl: imageUrl });
+    });
+  } catch (error) {
+    console.error('Upload error:', error);
+    res.status(500).json({ error: { message: 'Image upload failed' } });
+  }
+}
+//------------------Cloudinary------------------//
 async function httpsCreatePost(req, res) {
   try {
     const post = await createPost(req.body);
@@ -105,6 +149,7 @@ async function httpsDeleteCategory(req, res) {
 }
 
 module.exports = {
+  httpsUploadImage,
   httpsCreatePost,
   httpsUpdatePost,
   httpsDeletePost,

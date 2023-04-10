@@ -9,6 +9,7 @@ import {
   httpsCreateCategory,
   httpsUpdateCategory,
   httpsDeleteCategory,
+  httpsUploadImage,
 } from '../services/admin.requests.js';
 
 import {
@@ -36,6 +37,8 @@ const AdminContext = createContext({
 
   filteredPosts: [],
   filterPostsByCategory: () => {},
+
+  uploadImage: () => {},
 
   getTags: () => {},
   createTag: () => {},
@@ -98,6 +101,12 @@ export const AdminProvider = ({ children }) => {
     setPage(currentPage);
     setTotalPages(totalPages);
     return posts;
+  };
+
+  const uploadImage = async (image) => {
+    const newImage = await httpsUploadImage(image);
+    console.log(`New Image: ${JSON.stringify(newImage)}`);
+    return newImage;
   };
 
   const selectPost = async (id) => {
@@ -204,6 +213,8 @@ export const AdminProvider = ({ children }) => {
     selectedPost,
     searchResults,
     filteredPosts,
+
+    uploadImage,
 
     selectPost,
     filterPostsByCategory,

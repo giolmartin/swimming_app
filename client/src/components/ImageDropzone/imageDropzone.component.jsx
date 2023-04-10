@@ -7,19 +7,23 @@ const ImageDropzone = ({
   index,
   handleImageRoute,
 }) => {
-  const onDrop = useCallback((acceptedFiles) => {
-    const file = acceptedFiles[0];
-    const reader = new FileReader();
+  const onDrop = useCallback(
+    (acceptedFiles) => {
+      const file = acceptedFiles[0];
+      const reader = new FileReader();
 
-    console.log('File: ', file.name);
-    handleImageUrl(file.name, index);
-    handleImageRoute && handleImageRoute(file.name, index);
+      reader.onloadend = () => {
+        setSelectedImage(reader.result);
+        handleImageUrl(file, index);
+        handleImageRoute && handleImageRoute(file, index);
+      };
 
-    reader.onload = (event) => {
-      setSelectedImage(event.target.result);
-    };
-    reader.readAsDataURL(file);
-  }, []);
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    },
+    [handleImageRoute, handleImageUrl, index, setSelectedImage]
+  );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
   return (

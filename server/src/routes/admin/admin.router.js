@@ -1,4 +1,7 @@
 const express = require('express');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
+
 
 const {
   httpsFetchPosts,
@@ -25,6 +28,7 @@ const {
   httpsUpdateCategory,
   httpsDeleteTag,
   httpsDeleteCategory,
+  httpsUploadImage,
 } = require('./admin.controller');
 
 const adminRouter = express.Router();
@@ -36,10 +40,12 @@ adminRouter.get('/posts/popular', httpsFetchPopularPosts);
 adminRouter.get('/posts/category/:category', httpsFetchPostsByCategory);
 
 //CRUD Posts
-adminRouter.post('/newpost', httpsCreatePost);
+adminRouter.post('/posts', httpsCreatePost);
 adminRouter.put('/posts/:id', httpsUpdatePost);
 adminRouter.delete('/posts/:id', httpsDeletePost);
 
+//Upload Image
+adminRouter.post('/upload', httpsUploadImage);
 // Comments
 adminRouter.post('/posts/post/:id/comments', httpsAddCommentToPost);
 adminRouter.get('/posts/post/:id/comments', httpsGetCommentByPostId);

@@ -75,7 +75,7 @@ const Sections = ({
                 <ImageDropzone
                   setSelectedImage={setSelectedImages}
                   index={index}
-                  handleImageUrl={handleImageUrl}
+                  handleImageUrl={(file, index) => handleImageUrl(file, index)}
                 />
                 {selectedImages[index] && section.imageUrl === '' ? (
                   <Image
@@ -94,6 +94,7 @@ const Sections = ({
                 ) : null}
               </>
             )}
+
             {section.contentType === 'video' && (
               <>
                 <Label htmlFor={`videoUrl-${index}`}>Video URL</Label>

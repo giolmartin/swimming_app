@@ -14,6 +14,7 @@ export const useAdminPostEditor = () => {
     selectPost,
     getCategories,
     getTags,
+    uploadImage,
   } = useAdminContext();
 
   const isEditMode = id !== 'create';
@@ -37,6 +38,9 @@ export const useAdminPostEditor = () => {
   const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState([]);
   const [sections, setSections] = useState(postEdit.sections || []);
+
+  const [headerImageFile, setHeaderImageFile] = useState(null);
+  const [sectionImageFiles, setSectionImageFiles] = useState([]);
 
   //Once Api is up and running, remove this
   const [categoriesList, setCategoriesList] = useState([]);
@@ -88,11 +92,42 @@ export const useAdminPostEditor = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    let headerImageUrlRoot = imageUrl;
+    if (headerImageFile) {
+      headerImageUrlRoot = await uploadImage(headerImageFile);
+      console.log('Header image uploaded', headerImageUrlRoot);
+    }
+
+    const sectionImagesUrls = await Promise.all(
+      sectionImageFiles.map(async (sectionImageFile, index) => {
+        if (sectionImageFile) {
+          return await uploadImage(sectionImageFile);
+        }
+        return sections[index]?.imageUrl || '';
+      })
+    );
+
+    console.log(`Post edit: ${JSON.stringify(postEdit)}`);
+
+    // Create a new post object with the uploaded image URLs
+    const newPost = {
+      ...postEdit,
+      imageUrl: headerImageUrlRoot.imageUrl,
+      sections: sections.map((section, index) => {
+        const sectionImageUrl =
+          sectionImagesUrls[index].imageUrl || section.imageUrl || '';
+        return {
+          ...section,
+          imageUrl: sectionImageUrl,
+        };
+      }),
+    };
+
     if (isEditMode) {
-      updatePost(postEdit._id, postEdit);
+      updatePost(newPost._id, newPost);
     } else {
       console.log('Create post');
-      createPost(postEdit);
+      createPost(newPost);
     }
     navigate('/admin/dashboard/posts');
   };
@@ -196,10 +231,7 @@ export const useAdminPostEditor = () => {
       updatedSections[index].sectionTitle = '';
       return {
         ...prevState,
-        post: {
-          ...prevState,
-          sections: updatedSections,
-        },
+        sections: updatedSections,
       };
     });
   };
@@ -212,38 +244,20 @@ export const useAdminPostEditor = () => {
       updatedSections[index].contentType = value;
       return {
         ...prevState,
-        post: {
-          ...prevState,
-          sections: updatedSections,
-        },
+        sections: updatedSections,
       };
     });
   };
-  const handleImageUrl = (imageUrl, index) => {
-    const imageUrlRoot = `./images/${imageUrl}`;
-    setSelectedImages((prevImage) => {
-      const updatedSelectedImages = [...prevImage];
-      updatedSelectedImages[index] = imageUrlRoot;
-      return updatedSelectedImages;
-    });
-    setPostEdit((prevState) => {
-      const updatedSections = [...prevState.sections];
-      updatedSections[index].imageUrl = imageUrlRoot;
-      return {
-        ...prevState,
-        post: {
-          ...prevState,
-          sections: updatedSections,
-        },
-      };
+
+  const handleImageUrl = async (image, index) => {
+    setSectionImageFiles((prevState) => {
+      const updatedSectionImageFiles = [...prevState];
+      updatedSectionImageFiles[index] = image;
+      return updatedSectionImageFiles;
     });
   };
-  const handleHeaderImageChange = (url) => {
-    const imageUrlRoot = `./images/${url}`;
-    setPostEdit((prevPostEdit) => ({
-      ...prevPostEdit,
-      imageUrl: imageUrlRoot,
-    }));
+  const handleHeaderImageChange = async (image) => {
+    setHeaderImageFile(image);
   };
 
   return {

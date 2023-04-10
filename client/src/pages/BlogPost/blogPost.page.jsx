@@ -53,7 +53,7 @@ const BlogPost = () => {
         <LoadingSpinner color='#FFC107' size={150} />
       ) : (
         <>
-          <Image src={`/${imageUrl}`} alt={title} />
+          <Image src={imageUrl} alt={title} />
 
           <Title>
             <ReactMarkdown>{title}</ReactMarkdown>
@@ -80,7 +80,7 @@ const BlogPost = () => {
                   <Section key={index}>
                     <SectionTitle>{section.sectionTitle}</SectionTitle>
                     <SectionImage
-                      src={`/${section.imageUrl}`}
+                      src={section.imageUrl}
                       alt={section.sectionTitle}
                     />
                   </Section>
