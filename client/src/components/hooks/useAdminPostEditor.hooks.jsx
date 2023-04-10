@@ -95,19 +95,17 @@ export const useAdminPostEditor = () => {
     let headerImageUrlRoot = imageUrl;
     if (headerImageFile) {
       headerImageUrlRoot = await uploadImage(headerImageFile);
-      console.log('Header image uploaded', headerImageUrlRoot);
     }
 
     const sectionImagesUrls = await Promise.all(
       sectionImageFiles.map(async (sectionImageFile, index) => {
-        if (sectionImageFile) {
-          return await uploadImage(sectionImageFile);
+        if (sectionImageFile && sections[index].contentType === 'image') {
+          const updatedImageURL = await uploadImage(sectionImageFile);
+          return updatedImageURL;
         }
         return sections[index]?.imageUrl || '';
       })
     );
-
-    console.log(`Post edit: ${JSON.stringify(postEdit)}`);
 
     // Create a new post object with the uploaded image URLs
     const newPost = {
@@ -115,7 +113,7 @@ export const useAdminPostEditor = () => {
       imageUrl: headerImageUrlRoot.imageUrl,
       sections: sections.map((section, index) => {
         const sectionImageUrl =
-          sectionImagesUrls[index].imageUrl || section.imageUrl || '';
+          sectionImagesUrls[index]?.imageUrl || section.imageUrl || '';
         return {
           ...section,
           imageUrl: sectionImageUrl,
@@ -254,6 +252,15 @@ export const useAdminPostEditor = () => {
       const updatedSectionImageFiles = [...prevState];
       updatedSectionImageFiles[index] = image;
       return updatedSectionImageFiles;
+    });
+
+    setPostEdit((prevState) => {
+      const updatedSections = [...prevState.sections];
+      updatedSections[index].imageUrl = URL.createObjectURL(image);
+      return {
+        ...prevState,
+        sections: updatedSections,
+      };
     });
   };
   const handleHeaderImageChange = async (image) => {

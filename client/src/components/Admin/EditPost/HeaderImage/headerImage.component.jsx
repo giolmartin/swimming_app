@@ -16,11 +16,14 @@ const HeaderImage = ({ headerImageUrl, handleHeaderImageChange, imageUrl }) => {
       <ImageDropzone
         setSelectedImage={setSelectedImage}
         handleImageUrl={() => {}}
-        handleImageRoute={(file) => handleHeaderImageChange(file)}
+        handleImageRoute={(file) => {
+          handleHeaderImageChange(file);
+          setSelectedImage(URL.createObjectURL(file));
+        }}
       />
       {selectedImage && imageUrl === '' ? (
         <Image
-          src={`/${selectedImage}`}
+          src={selectedImage}
           alt='Selected'
           // style={{
           //   width: '100%',
@@ -30,7 +33,7 @@ const HeaderImage = ({ headerImageUrl, handleHeaderImageChange, imageUrl }) => {
         />
       ) : imageUrl !== '' ? (
         <Image
-          src={`/${imageUrl}`}
+          src={imageUrl}
           alt='Selected'
           // style={{ width: '100%', height: 'auto', marginTop: '1rem' }}
         />

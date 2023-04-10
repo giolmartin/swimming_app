@@ -52,6 +52,7 @@ app.use(
         'https://www.youtube.com',
         'https://www.cloudinary.com',
         'https://res.cloudinary.com',
+        'blob:',
       ],
       'frame-src': ["'self'", 'https://www.youtube.com'],
     },

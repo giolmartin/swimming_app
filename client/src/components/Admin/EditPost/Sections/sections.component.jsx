@@ -75,11 +75,16 @@ const Sections = ({
                 <ImageDropzone
                   setSelectedImage={setSelectedImages}
                   index={index}
-                  handleImageUrl={(file, index) => handleImageUrl(file, index)}
+                  handleImageUrl={(file, index) => {
+                    handleImageUrl(file, index);
+                    const newSelectedImages = [...selectedImages];
+                    newSelectedImages[index] = URL.createObjectURL(file);
+                    setSelectedImages(newSelectedImages);
+                  }}
                 />
                 {selectedImages[index] && section.imageUrl === '' ? (
                   <Image
-                    src={`/${selectedImages[index]}`}
+                    src={selectedImages[index]}
                     alt='Selected'
                     style={{
                       marginTop: '1rem',
@@ -87,7 +92,7 @@ const Sections = ({
                   />
                 ) : section.imageUrl !== '' ? (
                   <Image
-                    src={`/${section.imageUrl}`}
+                    src={section.imageUrl}
                     alt='Selected'
                     style={{ marginTop: '1rem' }}
                   />
