@@ -87,6 +87,9 @@ export const CategoriesTagContainer = styled.div`
 export const HeaderImageContainer = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
+  height: auto,
+  margin-top: 1rem;
   margin-bottom: 1rem;
 `;
 
@@ -95,4 +98,3 @@ export const Image = styled.img`
   height: auto,
   margin-top: 1rem;
 `;
-

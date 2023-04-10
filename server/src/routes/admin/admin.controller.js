@@ -173,4 +173,5 @@ module.exports = {
   httpsUpdateCategory,
   httpsDeleteTag,
   httpsDeleteCategory,
+  httpsFetchAllBlogImages,
 };

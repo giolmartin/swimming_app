@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useAdminPostEditor } from '../../hooks/useAdminPostEditor.hooks';
 import Sections from './Sections/sections.component';
@@ -34,6 +34,7 @@ const AdminPostEditor = () => {
     introduction,
     conclusion,
     view,
+    images, //Cloudinary images
     selectedImages,
     setSelectedImages,
     postEdit,
@@ -55,6 +56,7 @@ const AdminPostEditor = () => {
     handleHeaderImageChange,
   } = useAdminPostEditor();
 
+  // console.log(images);
   // console.log(`AdminPostEditor: `, sections);
 
   return (
@@ -65,6 +67,7 @@ const AdminPostEditor = () => {
           imageUrl={imageUrl}
           headerImageUrl={imageUrl}
           handleHeaderImageChange={handleHeaderImageChange}
+          images={images}
         />
         <Title title={title} handleInputChange={handleInputChange} />
         <Subtitle subtitle={subtitle} handleInputChange={handleInputChange} />
@@ -87,6 +90,7 @@ const AdminPostEditor = () => {
           handleRemoveSection={handleRemoveSection}
           handleContentTypeChange={handleContentTypeChange}
           handleRemoveSectionTitle={handleRemoveSectionTitle}
+          images={images}
         />
         <Conclusion
           conclusion={conclusion}

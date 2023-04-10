@@ -15,6 +15,7 @@ export const useAdminPostEditor = () => {
     getCategories,
     getTags,
     uploadImage,
+    fetchImages,
   } = useAdminContext();
 
   const isEditMode = id !== 'create';
@@ -38,6 +39,7 @@ export const useAdminPostEditor = () => {
   const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState([]);
   const [sections, setSections] = useState(postEdit.sections || []);
+  const [images, setImages] = useState([]);
 
   const [headerImageFile, setHeaderImageFile] = useState(null);
   const [sectionImageFiles, setSectionImageFiles] = useState([]);
@@ -64,6 +66,11 @@ export const useAdminPostEditor = () => {
       const tag = await getTags();
       setTagsList(tag);
     };
+    const loadImages = async () => {
+      const images = await getImages();
+      setImages(images);
+    };
+    loadImages();
     setMode();
   }, [id]);
 
@@ -90,6 +97,12 @@ export const useAdminPostEditor = () => {
     setPostEdit({ ...postEdit, [name]: value });
   };
 
+  const getImages = async () => {
+    const images = await fetchImages();
+    setImages(images);
+    return images;
+  };
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     let headerImageUrlRoot = imageUrl;
@@ -99,7 +112,11 @@ export const useAdminPostEditor = () => {
 
     const sectionImagesUrls = await Promise.all(
       sectionImageFiles.map(async (sectionImageFile, index) => {
-        if (sectionImageFile && sections[index].contentType === 'image') {
+        if (
+          sectionImageFile &&
+          sections[index].contentType === 'image' &&
+          !sections[index].imageUrl //Check if the section already has an image
+        ) {
           const updatedImageURL = await uploadImage(sectionImageFile);
           return updatedImageURL;
         }
@@ -110,7 +127,7 @@ export const useAdminPostEditor = () => {
     // Create a new post object with the uploaded image URLs
     const newPost = {
       ...postEdit,
-      imageUrl: headerImageUrlRoot.imageUrl,
+      imageUrl: headerImageUrlRoot?.imageUrl || headerImageUrl,
       sections: sections.map((section, index) => {
         const sectionImageUrl =
           sectionImagesUrls[index]?.imageUrl || section.imageUrl || '';
@@ -247,13 +264,24 @@ export const useAdminPostEditor = () => {
     });
   };
 
-  const handleImageUrl = async (image, index) => {
+  const handleImageUrl = async (image, index, isFromCloud) => {
     setSectionImageFiles((prevState) => {
       const updatedSectionImageFiles = [...prevState];
       updatedSectionImageFiles[index] = image;
       return updatedSectionImageFiles;
     });
 
+    if (isFromCloud) {
+      setPostEdit((prevState) => {
+        const updatedSections = [...prevState.sections];
+        updatedSections[index].imageUrl = image.secure_url;
+        return {
+          ...prevState,
+          sections: updatedSections,
+        };
+      });
+      return;
+    }
     setPostEdit((prevState) => {
       const updatedSections = [...prevState.sections];
       updatedSections[index].imageUrl = URL.createObjectURL(image);
@@ -263,11 +291,22 @@ export const useAdminPostEditor = () => {
       };
     });
   };
-  const handleHeaderImageChange = async (image) => {
-    setHeaderImageFile(image);
+
+  // const handleHeaderImageChange = async (image, isFromCloud) => {
+  //   setHeaderImageUrl(image);
+  // };
+
+  const handleHeaderImageChange = async (image, isFromCloud) => {
+    if (isFromCloud) {
+      setHeaderImageUrl(image.secure_url);
+    } else {
+      setHeaderImageFile(image);
+    }
   };
 
   return {
+    getImages,
+    images, //Cloudinary images
     title,
     subtitle,
     author,

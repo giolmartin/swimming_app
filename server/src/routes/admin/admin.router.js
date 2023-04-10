@@ -2,7 +2,6 @@ const express = require('express');
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
 
-
 const {
   httpsFetchPosts,
   httpsFetchPostById,
@@ -29,6 +28,7 @@ const {
   httpsDeleteTag,
   httpsDeleteCategory,
   httpsUploadImage,
+  httpsFetchAllBlogImages,
 } = require('./admin.controller');
 
 const adminRouter = express.Router();
@@ -47,6 +47,7 @@ adminRouter.delete('/posts/:id', httpsDeletePost);
 // Image Management
 adminRouter.post('/images/upload', httpsUploadImage);
 adminRouter.get('/images/fetch', httpsFetchAllBlogImages);
+
 // Comments
 adminRouter.post('/posts/post/:id/comments', httpsAddCommentToPost);
 adminRouter.get('/posts/post/:id/comments', httpsGetCommentByPostId);

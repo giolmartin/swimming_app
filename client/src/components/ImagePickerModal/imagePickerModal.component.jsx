@@ -11,30 +11,15 @@ import {
   Button,
   ImageGrid,
   Thumbnail,
-  UploadButton,
-  FileInput,
 } from './imagePickerModal.styles';
 
-const ImagePickerModal = ({
-  show,
-  handleClose,
-  handleSelect,
-  handleUpload,
-  images,
-}) => {
+const ImagePickerModal = ({ show, handleClose, handleSelect, images }) => {
   const [selectedImage, setSelectedImage] = useState(null);
 
   const handleSelectImage = (image) => {
     setSelectedImage(image);
   };
 
-  const handleFileChange = async (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const uploadImage = await handleUpload(file);
-      setSelectedImage(uploadImage);
-    }
-  };
   return (
     <>
       <ModalOverlay show={show} onClick={handleClose} />
@@ -45,35 +30,30 @@ const ImagePickerModal = ({
         </ModalHeader>
         <ModalBody>
           <ImageGrid>
+            {console.log(images)}
             {images.map((image, index) => (
               <Thumbnail
                 key={index}
-                src={image.imageUrl}
+                src={image.secure_url}
                 alt={''}
-                selected={selectedImage?.imageUrl === image.imageUrl}
+                selected={selectedImage?.secure_url === image.secure_url}
                 onClick={() => handleSelectImage(image)}
               />
             ))}
           </ImageGrid>
-          <UploadButton htmlFor='upload-new-image'>
-            Upload new image
-          </UploadButton>
-          <FileInput
-            type='file'
-            id='upload-new-image'
-            accept='image/*'
-            onChange={handleFileChange}
-          />
         </ModalBody>
         <ModalFooter>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button type='button' onClick={handleClose}>
+            Cancel
+          </Button>
           <Button
             onClick={() => handleSelect(selectedImage)}
             disabled={!selectedImage}
+            type='button'
           >
             Select
           </Button>
-        </ModalFooter>+
+        </ModalFooter>
       </ModalWrapper>
     </>
   );

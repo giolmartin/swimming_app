@@ -1,44 +1,67 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 
 import { HeaderImageContainer, Image } from '../adminPostEditor.styles';
 import ImageDropzone from '../../../ImageDropzone/imageDropzone.component';
+import ImagePickerModal from '../../../ImagePickerModal/imagePickerModal.component';
 
-const HeaderImage = ({ headerImageUrl, handleHeaderImageChange, imageUrl }) => {
+//FIXME: Doesnt rerender when the image is changed
+const HeaderImage = ({
+  headerImageUrl,
+  handleHeaderImageChange,
+  imageUrl,
+  images,
+}) => {
   const [selectedImage, setSelectedImage] = useState(headerImageUrl);
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    setSelectedImage(headerImageUrl);
+  }, [headerImageUrl]);
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const handleSelectImage = (image) => {
+    handleHeaderImageChange(image, true);
+    setSelectedImage(image.secure_url);
+    setShowModal(false);
+  };
+
+  console.log('Selected image', selectedImage);
   return (
-    <HeaderImageContainer
-      style={{
-        backgroundImage: `url(${headerImageUrl})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
-    >
-      <ImageDropzone
-        setSelectedImage={setSelectedImage}
-        handleImageUrl={() => {}}
-        handleImageRoute={(file) => {
-          handleHeaderImageChange(file);
-          setSelectedImage(URL.createObjectURL(file));
+    <>
+      <HeaderImageContainer
+        style={{
+          backgroundImage: `url(${selectedImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
         }}
-      />
-      {selectedImage && imageUrl === '' ? (
-        <Image
-          src={selectedImage}
-          alt='Selected'
-          // style={{
-          //   width: '100%',
-          //   height: 'auto',
-          //   marginTop: '1rem',
-          // }}
+      >
+        <Image src={selectedImage} alt='' />
+        <ImagePickerModal
+          show={showModal}
+          handleClose={handleCloseModal}
+          handleSelect={handleSelectImage}
+          images={images}
         />
-      ) : imageUrl !== '' ? (
-        <Image
-          src={imageUrl}
-          alt='Selected'
-          // style={{ width: '100%', height: 'auto', marginTop: '1rem' }}
+        <button type='button' onClick={handleOpenModal}>
+          Select Image
+        </button>
+        <ImageDropzone
+          setSelectedImage={setSelectedImage}
+          handleImageUrl={() => {}}
+          handleImageRoute={(file) => {
+            handleHeaderImageChange(file, false);
+            setSelectedImage(URL.createObjectURL(file));
+          }}
         />
-      ) : null}
-    </HeaderImageContainer>
+      </HeaderImageContainer>
+    </>
   );
 };
 

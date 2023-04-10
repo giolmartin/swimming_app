@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
 import ImageDropzone from '../../../ImageDropzone/imageDropzone.component';
 import VideoPlayer from '../../../VideoPlayer/videoPlayer.component';
@@ -27,19 +27,25 @@ const Sections = ({
   handleContentTypeChange,
   handleAddSection,
   handlePostChange,
+  images,
 }) => {
-
   //TODO: Need to refactor and set the API to use the modal
   const [showModal, setShowModal] = useState(false);
 
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   const handleImageSelected = (selectedImage, sectionIndex) => {
-    handleImageUrl(selectedImage.file, sectionIndex);
+    handleImageUrl(selectedImage.secure_url, sectionIndex, true);
     const newSelectedImages = [...selectedImages];
-    newSelectedImages[sectionIndex] = selectedImage.imageUrl;
+    newSelectedImages[sectionIndex] = selectedImage.secure_url;
     setSelectedImages(newSelectedImages);
     setShowModal(false);
   };
-  
   return (
     <>
       <Label htmlFor='sections'>Sections</Label>
@@ -84,6 +90,21 @@ const Sections = ({
             {section.contentType === 'image' && (
               <>
                 <Label htmlFor={`imageUrl-${index}`}>Image Dropzone</Label>
+                <ImagePickerModal
+                  show={showModal}
+                  handleClose={handleCloseModal}
+                  handleSelect={(image) => {
+                    handleImageUrl(image, index, true);
+                    const newSelectedImages = [...selectedImages];
+                    newSelectedImages[index] = image;
+                    setSelectedImages(newSelectedImages);
+                    setShowModal(false);
+                  }}
+                  images={images}
+                />
+                <Button type='button' onClick={handleOpenModal}>
+                  Select Image
+                </Button>
                 <ImageDropzone
                   setSelectedImage={setSelectedImages}
                   index={index}
@@ -97,7 +118,7 @@ const Sections = ({
                 {selectedImages[index] && section.imageUrl === '' ? (
                   <Image
                     src={selectedImages[index]}
-                    alt='Selected'
+                    alt='Not Selected'
                     style={{
                       marginTop: '1rem',
                     }}
