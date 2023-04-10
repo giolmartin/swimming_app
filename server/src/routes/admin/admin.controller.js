@@ -18,7 +18,6 @@ const {
 } = require('../../models/admin/admin.model');
 
 //------------------Cloudinary------------------//
-//FIXME: HAVENT FINISHED YET
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -55,6 +54,21 @@ async function httpsUploadImage(req, res) {
     res.status(500).json({ error: { message: 'Image upload failed' } });
   }
 }
+
+async function httpsFetchAllBlogImages(req, res) {
+  try {
+    const response = await cloudinary.search
+      .expression('folder:blog')
+      .sort_by('public_id', 'desc')
+      .max_results(50)
+      .execute();
+    res.status(200).json({ images: response.resources });
+  } catch (error) {
+    console.error('Error fetching images:', error);
+    res.status(500).json({ error: { message: 'Error fetching images' } });
+  }
+}
+
 //------------------Cloudinary------------------//
 async function httpsCreatePost(req, res) {
   try {

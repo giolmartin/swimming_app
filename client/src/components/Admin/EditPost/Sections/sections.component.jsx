@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import ImageDropzone from '../../../ImageDropzone/imageDropzone.component';
 import VideoPlayer from '../../../VideoPlayer/videoPlayer.component';
+import ImagePickerModal from '../../../ImagePickerModal/imagePickerModal.component';
 
 import { AiOutlineDelete } from 'react-icons/ai';
 
@@ -27,7 +28,18 @@ const Sections = ({
   handleAddSection,
   handlePostChange,
 }) => {
-  // console.log(` Sections.component`, sections);
+
+  //TODO: Need to refactor and set the API to use the modal
+  const [showModal, setShowModal] = useState(false);
+
+  const handleImageSelected = (selectedImage, sectionIndex) => {
+    handleImageUrl(selectedImage.file, sectionIndex);
+    const newSelectedImages = [...selectedImages];
+    newSelectedImages[sectionIndex] = selectedImage.imageUrl;
+    setSelectedImages(newSelectedImages);
+    setShowModal(false);
+  };
+  
   return (
     <>
       <Label htmlFor='sections'>Sections</Label>

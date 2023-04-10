@@ -44,8 +44,9 @@ adminRouter.post('/posts', httpsCreatePost);
 adminRouter.put('/posts/:id', httpsUpdatePost);
 adminRouter.delete('/posts/:id', httpsDeletePost);
 
-//Upload Image
-adminRouter.post('/upload', httpsUploadImage);
+// Image Management
+adminRouter.post('/images/upload', httpsUploadImage);
+adminRouter.get('/images/fetch', httpsFetchAllBlogImages);
 // Comments
 adminRouter.post('/posts/post/:id/comments', httpsAddCommentToPost);
 adminRouter.get('/posts/post/:id/comments', httpsGetCommentByPostId);

@@ -8,9 +8,13 @@ export const httpsUploadImage = async (image) => {
     const formData = new FormData();
     formData.append('image', image);
 
-    const response = await axios.post(`${BASE_URL}/admin/upload`, formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
+    const response = await axios.post(
+      `${BASE_URL}/admin/images/upload`,
+      formData,
+      {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      }
+    );
     if (response.status === 200) {
       console.log('Image uploaded successfully:', response.data);
       return response.data;
@@ -21,6 +25,22 @@ export const httpsUploadImage = async (image) => {
   } catch (error) {
     console.error('Error uploading image:', error);
     return null;
+  }
+};
+
+export const httpsFetchAllBlogImages = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/admin/images/fetch`);
+    if (response.status === 200) {
+      console.log('Received response:', response.data);
+      return response.data.images;
+    } else {
+      console.error('Error fetching images, status:', response.status);
+      return null;
+    }
+  } catch (error) {
+    console.error('Error fetching images:', error);
+    return [];
   }
 };
 

@@ -10,6 +10,7 @@ import {
   httpsUpdateCategory,
   httpsDeleteCategory,
   httpsUploadImage,
+  httpsFetchAllBlogImages,
 } from '../services/admin.requests.js';
 
 import {
@@ -39,6 +40,8 @@ const AdminContext = createContext({
   filterPostsByCategory: () => {},
 
   uploadImage: () => {},
+  images: [],
+  fetchImages: () => {},
 
   getTags: () => {},
   createTag: () => {},
@@ -68,6 +71,7 @@ export const AdminProvider = ({ children }) => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [limit, setLimit] = useState(50);
+  const [images, setImages] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -75,11 +79,12 @@ export const AdminProvider = ({ children }) => {
         page,
         limit
       );
-
+      const fetchImages = await httpsFetchAllBlogImages();
       const fetchedCategories = await httpsFetchCategories();
       const fetchedTags = await httpsFetchTags();
       setCategories(fetchedCategories);
       setTags(fetchedTags);
+      setImages(fetchImages);
       setPosts(data);
       setPage(currentPage);
       setTotalPages(totalPages);
@@ -103,6 +108,12 @@ export const AdminProvider = ({ children }) => {
     return posts;
   };
 
+  const fetchImages = async () => {
+    const fetchedImages = await httpsFetchAllBlogImages();
+    setImages(fetchedImages);
+    console.log('Fetched Images: ', fetchedImages);
+    return fetchedImages;
+  };
   const uploadImage = async (image) => {
     const newImage = await httpsUploadImage(image);
     console.log(`New Image: ${JSON.stringify(newImage)}`);
@@ -215,6 +226,8 @@ export const AdminProvider = ({ children }) => {
     filteredPosts,
 
     uploadImage,
+    images,
+    fetchImages,
 
     selectPost,
     filterPostsByCategory,
