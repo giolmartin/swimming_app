@@ -17,11 +17,7 @@ const Tags = ({ handleTagChange, tagsList, postEdit, tags }) => {
         >
           {tagsList &&
             tagsList.map((tag) => (
-              <option
-                key={tag._id}
-                value={tag._id}
-                selected={tags.includes(tag._id)}
-              >
+              <option key={tag._id} value={tag._id} selected={tags.includes(tag._id)}>
                 {tag.tag.charAt(0).toUpperCase() + tag.tag.slice(1)}
               </option>
             ))}

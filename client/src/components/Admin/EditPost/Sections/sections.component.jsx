@@ -39,6 +39,7 @@ const Sections = ({
     setShowModal(false);
   };
 
+  
   const handleImageSelected = (selectedImage, sectionIndex) => {
     handleImageUrl(selectedImage.secure_url, sectionIndex, true);
     const newSelectedImages = [...selectedImages];

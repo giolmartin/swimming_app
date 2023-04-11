@@ -30,6 +30,16 @@ export const WesAndersonColors = {
   },
 };
 
+export const WesAndersonNavBar = {
+  before: {
+    background: '#335C67', // dark green
+    text: '#FFFFFF', // white
+  },
+  after: {
+    background: '#D9DBBD', // light color
+    text: '#335C67', // dark green
+  },
+};
 export const WesAndersonDark = {
   primary: {
     background: '#2C2B2B', // dark gray

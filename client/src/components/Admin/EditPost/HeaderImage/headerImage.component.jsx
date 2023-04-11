@@ -4,7 +4,6 @@ import { HeaderImageContainer, Image } from '../adminPostEditor.styles';
 import ImageDropzone from '../../../ImageDropzone/imageDropzone.component';
 import ImagePickerModal from '../../../ImagePickerModal/imagePickerModal.component';
 
-//FIXME: Doesnt rerender when the image is changed
 const HeaderImage = ({
   headerImageUrl,
   handleHeaderImageChange,
@@ -32,7 +31,9 @@ const HeaderImage = ({
     setShowModal(false);
   };
 
-  console.log('Selected image', selectedImage);
+  //FIXME: Need to change the header Image container to a div
+  //FIXME: NEED TO CHECK WHY IS RERENDERING THE COMPONENT even when some other input is loaded.
+
   return (
     <>
       <HeaderImageContainer

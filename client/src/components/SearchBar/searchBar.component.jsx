@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { useBlogContext } from '../../context/blog.context';
+import { FiSearch } from 'react-icons/fi';
 import { SearchContainer, SearchInput, SearchButton } from './searchBar.styles';
 
 const SearchBar = () => {
   const [searchValue, setSearchValue] = useState('');
+  const [searchActive, setSearchActive] = useState(false);
+  const [inputFocus, setInputFocus] = useState(false);
   const { getSearchResults, updateSearchResults } = useBlogContext();
 
   const handleChange = (e) => {
@@ -25,15 +28,22 @@ const SearchBar = () => {
   };
 
   return (
-    <SearchContainer>
+    <SearchContainer
+      onMouseEnter={() => setSearchActive(true)}
+      onMouseLeave={() => setSearchActive(false)}
+    >
       <SearchInput
         type='text'
         placeholder='Search...'
         value={searchValue}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
+        onFocus={() => setInputFocus(true)}
+        onBlur={() => setInputFocus(false)}
       />
-      <SearchButton onClick={handleSearch}>Search</SearchButton>
+      <SearchButton onClick={handleSearch}>
+        <FiSearch />
+      </SearchButton>
     </SearchContainer>
   );
 };
