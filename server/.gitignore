@@ -15,6 +15,9 @@ cert.pem
 # production
 /build
 
+# Logic
+/src/WorkoutLogic
+
 # misc
 .DS_Store
 .env
