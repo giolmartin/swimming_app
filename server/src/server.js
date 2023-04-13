@@ -4,6 +4,7 @@ const https = require('https');
 const app = require('./app');
 const { loadPostData } = require('./models/blog/blogs.model');
 const { mongoConnect } = require('./services/mongo.service');
+const { loadWorkoutData } = require('./WorkoutLogic/model/workout.model');
 const PORT = process.env.PORT || 8000;
 
 //Development certificate for localhost
@@ -21,6 +22,7 @@ async function startServer() {
   try {
     await mongoConnect();
     await loadPostData();
+    await loadWorkoutData();
     httpsServer.listen(PORT, () => {
       console.log(`Server listening on port ${PORT}`);
     });
