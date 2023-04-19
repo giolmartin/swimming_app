@@ -42,7 +42,7 @@ const Navbar = () => {
 
   return (
     <div ref={ref}>
-      <NavbarContainer inView={inView}>
+      <NavbarContainer inView={inView} open={open}>
         <LeftNavbarMenu inView={inView} open={open} left>
           <NavbarItem>
             <NavbarLink inView={inView} onClick={toggleMenu} to='/'>

@@ -1,90 +1,63 @@
 import styled from 'styled-components';
+import Logo from '../Logo/logo.component';
 
 export const HeroSection = styled.section`
   display: flex;
-  background-color: #fef0ac;
   justify-content: center;
   align-items: center;
-  height: 95vh;
+  height: 100vh;
   color: black;
   overflow: hidden;
-
-  @media (max-width: 768px) {
-    height: 100vh;
-  }
 `;
 
 export const HeroContent = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  width: 80%;
+  width: 100%;
   height: 100%;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    justify-content: center;
-    width: 90%;
-  }
-`;
-
-export const HeroText = styled.div`
-  width: 50%;
-  text-align: left;
-
-  @media (max-width: 768px) {
-    width: 100%;
-    text-align: center;
-    margin-bottom: 25%;
-  }
-`;
-
-export const HeroTitle = styled.h1`
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  font-weight: bold;
-
-  @media (max-width: 768px) {
-    font-size: 2rem;
-  }
-`;
-
-export const HeroDescription = styled.p`
-  font-size: 1.5rem;
-  line-height: 1.4;
-
-  @media (max-width: 768px) {
-    font-size: 1.2rem;
-  }
-`;
-
-export const HeroButton = styled.button`
-  font-size: 1.2rem;
-  padding: 12px 24px;
-  background-color: #1e90ff;
-  color: #ffffff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 1rem;
-  display: inline-block;
-  margin-left: auto;
-  margin-right: auto;
-
-  &:hover {
-    background-color: #007acc;
-  }
 `;
 
 export const HeroImage = styled.img`
-  width: 50%;
+  width: 100%;
   height: 100%;
   object-fit: cover;
+`;
+
+export const LogoWrapper = styled.div`
+  position: absolute;
+  top: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
+  transition: opacity 0.3s ease-in-out, top 0.3s ease-in-out;
+  z-index: 100;
 
   @media (max-width: 768px) {
-    width: 100%;
-    height: 50%;
-    max-height: 300px;
-    transform: scale(1.25);
+    top: ${({ isVisible }) => (isVisible ? '1rem' : '5rem')};
+    left: ${({ isVisible }) => (isVisible ? '50%' : '1rem')};
+    transform: ${({ isVisible }) => (isVisible ? 'translateX(-50%)' : 'none')};
+    transition: opacity 0.3s ease-in-out, top 0.3s ease-in-out,
+      left 0.3s ease-in-out;
   }
+`;
+
+export const HeroText = styled.p`
+  font-family: 'Josefin Slab', serif;
+  font-weight: 500;
+  font-style: italic;
+  font-size: 1.5rem;
+  text-align: center;
+  color: #428576;
+  margin-top: 1rem;
+`;
+
+export const HeroLogo = styled(Logo)`
+  height: ${({ inView }) => (inView ? '10rem' : '2rem')};
+  color: ${({ inView }) => (inView ? '#428576' : 'transparent')};
+  z-index: 0;
+  transition: height 0.3s ease-in-out, color 0.3s ease-in-out;
 `;

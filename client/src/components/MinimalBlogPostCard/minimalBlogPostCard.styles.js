@@ -41,8 +41,9 @@ export const MinimalCardTitle = styled.h3`
 export const MinimalExcerptContainer = styled.div`
   overflow-y: auto;
   padding: 0.5rem;
-  height: auto;
+  height: calc(100% - 50px);
   margin-bottom: 2.3rem;
+  border: 1px solid rgba(240, 230, 140, 0.1);
   margin-top: 3rem;
   width: 90%;
   &::-webkit-scrollbar {

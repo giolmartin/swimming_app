@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Link as ScrollLink } from 'react-scroll';
 import styled, { css } from 'styled-components';
-import Logo from './logo.component';
+import Logo from '../Logo/logo.component';
 import { WesAndersonWaterColors, WesAndersonNavBar } from '../../global.styles';
 
 export const NavbarContainer = styled.nav`
@@ -9,18 +9,19 @@ export const NavbarContainer = styled.nav`
   justify-content: center;
   align-items: center;
   background-color: ${({ inView }) =>
-    inView ? '#fef0ac' : WesAndersonNavBar.after.background};
+    inView ? `rgba(254, 240, 172, 1)` : WesAndersonNavBar.after.background};
 
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 100;
-  transition: background-color 0.3s;
+  transition: background-color 0.5s;
 
   @media (max-width: 1170px) {
     justify-content: space-between;
     padding: 0 2rem;
+    z-index: ${({ open }) => (open ? '1000' : '0')};
   }
 `;
 
@@ -80,12 +81,12 @@ export const RightNavbarMenu = styled(NavbarMenu)`
 `;
 
 export const NavbarLogo = styled(Logo)`
-  height: ${({ inView, scrolled, logoSize }) =>
-    inView || scrolled || logoSize === 'large' ? '8rem' : '5rem'};
+  height: ${({ inView, scrolled }) => (inView || scrolled ? '5rem' : '5rem')};
+  ${
+    '' /* Transparent color to superpose the other on the hero page, also height on top is the height of the navbar and scroll down logo */
+  }
   color: ${({ inView, scrolled }) =>
-    inView || scrolled
-      ? WesAndersonNavBar.before.text
-      : WesAndersonNavBar.after.text};
+    inView || scrolled ? 'transparent' : WesAndersonNavBar.after.text};
 
   transition: height 0.3s, fill 0.4s;
   @media (max-width: 1170px) {
@@ -138,7 +139,6 @@ export const NavbarLink = styled(Link)`
 
 export const MenuIcon = styled.div`
   display: none;
-
   @media (max-width: 1170px) {
     display: block;
     color: ${({ inView, scrolled }) =>

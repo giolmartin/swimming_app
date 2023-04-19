@@ -1,26 +1,38 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
+
 import {
   HeroSection,
   HeroContent,
-  HeroDescription,
-  HeroTitle,
   HeroImage,
+  LogoWrapper,
   HeroText,
-  HeroButton,
+  HeroLogo,
 } from './hero.styles';
 
 const Hero = () => {
+  const [logoVisible, setLogoVisible] = useState(true);
+  const [ref, inView] = useInView({
+    threshold: 0.99999,
+  });
+
+  useEffect(() => {
+    if (inView) {
+      setLogoVisible(true);
+    } else {
+      console.log('not in view');
+      setLogoVisible(false);
+    }
+  }, [inView, logoVisible]);
+
   return (
-    <HeroSection id='home'>
+    <HeroSection id='home' ref={ref}>
+      <LogoWrapper isVisible={logoVisible}>
+        <HeroLogo inView={inView} />
+        <HeroText>Welcome to the Swim Spot!</HeroText>
+      </LogoWrapper>
       <HeroContent>
-        <HeroText>
-          <HeroTitle>Swim to Success</HeroTitle>
-          <HeroDescription>
-            Enjoy our free App while you swim to success.
-          </HeroDescription>
-          <HeroButton>START SWIMMING</HeroButton>
-        </HeroText>
-        <HeroImage src='./images/landing-wes.jpeg' alt='Swimming' />
+        <HeroImage src='./images/hero.jpeg' alt='Swimming' />
       </HeroContent>
     </HeroSection>
   );
