@@ -32,12 +32,12 @@ export const WesAndersonColors = {
 
 export const WesAndersonNavBar = {
   before: {
-    background: '#335C67', // dark green
-    text: '#FFFFFF', // white
+    background: '#D9DBBD', // light color
+    text: '#428576', // dark green
   },
   after: {
-    background: '#D9DBBD', // light color
-    text: '#335C67', // dark green
+    background: '#428576', // dark green
+    text: '#FFFFFF', // white
   },
 };
 export const WesAndersonDark = {

@@ -9,9 +9,7 @@ export const NavbarContainer = styled.nav`
   justify-content: center;
   align-items: center;
   background-color: ${({ inView }) =>
-    inView
-      ? WesAndersonNavBar.before.background
-      : WesAndersonNavBar.after.background};
+    inView ? '#fef0ac' : WesAndersonNavBar.after.background};
 
   position: fixed;
   top: 0;
@@ -127,7 +125,8 @@ export const NavbarLink = styled(Link)`
       : WesAndersonNavBar.after.text};
   text-decoration: none;
   font-size: 1.2rem;
-  font-family: 'Futura', sans-serif;
+  font-family: 'Poppins', sans-serif;
+  text-weight: bold;
   padding: 0.5rem 1rem;
 
   &:hover {

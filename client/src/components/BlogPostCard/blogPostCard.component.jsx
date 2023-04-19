@@ -8,8 +8,8 @@ import {
   CardTitle,
   CardDateAuthor,
   CardExcerpt,
+  ReadMoreButton,
 } from './blogPostCard.styles';
-import { LinkButton } from '../../global.styles';
 
 const BlogPostCard = ({ post }) => {
   const { formatDate } = useBlogContext();
@@ -27,7 +27,7 @@ const BlogPostCard = ({ post }) => {
           </CardDateAuthor>
           <CardExcerpt>{post.excerpt}</CardExcerpt>
         </CardContent>
-        <LinkButton as='div'>Read More</LinkButton>
+        <ReadMoreButton>Read More</ReadMoreButton>
       </Card>
     </Link>
   );

@@ -8,6 +8,7 @@ import {
   BlogFeaturesSection,
   BlogFeaturesContainer,
   BlogFeaturesTitle,
+  MoreButton,
 } from './features.styles';
 
 const Features = () => {
@@ -15,7 +16,8 @@ const Features = () => {
 
   return (
     <BlogFeaturesContainer>
-      <BlogFeaturesTitle>Featured Posts</BlogFeaturesTitle>
+      <BlogFeaturesTitle>Latest Posts</BlogFeaturesTitle>
+      <MoreButton to='/blogs'>+</MoreButton>
       <BlogFeaturesSection>
         {popularPosts.map((post, index) => (
           <LazyLoadedCard key={post.id} post={post} />

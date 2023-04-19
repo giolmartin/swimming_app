@@ -2,6 +2,7 @@ import React from 'react';
 import { easeIn, motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import BlogPostCard from '../BlogPostCard/blogPostCard.component';
+import MinimalBlogCard from '../MinimalBlogPostCard/minimalBlogPostCard.component';
 
 const LazyLoadedCard = ({ post }) => {
   const [ref, inView] = useInView({
@@ -28,7 +29,7 @@ const LazyLoadedCard = ({ post }) => {
       variants={cardVariants}
       transition={{ duration: 0.5, ease: easeIn }}
     >
-      <BlogPostCard post={post} />
+      <MinimalBlogCard post={post} />
     </motion.div>
   );
 };

@@ -28,9 +28,9 @@ export const SearchContainer = styled.div`
 export const SearchInput = styled.input`
   border: none;
   background-color: transparent;
-  font-family: 'Josefin Sans', sans-serif;
-  font-size: 1rem;
-  color: ${WesAndersonColors.primary.text};
+  font-family: 'Josefin Slab', sans-serif;
+  font-size: 1.3rem;
+  color: ${WesAndersonNavBar.after.text};
   padding: 0.5rem;
   outline: none;
   flex-grow: 1;
@@ -47,6 +47,7 @@ export const SearchInput = styled.input`
   ${SearchContainer}:focus-within & {
     opacity: 1;
     pointer-events: auto;
+    box-shadow:  0 1px ${WesAndersonNavBar.before.background};
   }
 
   @media (max-width: 1170px) {

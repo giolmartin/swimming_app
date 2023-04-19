@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const HeroSection = styled.section`
   display: flex;
-  background-color: #335c67;
+  background-color: #fef0ac;
   justify-content: center;
   align-items: center;
   height: 95vh;
