@@ -7,7 +7,7 @@ import SearchBar from '../SearchBar/searchBar.component';
 import {
   NavbarContainer,
   NavbarLogo,
-  NavbarMenu,
+  LogoContainer,
   NavbarItem,
   NavbarLink,
   MenuIcon,
@@ -60,17 +60,19 @@ const Navbar = () => {
             </NavbarLink>
           </NavbarItem>
         </LeftNavbarMenu>
-        <NavbarLogo inView={inView} open={open} />
+        <LogoContainer>
+          <NavbarLogo inView={inView} open={open} />
+        </LogoContainer>
         <MenuIcon inView={inView} onClick={toggleMenu}>
           {open ? <FiX /> : <FiMenu />}
         </MenuIcon>
 
         <RightNavbarMenu inView={inView} open={open} right>
-          <NavbarItem>
+          {/* <NavbarItem>
             <NavbarLink inView={inView} onClick={toggleMenu} to='admin/login'>
               ADMIN
             </NavbarLink>
-          </NavbarItem>
+          </NavbarItem> */}
           <NavbarItem onClick={toggleMenu}>
             <ScrollOnClick
               inView={inView}

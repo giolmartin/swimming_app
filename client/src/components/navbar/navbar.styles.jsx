@@ -16,12 +16,11 @@ export const NavbarContainer = styled.nav`
   left: 0;
   right: 0;
   z-index: 100;
-  transition: background-color 0.5s;
+  transition: background-color 0.2;
 
   @media (max-width: 1170px) {
     justify-content: space-between;
-    padding: 0 2rem;
-    z-index: ${({ open }) => (open ? '1000' : '0')};
+    z-index: ${({ open }) => (open ? '1000' : '100')};
   }
 `;
 
@@ -30,28 +29,13 @@ export const NavbarMenu = styled.ul`
   align-items: center;
   justify-content: center;
   list-style: none;
-  font-family: 'Futura', sans-serif;
+  font-family: 'Poppins', sans-serif;
 
-  ${({ left }) =>
-    left &&
-    css`
-      margin-right: auto;
-    `}
-
-  ${({ right }) =>
-    right &&
-    css`
-      margin-left: auto;
-    `}
-    
-
-    @media (max-width: 1170px) {
+  @media (max-width: 1170px) {
     display: ${({ open }) => (open ? 'flex' : 'none')};
     background-color: ${WesAndersonNavBar.before.background};
     flex-direction: column;
     width: 100%;
-    position: ${({ right }) => (right ? 'absolute' : 'static')};
-    top: ${({ right }) => (right ? '100%' : 'auto')};
     left: 0;
     background-color: ${({ inView }) =>
       inView
@@ -66,20 +50,40 @@ export const NavbarMenu = styled.ul`
 
 export const LeftNavbarMenu = styled(NavbarMenu)`
   z-index: 101;
+  margin-right: 15%;
 
   @media (max-width: 1170px) {
     padding-top: 2rem;
+    align-items: center;
+    margin-right: 0;
+    margin-left: 0;
   }
 `;
 
 export const RightNavbarMenu = styled(NavbarMenu)`
   z-index: 100;
+  margin-left: 15%;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1170px) {
+    position: absolute;
+    top: 100%;
     padding-bottom: 1rem;
+    align-items: center;
+    margin-left: 0;
+    margin-right: 0;
   }
 `;
 
+export const LogoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0 1rem;
+  @media (max-width: 1170px) {
+    padding: 0;
+  }
+`;
 export const NavbarLogo = styled(Logo)`
   height: ${({ inView, scrolled }) => (inView || scrolled ? '5rem' : '5rem')};
   ${
@@ -96,13 +100,13 @@ export const NavbarLogo = styled(Logo)`
 
 export const NavbarItem = styled.li`
   margin: 0 1rem;
-  font-family: 'Futura', sans-serif;
+  font-family: 'Poppins', sans-serif;
   color: ${({ inView, scrolled }) =>
     inView || scrolled
       ? WesAndersonNavBar.before.text
       : WesAndersonNavBar.after.text};
 
-  @media (max-width: 768px) {
+  @media (max-width: 1170px) {
     margin: 1rem 0;
   }
 `;
@@ -125,7 +129,7 @@ export const NavbarLink = styled(Link)`
       ? WesAndersonNavBar.before.text
       : WesAndersonNavBar.after.text};
   text-decoration: none;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-family: 'Poppins', sans-serif;
   text-weight: bold;
   padding: 0.5rem 1rem;
@@ -135,11 +139,17 @@ export const NavbarLink = styled(Link)`
     background-color: #fff;
     border-radius: 4px;
   }
+  @media (max-width: 1170px) {
+    font-size: 1.2rem;
+  }
 `;
 
 export const MenuIcon = styled.div`
   display: none;
   @media (max-width: 1170px) {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
     display: block;
     color: ${({ inView, scrolled }) =>
       inView || scrolled
@@ -147,6 +157,7 @@ export const MenuIcon = styled.div`
         : WesAndersonNavBar.after.text};
     font-size: 1.5rem;
     cursor: pointer;
+    z-index: 1000;
   }
 `;
 
@@ -158,13 +169,19 @@ export const ScrollOnClick = styled(ScrollLink)`
       ? WesAndersonNavBar.before.text
       : WesAndersonNavBar.after.text};
   text-decoration: none;
-  font-size: 1.2rem;
-  font-family: 'Futura', sans-serif;
+  font-size: 1.5rem;
+  font-family: 'Poppins', sans-serif;
+  text-weight: bold;
   padding: 0.5rem 1rem;
+  cursor: pointer;
 
   &:hover {
     color: ${WesAndersonWaterColors.secondary.deepWater};
     background-color: #fff;
     border-radius: 4px;
+  }
+
+  @media (max-width: 1170px) {
+    font-size: 1.2rem;
   }
 `;

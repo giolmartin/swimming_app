@@ -37,7 +37,7 @@ export const SearchInput = styled.input`
   opacity: 0;
   transition: opacity 0.3s;
   pointer-events: none;
-
+  width: 100px;
   &::placeholder {
     color: ${WesAndersonColors.primary.text};
     opacity: 1;
@@ -47,15 +47,18 @@ export const SearchInput = styled.input`
   ${SearchContainer}:focus-within & {
     opacity: 1;
     pointer-events: auto;
-    box-shadow:  0 1px ${WesAndersonNavBar.before.background};
+    box-shadow: 0 0.5px ${WesAndersonNavBar.before.background};
   }
 
   @media (max-width: 1170px) {
     color: ${WesAndersonNavBar.before.text};
-
     &::placeholder {
       color: ${WesAndersonNavBar.before.text};
       opacity: 1;
+    }
+    ${
+      '' /* ${SearchContainer}:focus-within & {
+    } */
     }
   }
 `;

@@ -118,10 +118,22 @@ async function getPostById(id) {
     return { message: error.message };
   }
 }
-
+async function getCategoryIdByName(categoryName) {
+  const category = await categoriesDB.findOne({ category: categoryName });
+  return category ? category._id : null;
+}
 async function getPostsByCategory(category) {
+
+  const categoryId = await getCategoryIdByName(category);
+  if (!categoryId) {
+    console.log('Error: Category not found');
+    return [];
+  }
+
   console.log(`getPostsByCategory: ${category}`);
-  const postsCategory = await blogsDB.find({ categories: { $in: [category] } });
+  const postsCategory = await blogsDB.find({
+    categories: { $in: [categoryId] },
+  });
   console.log(`postsCategory: ${postsCategory}`);
   return postsCategory;
 }

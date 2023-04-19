@@ -21,6 +21,7 @@ export const ContactContainer = styled.div`
   padding: 4rem 2rem;
   margin-top: 4rem;
   color: ${WesAndersonColors.primary.text};
+  
 
   @media (max-width: 768px) {
     flex-direction: column;

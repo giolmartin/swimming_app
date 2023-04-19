@@ -36,7 +36,7 @@ export const LogoWrapper = styled.div`
   transition: opacity 0.3s ease-in-out, top 0.3s ease-in-out;
   z-index: 100;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1170px) {
     top: ${({ isVisible }) => (isVisible ? '1rem' : '5rem')};
     left: ${({ isVisible }) => (isVisible ? '50%' : '1rem')};
     transform: ${({ isVisible }) => (isVisible ? 'translateX(-50%)' : 'none')};

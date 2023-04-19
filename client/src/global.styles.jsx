@@ -32,7 +32,7 @@ export const WesAndersonColors = {
 
 export const WesAndersonNavBar = {
   before: {
-    background: '#D9DBBD', // light color
+    background: 'rgba(254, 240, 172, 1)', // light color
     text: '#428576', // dark green
   },
   after: {
