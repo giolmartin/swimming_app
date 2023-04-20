@@ -7,6 +7,11 @@ const {
   MOCK_TAGS,
 } = require('../../mockData/categories.data');
 
+async function sendMail(name, email, message) {
+  //Finish this function
+  console.log('Mail sent');
+}
+
 async function getAllPosts(skip, limit) {
   const posts = await blogsDB
     .find({}, { __v: 0 })
@@ -123,7 +128,6 @@ async function getCategoryIdByName(categoryName) {
   return category ? category._id : null;
 }
 async function getPostsByCategory(category) {
-
   const categoryId = await getCategoryIdByName(category);
   if (!categoryId) {
     console.log('Error: Category not found');
@@ -228,4 +232,5 @@ module.exports = {
   incrementPostViews,
   getCategories,
   getTags,
+  sendMail,
 };

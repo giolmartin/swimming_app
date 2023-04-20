@@ -14,9 +14,22 @@ const {
   updateComment,
   deleteComment,
   incrementPostViews,
+  sendMail,
 } = require('../../models/blog/blogs.model');
 
 const { getPagination } = require('../../services/query.service');
+
+async function httpsSendContactEmail(req, res) {
+  const { name, email, message } = req.body;
+  console.log(`httpsSendContactEmail: ${name}, ${email}, ${message}`);
+
+  //Find a way to send email
+  try {
+    const contact = await sendMail(name, email, message);
+    console.log(`CREATE POST: ${post}`);
+    return res.status(200).json(post);
+  } catch {}
+}
 
 async function httpsFetchPosts(req, res) {
   const { skip, limit } = getPagination(req.query);
@@ -124,4 +137,5 @@ module.exports = {
   httpsAddCommentToPost,
   httpsUpdateComment,
   httpsDeleteComment,
+  httpsSendContactEmail,
 };

@@ -1,4 +1,5 @@
 const express = require('express');
+const { httpsSendContactEmail } = require('../../../../client/src/services/blog.requests');
 const {
   httpsFetchPosts,
   httpsFetchPostById,
@@ -12,6 +13,7 @@ const {
   httpsAddCommentToPost,
   httpsUpdateComment,
   httpsDeleteComment,
+  httpsSendContactEmail,
 } = require('./blogs.controller');
 
 const blogsRouter = express.Router();
@@ -23,6 +25,8 @@ blogsRouter.get('/recent', httpsFetchRecentPosts);
 blogsRouter.get('/popular', httpsFetchPopularPosts);
 blogsRouter.get('/category/:category', httpsFetchPostsByCategory);
 
+//Contact Form
+blogsRouter.post('/contact', httpsSendContactEmail);
 // Comments
 blogsRouter.post('/post/:id/comments', httpsAddCommentToPost);
 blogsRouter.get('/post/:id/comments', httpsGetCommentByPostId);
