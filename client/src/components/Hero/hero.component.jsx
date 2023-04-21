@@ -20,7 +20,6 @@ const Hero = () => {
     if (inView) {
       setLogoVisible(true);
     } else {
-      console.log('not in view');
       setLogoVisible(false);
     }
   }, [inView, logoVisible]);

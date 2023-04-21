@@ -27,9 +27,24 @@ export const Button = styled.button`
   padding: 0.5rem;
   cursor: pointer;
 `;
+
 export const GoogleLoginButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: #4285f4;
-  color: white;
-  margin-top: 10px;
-  padding: 5px;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 16px;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #3367d6;
+  }
 `;
+
+

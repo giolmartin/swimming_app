@@ -9,7 +9,7 @@ export const NavbarContainer = styled.nav`
   justify-content: center;
   align-items: center;
   background-color: ${({ inView }) =>
-    inView ? `rgba(254, 240, 172, 1)` : WesAndersonNavBar.after.background};
+    inView ? `rgba(254, 240, 172, 0)` : WesAndersonNavBar.after.background};
 
   position: fixed;
   top: 0;

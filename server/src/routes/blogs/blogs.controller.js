@@ -1,5 +1,7 @@
 const express = require('express');
 
+const nodemailer = require('nodemailer');
+
 const {
   getAllPosts,
   getCategories,
@@ -17,18 +19,45 @@ const {
   sendMail,
 } = require('../../models/blog/blogs.model');
 
+require('dotenv').config();
+
+const GMAIL_USER = process.env.GMAIL_USER;
+const GMAIL_PASS = process.env.GMAIL_PASS;
+
+const transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
+  auth: {
+    user: GMAIL_USER,
+    pass: GMAIL_PASS,
+  },
+});
+
 const { getPagination } = require('../../services/query.service');
 
 async function httpsSendContactEmail(req, res) {
+  console.log('httpsSendContactEmail');
   const { name, email, message } = req.body;
   console.log(`httpsSendContactEmail: ${name}, ${email}, ${message}`);
 
-  //Find a way to send email
   try {
-    const contact = await sendMail(name, email, message);
-    console.log(`CREATE POST: ${post}`);
-    return res.status(200).json(post);
-  } catch {}
+    const mailOptions = {
+      from: GMAIL_USER,
+      to: GMAIL_USER,
+      subject: 'New Message from Contact Form',
+      text: `Name: ${name} \nEmail: ${email} \nMessage: ${message}`,
+    };
+
+    //Send email
+    const info = await transporter.sendMail(mailOptions);
+
+    console.log('Message sent: %s', info.messageId);
+    res.status(200).json({ message: 'Message Sent' });
+  } catch (error) {
+    console.error('Error sending email:', error);
+    res.status(500).send({ message: 'Error sending email' });
+  }
 }
 
 async function httpsFetchPosts(req, res) {

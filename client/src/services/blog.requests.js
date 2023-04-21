@@ -3,6 +3,30 @@ const BASE_URL = process.env.API_URL || 'https://localhost:8000/v1';
 
 //TODO: Testing required
 //Blog requests
+
+export const httpsSendContactEmail = async (formData) => {
+  try {
+    console.log('Sending message...');
+    console.log(`Form data: ${JSON.stringify(formData)}`);
+    const response = await axios.post(`${BASE_URL}/blogs/contact`, formData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (response.status === 200) {
+      const result = await response.json();
+      console.log(result.message);
+      console.log('Message Sent 200');
+    } else {
+      console.error(`Error submitting form: ${response.statusText}`);
+      console.log('Message Not Sent', response.statusText);
+    }
+  } catch (error) {
+    console.error(`Error submitting form: ${error.message}`);
+    console.log('Message Not Sent');
+  }
+};
+
 export const httpsFetchPosts = async (page = 1, limit = 8) => {
   try {
     const response = await axios.get(`${BASE_URL}/blogs`, {

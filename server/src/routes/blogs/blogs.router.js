@@ -1,5 +1,4 @@
 const express = require('express');
-const { httpsSendContactEmail } = require('../../../../client/src/services/blog.requests');
 const {
   httpsFetchPosts,
   httpsFetchPostById,

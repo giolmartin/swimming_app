@@ -1,6 +1,9 @@
 import axios from 'axios';
 const BASE_URL = process.env.API_URL || 'https://localhost:8000/v1';
 
+//LOG IN
+
+
 //ADMIN CRUD Requests
 
 export const httpsUploadImage = async (image) => {

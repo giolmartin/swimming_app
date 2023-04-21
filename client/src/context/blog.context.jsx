@@ -11,6 +11,7 @@ import {
   httpsFetchCategories,
   httpsFetchTags,
   httpsFetchPopularPosts,
+  httpsSendContactEmail,
 } from '../services/blog.requests';
 
 const BlogContext = createContext({
@@ -27,6 +28,8 @@ const BlogContext = createContext({
 
   searchResults: [],
   updateSearchResults: () => {},
+
+  sendMail: () => {},
 });
 
 export const useBlogContext = () => useContext(BlogContext);
@@ -70,6 +73,11 @@ export const BlogProvider = ({ children }) => {
     fetchData();
   }, []);
 
+  const sendMail = async (formData) => {
+    const response = await httpsSendContactEmail(formData);
+    console.log('Response from server: ', response);
+    return response;
+  };
   const selectPost = async (id) => {
     const post = await httpsFetchPostById(id);
     setSelectedPost(post);
@@ -157,8 +165,6 @@ export const BlogProvider = ({ children }) => {
     console.log(`Deleted Comment: ${commentId}`);
   };
 
-
-
   const value = {
     posts,
     setPosts,
@@ -192,6 +198,8 @@ export const BlogProvider = ({ children }) => {
     updateSearchResults,
 
     formatDate,
+
+    sendMail,
   };
 
   return <BlogContext.Provider value={value}>{children}</BlogContext.Provider>;

@@ -5,6 +5,7 @@ const cloudinary = require('cloudinary').v2;
 const express = require('express');
 const passport = require('passport');
 const { Strategy } = require('passport-google-oauth20');
+const jwt = require('jsonwebtoken');
 
 //Load environment variables
 require('dotenv').config({ path: path.join(__dirname, '.', '.env') });
@@ -23,9 +24,24 @@ const AUTH_OPTIONS = {
   callbackURL: '/auth/google/callback',
 };
 
+// function verifyCallback(accessToken, refreshToken, profile, done) {
+//   console.log('Google profile', profile);
+//   done(null, profile);
+// }
+const allowedAdmins = ['giomar.developer@gmail.com'];
+
 function verifyCallback(accessToken, refreshToken, profile, done) {
-  console.log('Google profile', profile);
-  done(null, profile);
+  // console.log('Profile', profile);
+
+  // Check if the email is allowed to access the admin area
+  const userEmail = profile.emails[0].value;
+  const isAdmin = allowedAdmins.includes(userEmail);
+
+  if (isAdmin) {
+    done(null, profile);
+  } else {
+    done(new Error('You are not authorized to access this area.'));
+  }
 }
 
 // Initialize passport with Google OAuth strategy
@@ -72,6 +88,7 @@ app.use((error, req, res, next) => {
 });
 
 // Google OAuth routes
+
 app.get(
   '/auth/google',
   passport.authenticate('google', {
@@ -79,17 +96,33 @@ app.get(
   })
 );
 
-app.get(
-  '/auth/google/callback',
-  passport.authenticate('google', {
-    failureRedirect: '/admin/login', // Redirect to the admin login page on failure
-    successRedirect: '/admin/dashboard', // Redirect to the admin dashboard on success
-    session: false, // do not save user data in session
-  }),
-  (req, res) => {
-    console.log('Callback');
-  }
-);
+function createJWT(user) {
+  return jwt.sign(
+    {
+      id: user.id,
+      email: user.emails[0].value,
+      name: user.displayName,
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: '1h' }
+  );
+}
+
+app.get('/auth/google/callback', (req, res, next) => {
+  passport.authenticate('google', { session: false }, (err, user) => {
+    if (err) {
+      console.error('Error:', err.message);
+      return res.redirect('/admin/login?error=unauthorized');
+    }
+    if (!user) {
+      return res.redirect('/admin/login?error=unauthorized');
+    }
+
+    const token = createJWT(user);
+    console.log('Token', token);
+    return res.redirect(`/admin/dashboard?token=${token}`);
+  })(req, res, next);
+});
 
 app.get('/auth/logout', (req, res) => {
   req.logout();
