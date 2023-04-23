@@ -52,7 +52,7 @@ const BlogsPage = () => {
       <Content>
         <BlogTitle>Latest Blog Posts</BlogTitle>
         <Pagination
-          style={{ marginBottom: '2rem' }}
+          style={{ marginBottom: '3rem' }}
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={handlePageChange}
