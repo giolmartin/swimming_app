@@ -51,19 +51,20 @@ const BlogsPage = () => {
       <Filter activeFilter={activeFilter} onFilterChange={handleFilterClick} />
       <Content>
         <BlogTitle>Latest Blog Posts</BlogTitle>
-        <Pagination
-          style={{ marginBottom: '3rem' }}
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-          activeFilter={activeFilter}
-        />
 
         <BlogPostsContainer>
           {filterPosts().map((post) => (
             <BlogPostCard key={post.id} post={post} />
           ))}
         </BlogPostsContainer>
+
+        <Pagination
+          style={{ marginTop: '3rem' }}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+          activeFilter={activeFilter}
+        />
       </Content>
     </BlogPageContainer>
   );

@@ -84,7 +84,7 @@ export const BlogProvider = ({ children }) => {
     return post;
   };
 
-  const getPosts = async (page = 1, limit = 4) => {
+  const getPosts = async (page = 1, limit = 8) => {
     const { data, currentPage, totalPages } = await httpsFetchPosts(
       page,
       limit

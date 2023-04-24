@@ -8,7 +8,6 @@ export const BlogPageContainer = styled.div`
   padding: 2rem;
   @media (max-width: 768px) {
     flex-direction: column;
-    
   }
 `;
 
@@ -20,10 +19,15 @@ export const BlogTitle = styled.h1`
 export const BlogPostsContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
+  gap: 3rem;
 `;
 
 export const Content = styled.div`
   flex-grow: 1;
-  margin-left: 2rem;
+  margin-top: 3rem;
+  margin-left: 4rem;
+  @media (max-width: 768px) {
+    margin-left: 2rem;
+    margin-top: 2rem;
+  }
 `;
