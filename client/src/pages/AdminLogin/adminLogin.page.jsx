@@ -21,15 +21,14 @@ const AdminLogin = () => {
   const unauthorized = params.get('error');
 
   const handleSubmit = (e) => {
-  // e.preventDefault();
-  //Logic to handle admin login (TODO: Replace with actual logic)
-  // const isAuntehticated = true;
-
-  // if (isAuntehticated) {
-  //   navigate('/admin/dashboard');
-  // } else {
-  //   alert('Invalid Username or Password');
-  // }
+    // e.preventDefault();
+    //Logic to handle admin login (TODO: Replace with actual logic)
+    // const isAuntehticated = true;
+    // if (isAuntehticated) {
+    //   navigate('/admin/dashboard');
+    // } else {
+    //   alert('Invalid Username or Password');
+    // }
   };
 
   const handleGoogleLogin = async () => {
@@ -66,12 +65,7 @@ const AdminLogin = () => {
         />
         Login with Google
       </GoogleLoginButton>
-      {unauthorized === 'unauthorized' && (
-        <p>
-          You are not authorized to access this area. Please contact the
-          administrator if you believe this is a mistake.
-        </p>
-      )}
+      {unauthorized === 'unauthorized' && navigate('/404', { replace: false })}
     </AdminLoginContainer>
   );
 };
