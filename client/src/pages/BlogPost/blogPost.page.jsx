@@ -25,6 +25,7 @@ import LoadingSpinner from '../../components/LoadingSpinner/loadingSpinner.compo
 
 const BlogPost = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { selectedPost, selectPost, formatDate } = useBlogContext();
 
@@ -32,7 +33,7 @@ const BlogPost = () => {
     const fetchPost = async () => {
       setLoading(true);
       if (!selectedPost || selectedPost._id !== id) {
-        await selectPost(id);
+        await selectPost(id, navigate);
       }
       setLoading(false);
     };

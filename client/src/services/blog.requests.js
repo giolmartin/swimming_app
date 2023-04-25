@@ -13,17 +13,19 @@ export const httpsSendContactEmail = async (formData) => {
         'Content-Type': 'application/json',
       },
     });
+
     if (response.status === 200) {
-      const result = await response.json();
-      console.log(result.message);
       console.log('Message Sent 200');
+      return { isSuccessful: true, message: 'Message sent successfully' };
     } else {
       console.error(`Error submitting form: ${response.statusText}`);
       console.log('Message Not Sent', response.statusText);
+      return { isSuccessful: false, message: 'Message not sent' };
     }
   } catch (error) {
     console.error(`Error submitting form: ${error.message}`);
     console.log('Message Not Sent');
+    return { isSuccessful: false, message: 'Message not sent' };
   }
 };
 
@@ -32,8 +34,11 @@ export const httpsFetchPosts = async (page = 1, limit = 8) => {
     const response = await axios.get(`${BASE_URL}/blogs`, {
       params: { page, limit },
     });
-    // console.log('Received response:', response.data);
-    return response.data;
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error(`Error fetching posts: ${response.status}`);
+    }
   } catch (error) {
     console.error('Error fetching blogs:', error);
     return [];
@@ -43,7 +48,11 @@ export const httpsFetchPosts = async (page = 1, limit = 8) => {
 export const httpsFetchPostById = async (id) => {
   try {
     const response = await axios.get(`${BASE_URL}/blogs/post/${id}`);
-    return response.data;
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error(`Error fetching post: ${response.status}`);
+    }
   } catch (error) {
     console.error('Error fetching blogs:', error);
     return [];
@@ -74,7 +83,7 @@ export const httpsFetchTags = async () => {
     const response = await axios.get(`${BASE_URL}/blogs/tags`);
     return response.data;
   } catch (error) {
-    console.error('Error fetching categories:', error);
+    console.error('Error fetching tags:', error);
     return [];
   }
 };

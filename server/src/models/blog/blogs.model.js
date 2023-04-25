@@ -7,52 +7,58 @@ const {
   MOCK_TAGS,
 } = require('../../mockData/categories.data');
 
-async function sendMail(name, email, message) {
-  //Finish this function
-  console.log('Mail sent');
-}
-
 async function getAllPosts(skip, limit) {
-  const posts = await blogsDB
-    .find({}, { __v: 0 })
-    .sort({ createdAt: -1 })
-    .skip(skip)
-    .limit(limit);
-  const totalPosts = await blogsDB.countDocuments();
-  return { posts, totalPosts };
+  try {
+    const posts = await blogsDB
+      .find({}, { __v: 0 })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+    const totalPosts = await blogsDB.countDocuments();
+    return { posts, totalPosts, error: null };
+  } catch (error) {
+    return { posts: null, totalPosts: null, error: { status: 500, message: 'Error Fetching Posts' } };
+  }
 }
 
 const first = { title: 'Mastering the Freestyle Technique' };
 
 async function loadPostData() {
-  const firstPost = await findPost(first);
-  if (firstPost) {
-    console.log('Posts already loaded');
+  try {
+    const firstPost = await findPost(first);
+    if (firstPost) {
+      console.log('Posts already loaded');
+    } else {
+      await loadCategoriesAndTags();
+      console.log('Categories and Tags loaded');
 
-    return;
-  } else {
-    await loadCategoriesAndTags();
-    console.log('Categories and Tags loaded');
-
-    await addMockPosts();
-    console.log('Posts loaded');
+      await addMockPosts();
+      console.log('Posts loaded');
+    }
+  } catch (error) {
+    console.error('Error loading post data:', error);
+    throw error;
   }
 }
 
-//TODO: Load to the DB
 async function loadCategoriesAndTags() {
-  const mockCategories = MOCK_CATEGORIES.map((category) => {
-    return {
-      category: category,
-    };
-  });
-  const mockTags = MOCK_TAGS.map((tag) => {
-    return {
-      tag: tag,
-    };
-  });
-  await categoriesDB.insertMany(mockCategories);
-  await tagsDB.insertMany(mockTags);
+  try {
+    const mockCategories = MOCK_CATEGORIES.map((category) => {
+      return {
+        category: category,
+      };
+    });
+    const mockTags = MOCK_TAGS.map((tag) => {
+      return {
+        tag: tag,
+      };
+    });
+    await categoriesDB.insertMany(mockCategories);
+    await tagsDB.insertMany(mockTags);
+  } catch (error) {
+    console.error('Error loading categories and tags:', error);
+    throw error;
+  }
 }
 
 async function findCategoryIds(categoryNames) {
@@ -61,7 +67,6 @@ async function findCategoryIds(categoryNames) {
       categoriesDB.findOne({ category: categoryName }).select('_id')
     )
   );
-
   return categories
     .filter((category) => category !== null)
     .map((category) => category._id);
@@ -107,26 +112,23 @@ async function findPost(filter) {
   return await blogsDB.findOne(filter);
 }
 
-// async function postExistsById(postId) {
-//   return await findPost({ _id: postId });
-// }
-
 async function getPostById(id) {
   try {
     const postById = await blogsDB.findById(id);
     if (postById) {
-      return postById;
+      return { post: postById, error: null };
     } else {
-      throw new Error('Post not found');
+      return { post: null, error: { status: 404, message: 'Post not found' } };
     }
   } catch (error) {
-    return { message: error.message };
+    return { post: null, error: { status: 400, message: 'Invalid Post Id' } };
   }
 }
 async function getCategoryIdByName(categoryName) {
   const category = await categoriesDB.findOne({ category: categoryName });
   return category ? category._id : null;
 }
+
 async function getPostsByCategory(category) {
   const categoryId = await getCategoryIdByName(category);
   if (!categoryId) {
@@ -216,11 +218,11 @@ async function deleteComment(commentId) {
 }
 
 module.exports = {
+  getPostById,
   getAllPosts,
   loadPostData,
   // findPost,
   // postExistsById,
-  getPostById,
   getPostsByCategory,
   searchPosts,
   getPopularPosts,
@@ -232,5 +234,4 @@ module.exports = {
   incrementPostViews,
   getCategories,
   getTags,
-  sendMail,
 };

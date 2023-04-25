@@ -38,7 +38,7 @@ const BlogsPage = () => {
   };
 
   useEffect(() => {
-    if (activeFilter === '' && activeFilter === null) {
+    if (activeFilter === '' || activeFilter === null) {
       setActiveFilter('all');
       filterPosts();
     } else {

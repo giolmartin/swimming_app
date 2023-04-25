@@ -26,6 +26,8 @@ import {
 
 const Contact = () => {
   const { sendMail } = useBlogContext();
+  const [statusMessage, setStatusMessage] = useState('');
+  const [isSuccessful, setIsSuccessful] = useState(null);
   const [isFlipped, setIsFlipped] = useState(false);
 
   const handleFlip = () => {
@@ -41,12 +43,21 @@ const Contact = () => {
       email: e.target.email.value,
       message: e.target.message.value,
     };
+
     if (formData.name && formData.email && formData.message) {
       const response = await sendMail(formData);
       console.log(response);
+      if (response.isSuccessful) {
+        setStatusMessage(response.message);
+        setIsSuccessful(true);
+      } else {
+        setStatusMessage(response.message);
+        setIsSuccessful(false);
+      }
+    } else {
+      setStatusMessage('Please fill in all fields');
+      setIsSuccessful(false);
     }
-
-    console.log(formData);
   };
 
   return (
@@ -84,6 +95,17 @@ const Contact = () => {
           </ContactFormContainer>
         </Card>
       </InnerContainer>
+      {statusMessage && (
+        <p
+          style={{
+            color: isSuccessful ? 'green' : 'red',
+            textAlign: 'center',
+            marginTop: '1rem',
+          }}
+        >
+          {statusMessage}
+        </p>
+      )}
     </ContactContainer>
   );
 };

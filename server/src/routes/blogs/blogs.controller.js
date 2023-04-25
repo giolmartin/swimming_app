@@ -61,29 +61,32 @@ async function httpsSendContactEmail(req, res) {
 }
 
 async function httpsFetchPosts(req, res) {
-  const { skip, limit } = getPagination(req.query);
-  console.log(`httpsFetchPosts: ${skip}, ${limit}`);
   try {
-    const { posts, totalPosts } = await getAllPosts(skip, limit);
-    console.log(`Posts : ${posts.length},  limit: ${limit}`);
+    const { skip, limit } = getPagination(req.query);
+    const { posts, totalPosts, error } = await getAllPosts(skip, limit);
+
+    if (error) {
+      return res.status(error.status).json({ message: error.message });
+    }
+
     return res.status(200).json({
       currentPage: limit === 0 ? 1 : Math.ceil(skip / limit) + 1,
       totalPages: limit === 0 ? 1 : Math.ceil(totalPosts / limit),
       data: posts,
     });
-  } catch (err) {
+  } catch (error) {
     return res.status(500).json({ message: 'Error Fetching Posts' });
   }
 }
 
-//TODO: Add pagination
-//TODO: Add conditional to not increment views if Admin is the user
-
 async function httpsFetchPostById(req, res) {
   try {
     const postId = req.params.id;
-    const post = await getPostById(postId);
+    const { post, error } = await getPostById(postId);
 
+    if (error) {
+      return res.status(error.status).json({ message: error.message });
+    }
     await incrementPostViews(postId);
     return res.status(200).json(post);
   } catch (error) {
@@ -92,36 +95,63 @@ async function httpsFetchPostById(req, res) {
 }
 
 async function httpsFetchPostsByCategory(req, res) {
-  const category = req.params.category;
-  console.log(`httpsFetchPostsByCategory: ${category}`);
-  const posts = await getPostsByCategory(category);
-  console.log(posts);
-  return res.status(200).json(posts);
+  try {
+    const category = req.params.category;
+    console.log(`httpsFetchPostsByCategory: ${category}`);
+    const posts = await getPostsByCategory(category);
+    console.log(posts);
+    return res.status(200).json(posts);
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: 'Error fetching posts by category' });
+  }
 }
 
 async function httpsSearchPosts(req, res) {
-  const keywords = req.query.keywords;
-  const posts = await searchPosts(keywords);
-  return res.status(200).json(posts);
+  try {
+    const keywords = req.query.keywords;
+    const posts = await searchPosts(keywords);
+    return res.status(200).json(posts);
+  } catch (error) {
+    return res.status(500).json({ message: 'Error searching posts' });
+  }
 }
 
 async function httpsFetchCategories(req, res) {
-  const categories = await getCategories();
-  return res.status(200).json(categories);
+  try {
+    const categories = await getCategories();
+    return res.status(200).json(categories);
+  } catch (error) {
+    return res.status(500).json({ message: 'Error fetching categories' });
+  }
 }
+
 async function httpsFetchTags(req, res) {
-  const tags = await getTags();
-  return res.status(200).json(tags);
+  try {
+    const tags = await getTags();
+    return res.status(200).json(tags);
+  } catch (error) {
+    return res.status(500).json({ message: 'Error fetching tags' });
+  }
 }
 
 async function httpsFetchPopularPosts(req, res) {
-  const posts = await getPopularPosts();
-  return res.status(200).json(posts);
+  try {
+    const posts = await getPopularPosts();
+    return res.status(200).json(posts);
+  } catch (error) {
+    return res.status(500).json({ message: 'Error fetching popular posts' });
+  }
 }
 
 async function httpsFetchRecentPosts(req, res) {
-  const posts = await getRecentPosts();
-  return res.status(200).json(posts);
+  try {
+    const posts = await getRecentPosts();
+    return res.status(200).json(posts);
+  } catch (error) {
+    return res.status(500).json({ message: 'Error fetching recent posts' });
+  }
 }
 
 //COMMENT RELATED FUNCTIONS
@@ -157,10 +187,10 @@ module.exports = {
   httpsFetchPosts,
   httpsFetchPostById,
   httpsFetchPostsByCategory,
+  httpsFetchPopularPosts,
   httpsFetchCategories,
   httpsFetchTags,
   httpsSearchPosts,
-  httpsFetchPopularPosts,
   httpsFetchRecentPosts,
   httpsGetCommentByPostId,
   httpsAddCommentToPost,

@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   httpsFetchPostById,
   httpsFetchPostsByCategory,
@@ -35,6 +36,7 @@ const BlogContext = createContext({
 export const useBlogContext = () => useContext(BlogContext);
 
 export const BlogProvider = ({ children }) => {
+  // const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
 
   const [tags, setTags] = useState([]);
@@ -73,25 +75,38 @@ export const BlogProvider = ({ children }) => {
     fetchData();
   }, []);
 
+  const handleError = (navigate, status) => {
+    navigate('/404');
+  };
+
   const sendMail = async (formData) => {
     const response = await httpsSendContactEmail(formData);
     console.log('Response from server: ', response);
     return response;
   };
-  const selectPost = async (id) => {
+
+  const selectPost = async (id, navigate) => {
     const post = await httpsFetchPostById(id);
-    setSelectedPost(post);
+    if (post && Object.keys(post).length > 0) {
+      setSelectedPost(post);
+    } else {
+      handleError(navigate, '/400');
+    }
     return post;
   };
 
-  const getPosts = async (page = 1, limit = 8) => {
+  const getPosts = async (navigate, page = 1, limit = 8) => {
     const { data, currentPage, totalPages } = await httpsFetchPosts(
       page,
       limit
     );
-    setPosts(data);
-    setCurrentPage(currentPage);
-    setTotalPages(totalPages);
+    if (data && data.length > 0) {
+      setPosts(data);
+      setCurrentPage(currentPage);
+      setTotalPages(totalPages);
+    } else {
+      navigate('/400');
+    }
     return posts;
   };
 
@@ -101,14 +116,20 @@ export const BlogProvider = ({ children }) => {
       return posts;
     } else {
       const filtered = await httpsFetchPostsByCategory(category);
-      setFilteredPosts(filtered);
+      if (filtered && filtered.length > 0) {
+        setFilteredPosts(filtered);
+      } else {
+      }
       return filtered;
     }
   };
 
   const getSearchResults = async (keywords) => {
     const search = await httpsSearchPosts(keywords);
-    setSearchResults(search);
+    if (search && search.length > 0) {
+      setSearchResults(search);
+    } else {
+    }
     return search;
   };
 
@@ -118,17 +139,25 @@ export const BlogProvider = ({ children }) => {
 
   const getCategories = async () => {
     const fetchCategories = await httpsFetchCategories();
-    setCategories(fetchCategories);
+    if (fetchCategories && fetchCategories.length > 0) {
+      setCategories(fetchCategories);
+    } else {
+    }
     return fetchCategories;
   };
 
   const getTags = async () => {
     const fetchedTags = await httpsFetchTags();
-    setTags(fetchedTags);
+    if (fetchedTags && fetchedTags.length > 0) {
+      setTags(fetchedTags);
+    } else {
+    }
     return fetchedTags;
   };
   const getPopularPosts = async () => {
     const popularPosts = await httpsFetchPopularPosts();
+    if (!popularPosts || popularPosts.length === 0) {
+    }
     return popularPosts;
   };
 
@@ -200,6 +229,7 @@ export const BlogProvider = ({ children }) => {
     formatDate,
 
     sendMail,
+    handleError,
   };
 
   return <BlogContext.Provider value={value}>{children}</BlogContext.Provider>;
