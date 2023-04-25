@@ -13,7 +13,7 @@ import Pagination from '../../components/Pagination/pagination.component';
 import BlogPostCard from '../../components/BlogPostCard/blogPostCard.component';
 
 const BlogsPage = () => {
-  const [activeFilter, setActiveFilter] = useState(null);
+  const [activeFilter, setActiveFilter] = useState('');
   const {
     posts,
     searchResults,
@@ -38,7 +38,7 @@ const BlogsPage = () => {
   };
 
   useEffect(() => {
-    if (activeFilter === null) {
+    if (activeFilter === '' && activeFilter === null) {
       setActiveFilter('all');
       filterPosts();
     } else {
@@ -46,11 +46,15 @@ const BlogsPage = () => {
     }
   }, [currentPage, totalPages, activeFilter]);
 
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
   return (
     <BlogPageContainer>
       <Filter activeFilter={activeFilter} onFilterChange={handleFilterClick} />
       <Content>
-        <BlogTitle>Latest Blog Posts</BlogTitle>
+        <BlogTitle>{capitalizeFirstLetter(activeFilter)} Blog Posts</BlogTitle>
 
         <BlogPostsContainer>
           {filterPosts().map((post) => (

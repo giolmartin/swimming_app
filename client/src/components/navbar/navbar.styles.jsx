@@ -85,13 +85,15 @@ export const LogoContainer = styled.div`
   }
 `;
 export const NavbarLogo = styled(Logo)`
-  height: ${({ inView, scrolled }) => (inView || scrolled ? '5rem' : '5rem')};
+  height: ${({ inView }) => (inView ? '5rem' : '5rem')};
   ${
     '' /* Transparent color to superpose the other on the hero page, also height on top is the height of the navbar and scroll down logo */
   }
-  color: ${({ inView, scrolled }) =>
-    inView || scrolled ? 'transparent' : WesAndersonNavBar.after.text};
-
+  color: ${({ inView, homePage }) =>
+    inView && !homePage
+      ? WesAndersonNavBar.before.text
+      : WesAndersonNavBar.after.text};
+  opacity: ${({ inView, homePage }) => (homePage && inView ? '0' : '1')};
   transition: height 0.3s, fill 0.4s;
   @media (max-width: 1170px) {
     display: ${({ open }) => (open ? 'none' : 'block')};
@@ -101,10 +103,8 @@ export const NavbarLogo = styled(Logo)`
 export const NavbarItem = styled.li`
   margin: 0 1rem;
   font-family: 'Poppins', sans-serif;
-  color: ${({ inView, scrolled }) =>
-    inView || scrolled
-      ? WesAndersonNavBar.before.text
-      : WesAndersonNavBar.after.text};
+  color: ${({ inView }) =>
+    inView ? WesAndersonNavBar.before.text : WesAndersonNavBar.after.text};
 
   @media (max-width: 1170px) {
     margin: 1rem 0;

@@ -5,6 +5,7 @@ export const BlogPageContainer = styled.div`
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
+  background-color: rgba(254, 240, 172, 1);
   padding: 2rem;
   @media (max-width: 768px) {
     flex-direction: column;

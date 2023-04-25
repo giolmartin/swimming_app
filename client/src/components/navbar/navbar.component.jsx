@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 import { useInView } from 'react-intersection-observer';
 
 import { FiMenu, FiX } from 'react-icons/fi';
@@ -17,26 +19,40 @@ import {
 } from './navbar.styles';
 
 const Navbar = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [homePage, setHomePage] = useState(false);
   const [ref, inView] = useInView({
     threshold: 0,
   });
 
-  // const [scrollPosition, setScrollPosition] = useState(0);
-  // const handleScroll = () => {
-  //   setScrollPosition(window.pageYOffset);
-  // };
-
-  // useEffect(() => {
-  //   window.addEventListener('scroll', handleScroll, { passive: true });
-  //   return () => {
-  //     window.removeEventListener('scroll', handleScroll);
-  //   };
-  // }, []);
-
   const toggleMenu = () => {
     setOpen(!open);
   };
+
+  const handleMobileItemsClick = () => {
+    setOpen(false);
+  };
+
+  const handleContactClick = () => {
+    navigate('/');
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    if (location.pathname === '/') {
+      console.log('home Page', location.pathname);
+      console.log('inView', inView);
+
+      setHomePage(true);
+      console.log('homePage', homePage);
+    } else {
+      console.log('notHome Page', location.pathname);
+      setHomePage(false);
+      console.log('homePage', homePage);
+    }
+  }, [location.pathname]);
 
   // const scrolled = scrollPosition > 0;
 
@@ -45,23 +61,31 @@ const Navbar = () => {
       <NavbarContainer inView={inView} open={open}>
         <LeftNavbarMenu inView={inView} open={open} left>
           <NavbarItem>
-            <NavbarLink inView={inView} onClick={toggleMenu} to='/'>
+            <NavbarLink inView={inView} onClick={handleMobileItemsClick} to='/'>
               HOME
             </NavbarLink>
           </NavbarItem>
           <NavbarItem>
-            <NavbarLink inView={inView} onClick={toggleMenu} to='/blogs'>
+            <NavbarLink
+              inView={inView}
+              onClick={handleMobileItemsClick}
+              to='/blogs'
+            >
               BLOG
             </NavbarLink>
           </NavbarItem>
           <NavbarItem>
-            <NavbarLink inView={inView} onClick={toggleMenu} to='/workout'>
+            <NavbarLink
+              inView={inView}
+              onClick={handleMobileItemsClick}
+              to='/workout'
+            >
               APP
             </NavbarLink>
           </NavbarItem>
         </LeftNavbarMenu>
         <LogoContainer>
-          <NavbarLogo inView={inView} open={open} />
+          <NavbarLogo inView={inView} open={open} homePage={homePage} />
         </LogoContainer>
         <MenuIcon inView={inView} onClick={toggleMenu}>
           {open ? <FiX /> : <FiMenu />}
@@ -73,7 +97,7 @@ const Navbar = () => {
               ADMIN
             </NavbarLink>
           </NavbarItem> */}
-          <NavbarItem onClick={toggleMenu}>
+          <NavbarItem onClick={handleContactClick}>
             <ScrollOnClick
               inView={inView}
               to='contact'
